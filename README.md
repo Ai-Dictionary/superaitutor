@@ -1,11 +1,11 @@
 # SuperAITutor
+### A Project by Ai-Dictionary 
 [![🌐 Visit Our Website](https://img.shields.io/badge/Website-SuperAITutor-blue?logo=google-chrome)](https://superaitutor.com/)
 [![📸 Instagram Page](https://img.shields.io/badge/Instagram-Follow%20Us-purple?logo=instagram)](https://www.instagram.com/aidictionary001/)
 [![📘 Facebook Page](https://img.shields.io/badge/Facebook-Community-blue?logo=facebook)](https://www.facebook.com/profile.php?id=61553148999714)
 [![💼 LinkedIn Page](https://img.shields.io/badge/LinkedIn-Connect%20Now-blue?logo=linkedin)](https://www.linkedin.com/in/ai-dictionary-ai-service-company-46173329b/)
 [![🐙 GitHub Repo](https://img.shields.io/badge/GitHub-Collabe%20with%20Us-black?logo=github)](https://github.com/Ai-Dictionary)
 [![✉️ Email Us](https://img.shields.io/badge/Email-Contact%20Us-dimgray?logo=gmail)](mailto:info.aidictionary24x7@gmail.com)
-### A Project by Ai-Dictionary 
 
 ## Introduction
 SuperAITutor is a next-generation educational platform that reimagines how students, teachers, and parents engage with learning. Designed to foster meaningful connections and empower academic growth, it offers a personalized ecosystem where students can access AI-powered doubt solving, career guidance, exam preparation, and mentorship—all in one place.
