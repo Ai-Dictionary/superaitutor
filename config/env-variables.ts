@@ -1,5 +1,5 @@
 module.exports = {
-    duplex: 1441,
+    public_key: 1441,
     browser_data: [
         {
             name: "Chrome",
@@ -31,5 +31,6 @@ module.exports = {
                     <p><|error.message|></p>
                 <div class="btn btn-process" style="margin-top: 40px;" onclick="system.closePyError();"><i class="fa fa-refresh"></i> Re-try</div>
             </div>
-        </div>`
+        </div>`,
+    blockedIPs: ['100.110.116.83', '100.91.56.124', '100.117.194.70']
 };

@@ -17,7 +17,11 @@
     "dotenv": "^10.0.0",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "express-rate-limit": "^8.0.1",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
     "jsonfile": "^6.1.0",
-    "stream": "^0.0.3"
+    "stream": "^0.0.3",
+    "xss-clean": "^0.1.4"
   }
 }
