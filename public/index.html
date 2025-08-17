@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="public/logo.png" name="og:image">
+  <meta content="SuperAITutor is a next-generation educational platform that reimagines how students, teachers, and parents engage with learning. Designed to foster meaningful connections and empower academic growth, it offers a personalized ecosystem where students can access AI-powered doubt solving, career guidance, exam preparation, and mentorship in one place." lang="en-us" name="description">
+  <meta content="SuperAITutor, sait, ai tutor, super ai, chatbot teacher, progress track, project, JPEN, Ai Dictionary" lang="en-us" name="keywords">
+  <title version="1.0">SuperAITutor</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="icon" href="public/favicon.ico"/>
+</head>
+<style>
+  body{
+    background-color: #e5ece3;
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    background-image: url('public/favicon.ico');
+    backdrop-filter: blur(5px);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  #root{
+    height: 100vh;
+    padding-top: 20vh;
+  }
+  .under-development{
+    font-weight: bold;
+    color: #22577aff;
+    font-size: 35px;
+  }
+  .btn{
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+  <noscript>Sorry, our server not responce!</noscript>
+  <div id="root">
+    <div class="under-development">Under Development</div>
+    <div id="countdown" style="font-weight: bold; margin-top: 20px;"></div>
+    <div class="btn btn-info" onclick="insta();"><i class="fa fa-instagram"></i> Visite our page</div>
+  </div>
+<script>
+  function insta(){
+    window.location = "https://www.instagram.com/aidictionary001/";
+  }
+  var countDownDate = new Date("Jan 30, 2026 00:00:00").getTime();
+  var x = setInterval(function(){
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+    var days = Math.floor(distance /(1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance %(1000 * 60 * 60 * 24)) /(1000 * 60 * 60));
+    var minutes = Math.floor((distance %(1000 * 60 * 60)) /(1000 * 60));
+    var seconds = Math.floor((distance %(1000 * 60)) / 1000);
+    document.getElementById("countdown").innerHTML =(days<10?'0'+days:days) + " Day " +(hours<10?'0'+hours:hours) + " Hours "
+    +(minutes<10?'0'+minutes:minutes) + " Minutes " +(seconds<10?'0'+seconds:seconds) + " Second ";
+    if(distance < 0){
+      clearInterval(x);
+      document.getElementById("countdown").innerHTML = "EXPIRED";
+      window.location = "https://sait.vercel.app/";
+    }
+  }, 1000);
+</script>
+</body>

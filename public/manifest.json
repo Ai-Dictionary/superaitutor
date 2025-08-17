@@ -1,0 +1,23 @@
+{
+    "name": "superAITutor",
+    "short_name": "sait",
+    "description": "SuperAITutor is a next-generation educational platform that reimagines how students, teachers, and parents engage with learning. Designed to foster meaningful connections and empower academic growth, it offers a personalized ecosystem where students can access AI-powered doubt solving, career guidance, exam preparation, and mentorship in one place.",
+    "icons": [
+        {
+            "src": "favicon.png",
+            "sizes": "1500x1500 16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "logo1500.png",
+            "type": "image/png",
+            "sizes": "1500x1500"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#22577aff",
+    "background_color": "#ffffff",
+    "contact": "info.aidictionary24x7@gmail.com",
+    "developer": "Ai Dictionary"
+}
