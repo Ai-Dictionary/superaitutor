@@ -7,7 +7,7 @@ const querystring = require('querystring');
 const ejs = require('ejs');
 const jsonfile = require('jsonfile');
 const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const xss = require('xss-clean');
 let varchar, security, hex;
 try{
@@ -64,7 +64,7 @@ app.use(async (req, res, next) => {
         const query = url.split('?')[1];
         const baseURL = req.protocol + '://' + req.get('host');
         const params = new URL(url, baseURL).searchParams;
-        const public_key = varchar.public_key;
+        const public_key = String(varchar.public_key);
         if(params.has('encode')){
             if(query!=undefined){
                 const decodedUrl = security.substitutionDecoder(query.replace('encode=',''), public_key);

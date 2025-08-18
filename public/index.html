@@ -20,22 +20,45 @@
     margin: 0;
     padding: 0;
     font-size: 20px;
-    background-image: url('public/favicon.ico');
-    backdrop-filter: blur(5px);
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-color: #111;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    gap: 0px;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  .grid-cell {
+    border: 1px solid #222;
+    background-color: #111;
   }
   #root{
-    height: 100vh;
-    padding-top: 20vh;
+    grid-column: 4 / span 6;
+    grid-row: 3 / span 2;
+    padding: 20px;
+    color: slategray;
+    .under-development{
+      font-weight: bold;
+      color: #22577aff;
+      background: linear-gradient(90deg, #ffffff, silver, #3333ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 40px;
+    }
+    .btn{
+      margin-top: 40px;
+    }
   }
-  .under-development{
-    font-weight: bold;
-    color: #22577aff;
-    font-size: 35px;
-  }
-  .btn{
-    margin-top: 40px;
+  @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px){
+    body {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      /* max-height: 100vh;
+      overflow: hidden; */
+    }
+    #root{
+      grid-row: 2 / span 2;
+    }
   }
 </style>
 </head>
@@ -44,7 +67,7 @@
   <div id="root">
     <div class="under-development">Under Development</div>
     <div id="countdown" style="font-weight: bold; margin-top: 20px;"></div>
-    <div class="btn btn-info" onclick="insta();"><i class="fa fa-instagram"></i> Visite our page</div>
+    <div class="btn btn-dark" onclick="insta();"><i class="fa fa-instagram"></i> Visite our page</div>
   </div>
 <script>
   function insta(){
@@ -67,5 +90,13 @@
     }
   }, 1000);
 </script>
+<script>
+    for (let i = 0; i < 72; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'grid-cell';
+      document.body.appendChild(cell);
+    }
+</script>
 </body>
 </html>
+
