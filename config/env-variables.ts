@@ -32,5 +32,7 @@ module.exports = {
                 <div class="btn btn-process" style="margin-top: 40px;" onclick="system.closePyError();"><i class="fa fa-refresh"></i> Re-try</div>
             </div>
         </div>`,
-    blockedIPs: ['100.110.116.83', '100.91.56.124', '100.117.194.70']
+    blockedIPs: ['100.110.116.83', '100.91.56.124', '100.117.194.70', '185.177.72.22'],
+    ipHits: {},
+    tempBlockedIPs: new Map()
 };

@@ -7,8 +7,10 @@ const querystring = require('querystring');
 const ejs = require('ejs');
 const jsonfile = require('jsonfile');
 const rateLimit = require('express-rate-limit');
-// const helmet = require('helmet');
+const { ipKeyGenerator } = require('express-rate-limit');
+const helmet = require('helmet');
 const xss = require('xss-clean');
+const crypto = require('crypto');
 let varchar, security, hex;
 try{
     varchar = require('./config/env-variables');
@@ -41,19 +43,82 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
     max: 100,
-    message: 'Too many requests, please try again later.',
+    keyGenerator: (req) => ipKeyGenerator({ ip: req.headers['x-forwarded-for'] || req.ip }),
+    skipSuccessfulRequests: true,
+    message: 'Too many requests hit the server, please try again later or check our fair use policy',
 });
 
+app.use((req, res, next) => {
+    res.locals.nonce = crypto.randomBytes(16).toString('base64');
+    next();
+});
+
+app.use(helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+        "default-src": ["'self'"],
+        "script-src": [
+            "'self'",
+            (req, res) => `'nonce-${res.locals.nonce}'`
+        ],
+        "style-src": [
+            "'self'",
+            "https://maxcdn.bootstrapcdn.com",
+            "https://stackpath.bootstrapcdn.com",
+            "'unsafe-inline'" 
+        ],
+        "font-src": [
+            "'self'",
+            "https://maxcdn.bootstrapcdn.com",
+            "https://stackpath.bootstrapcdn.com",
+            "https://fonts.gstatic.com",
+            "data:"
+        ],
+        "img-src": ["'self'", "data:"],
+        "connect-src": ["'self'"],
+  },
+
+}));
+
 app.use([
-    // helmet(),
     xss(),
     limiter,
     express.json(),
     express.urlencoded({ extended: true }),
     (req, res, next) => {
-        if(varchar.blockedIPs.includes(req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip)){
+        const BLOCK_DURATION_MS = 60 * 1000;
+        const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
+        if(varchar.blockedIPs.includes(clientIP)){
+            console.warn(`Blocked IP attempt to attack: ${clientIP}`);
+            return req.destroy() || res.connection.destroy();
+        }
+        if(varchar.tempBlockedIPs.has(clientIP)){
+            const blockedAt = varchar.tempBlockedIPs.get(clientIP);
+            const now = Date.now();
+            if(now - blockedAt < BLOCK_DURATION_MS){
+                return res.status(403).send('Your IP is temporarily blocked due to excessive requests. Try again later.');
+            }else{
+                varchar.tempBlockedIPs.delete(clientIP);
+                varchar.ipHits[clientIP] = 0;
+            }
+        }
+        if(Object.keys(varchar.ipHits).length >= 10000 && !varchar.ipHits[clientIP]){
+            console.warn(`Max users limit reached. Dropping new user with IP: ${clientIP}`);
+            return res.status(429).send('Server is too busy now, Because to many user is present in the lobby. Please try again some time later or report us');
+        }
+        varchar.ipHits[clientIP] = (varchar.ipHits[clientIP] || 0) + 1;
+        if(varchar.ipHits[clientIP] > 100 && varchar.ipHits[clientIP] < 200){
+            varchar.tempBlockedIPs.set(clientIP, Date.now());
+            delete varchar.ipHits[clientIP];
+            return res.status(403).send('Your IP has been temporarily blocked due to exceed the request limit. Please check our fair use policy.');
+        }
+        if(varchar.ipHits[clientIP] >= 200){
+            varchar.blockedIPs.push(clientIP);
+            varchar.tempBlockedIPs.delete(clientIP);
+            delete varchar.ipHits[clientIP];
             return res.status(403).send('Access denied, client ip is blocked due to past history of mal-practices!');
         }
+
         next();
     }
 ]);
@@ -90,7 +155,12 @@ app.use(async (req, res, next) => {
 
 
 app.get('/', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, 'public', 'index.html'));
+    const nonce = res.locals.nonce;
+    fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
+        if (err) return res.status(200).send('Error to loading the page, contain non-auth scripting!');
+        const modifiedHtml = html.replaceAll('<script>', `<script nonce="${nonce}">`);
+        res.status(200).send(modifiedHtml);
+    });
 });
 
 app.all(/.*/, (req, res) => {
