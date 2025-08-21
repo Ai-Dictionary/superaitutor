@@ -35,6 +35,21 @@ module.exports = {
         }
         return plain_txt;
     },
+    objEncoder: async (obj, key='1441') => {
+        const encrypted = {};
+        for (let field in obj) {
+            const value = String(obj[field]);
+            encrypted[field] = await module.exports.substitutionEncoder(value, key);
+        }
+        return encrypted;
+    },
+    objDecoder: async (encryptedObj, key='1441') => {
+        const decrypted = {};
+        for (let field in encryptedObj) {
+            decrypted[field] = await module.exports.substitutionDecoder(encryptedObj[field], key);
+        }
+        return decrypted;
+    },
     browser: (navigator) => { 
         var browserAgent = navigator['user-agent']; 
         var browserName, browserVersion, browserMajorVersion; 

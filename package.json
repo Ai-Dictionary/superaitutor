@@ -23,6 +23,10 @@
     "helmet": "^8.1.0",
     "jsonfile": "^6.1.0",
     "stream": "^0.0.3",
-    "xss-clean": "^0.1.4"
+    "xss-clean": "^0.1.4",
+    "axios": "^1.10.0",
+    "csv-parser": "^3.2.0",
+    "google-auth-library": "^10.1.0",
+    "google-spreadsheet": "^4.1.5"
   }
 }

@@ -12,15 +12,17 @@ const helmet = require('helmet');
 const xss = require('xss-clean');
 const crypto = require('crypto');
 const cookieParser = require('cookie-parser');
-let varchar, security, hex;
+let varchar, security, hex, Memory;
 try{
     varchar = require('./config/env-variables');
     security = require('./config/security');
     hex = require('./config/hex');
+    Memory = require('./config/memory');
 }catch{
     varchar = require('./config/env-variables.ts');
     security = require('./config/security.ts');
     hex = require('./config/hex.ts');
+    Memory = require('./config/memory.ts');
 }
 
 require('./public/App.test.js');
@@ -82,8 +84,13 @@ app.use(helmet.contentSecurityPolicy({
             "https://fonts.gstatic.com",
             "data:"
         ],
-        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io"],
-        "connect-src": ["'self'"],
+        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com"],
+        "connect-src": [
+            "'self'",
+            "wss://ws-us3.pusher.com",
+            "https://ws-us3.pusher.com",
+            "https://chsapi.vercel.app",
+        ],
         frameSrc: [
             "'self'",
             "https://vercel.live"
@@ -133,7 +140,6 @@ app.use([
             hex.setBlockCookie(res, 'blocked');
             return res.status(403).send('Access denied, client ip is blocked due to past history of mal-practices!');
         }
-
         next();
     }
 ]);
@@ -147,13 +153,13 @@ app.use(async (req, res, next) => {
         const public_key = String(varchar.public_key);
         if(params.has('encode')){
             if(query!=undefined){
-                const decodedUrl = security.substitutionDecoder(query.replace('encode=',''), public_key);
+                const decodedUrl = await security.substitutionDecoder(query.replace('encode=',''), public_key);
                 req.url = `${url.split('?')[0]}?${decodedUrl}`;
                 req.query = querystring.parse(decodedUrl);
             }
         }else{
             if(query!=undefined){
-                const encodedUrl = security.substitutionEncoder(query, public_key);
+                const encodedUrl = await security.substitutionEncoder(query, public_key);
                 req.url = `${url}?encode=${encodedUrl}`;
                 req.query = querystring.parse(encodedUrl);
             }
@@ -181,6 +187,11 @@ app.get('/', (req, res) => {
 app.all(/.*/, (req, res) => {
     res.status(404).render('notfound',{error: 404, message: "Page not found on this url, check the source or report it"});
 });
+
+// (async ()=>{
+//     let memory = new Memory();
+//     console.log(await memory.read());
+// })();
 
 server.listen(PORT, (err) => {
     if(err) console.log("Oops an error occure:  "+err);
