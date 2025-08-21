@@ -1,0 +1,12 @@
+*.psd
+*.zip
+
+# Ignore the entire images folder (if it's large and we plan to use external CDN or lazy load)
+images/
+assets/images/
+
+# Ignore heavy assets like PDFs and large images (adjust as needed)
+assets/*.pdf
+
+# Allow essential public assets
+!public

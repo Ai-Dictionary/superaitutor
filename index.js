@@ -11,6 +11,7 @@ const { ipKeyGenerator } = require('express-rate-limit');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const crypto = require('crypto');
+const cookieParser = require('cookie-parser');
 let varchar, security, hex;
 try{
     varchar = require('./config/env-variables');
@@ -39,6 +40,7 @@ app.use('/public', express.static(path.join(__dirname,'public'), hex.isHosted(PO
 
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
+app.use(cookieParser());
 
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
@@ -59,10 +61,16 @@ app.use(helmet.contentSecurityPolicy({
         "default-src": ["'self'"],
         "script-src": [
             "'self'",
+            "'unsafe-hashes'",
+            "https://cdnjs.cloudflare.com",
+            "https://vercel.live",
+            "https://vercel.com",
             (req, res) => `'nonce-${res.locals.nonce}'`
         ],
+        // "script-src-attr": ["'unsafe-inline'"],
         "style-src": [
             "'self'",
+            "https://fonts.googleapis.com",
             "https://maxcdn.bootstrapcdn.com",
             "https://stackpath.bootstrapcdn.com",
             "'unsafe-inline'" 
@@ -74,10 +82,13 @@ app.use(helmet.contentSecurityPolicy({
             "https://fonts.gstatic.com",
             "data:"
         ],
-        "img-src": ["'self'", "data:"],
+        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io"],
         "connect-src": ["'self'"],
-  },
-
+        frameSrc: [
+            "'self'",
+            "https://vercel.live"
+        ],
+    },
 }));
 
 app.use([
@@ -87,15 +98,17 @@ app.use([
     express.urlencoded({ extended: true }),
     (req, res, next) => {
         const BLOCK_DURATION_MS = 60 * 1000;
-        const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
-        if(varchar.blockedIPs.includes(clientIP)){
+        const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;
+        const cookieBlock = hex.isClientBlockedByCookie(req);
+        
+        if(varchar.blockedIPs.includes(clientIP) || cookieBlock === 'blocked'){
             console.warn(`Blocked IP attempt to attack: ${clientIP}`);
             return req.destroy() || res.connection.destroy();
         }
-        if(varchar.tempBlockedIPs.has(clientIP)){
+        if(varchar.tempBlockedIPs.has(clientIP) || cookieBlock === 'temp'){
             const blockedAt = varchar.tempBlockedIPs.get(clientIP);
             const now = Date.now();
-            if(now - blockedAt < BLOCK_DURATION_MS){
+            if(now - blockedAt < BLOCK_DURATION_MS || cookieBlock === 'temp'){
                 return res.status(403).send('Your IP is temporarily blocked due to excessive requests. Try again later.');
             }else{
                 varchar.tempBlockedIPs.delete(clientIP);
@@ -110,12 +123,14 @@ app.use([
         if(varchar.ipHits[clientIP] > 100 && varchar.ipHits[clientIP] < 200){
             varchar.tempBlockedIPs.set(clientIP, Date.now());
             delete varchar.ipHits[clientIP];
+            hex.setBlockCookie(res, 'temp');
             return res.status(403).send('Your IP has been temporarily blocked due to exceed the request limit. Please check our fair use policy.');
         }
         if(varchar.ipHits[clientIP] >= 200){
             varchar.blockedIPs.push(clientIP);
             varchar.tempBlockedIPs.delete(clientIP);
             delete varchar.ipHits[clientIP];
+            hex.setBlockCookie(res, 'blocked');
             return res.status(403).send('Access denied, client ip is blocked due to past history of mal-practices!');
         }
 

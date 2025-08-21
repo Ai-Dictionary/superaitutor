@@ -53,6 +53,35 @@ module.exports = {
         const sizeInKB = sizeInBytes/1024;
         return Math.floor(sizeInKB);
     },
+    setBlockCookie: (res, type) => {
+        const timestamp = Date.now();
+        const value = `${type}${timestamp}`;
+        const encoded = Buffer.from(value).toString('base64');
+
+        res.cookie('blockState', encoded, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'Strict',
+            maxAge: type === 'blocked' ? 24 * 60 * 60 * 1000 : 60 * 1000
+        });
+    },
+    isClientBlockedByCookie: (req) => {
+        const cookie = req?.cookies?.['blockState'];
+        if (!cookie) return null;
+
+        try{
+            const decoded = Buffer.from(cookie, 'base64').toString();
+            const type = decoded.startsWith('blocked') ? 'blocked' : decoded.startsWith('temp') ? 'temp' : null;
+            const timestamp = parseInt(decoded.replace(String(type), ''), 10);
+            const now = Date.now();
+
+            if (type === 'blocked' && now - timestamp < 24 * 60 * 60 * 1000) return 'blocked';
+            if (type === 'temp' && now - timestamp < 60 * 1000) return 'temp';
+        }catch(err){
+            return null;
+        }
+        return null;
+    },
     foo:() => {
         return 0;
     }
