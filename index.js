@@ -153,13 +153,13 @@ app.use(async (req, res, next) => {
         const public_key = String(varchar.public_key);
         if(params.has('encode')){
             if(query!=undefined){
-                const decodedUrl = await security.substitutionDecoder(query.replace('encode=',''), public_key);
+                const decodedUrl = security.substitutionDecoder(query.replace('encode=',''), public_key);
                 req.url = `${url.split('?')[0]}?${decodedUrl}`;
                 req.query = querystring.parse(decodedUrl);
             }
         }else{
             if(query!=undefined){
-                const encodedUrl = await security.substitutionEncoder(query, public_key);
+                const encodedUrl = security.substitutionEncoder(query, public_key);
                 req.url = `${url}?encode=${encodedUrl}`;
                 req.query = querystring.parse(encodedUrl);
             }
@@ -190,7 +190,7 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     console.log(await memory.read());
+//     memory.memoryName = 'student';
 // })();
 
 server.listen(PORT, (err) => {

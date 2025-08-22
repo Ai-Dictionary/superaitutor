@@ -1,5 +1,5 @@
 module.exports = {
-    substitutionEncoder: async (plain_txt, key) => {
+    substitutionEncoder: (plain_txt, key) => {
         // vigenere encoding
         const vocabulary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
         let cipher = "";
@@ -17,7 +17,7 @@ module.exports = {
         }
         return cipher;
     },
-    substitutionDecoder: async (cipher, key) => {
+    substitutionDecoder: (cipher, key) => {
         // vigenere decoding
         const vocabulary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
         let plain_txt = "";
@@ -35,18 +35,18 @@ module.exports = {
         }
         return plain_txt;
     },
-    objEncoder: async (obj, key='1441') => {
+    objEncoder: (obj, key='1441') => {
         const encrypted = {};
         for (let field in obj) {
             const value = String(obj[field]);
-            encrypted[field] = await module.exports.substitutionEncoder(value, key);
+            encrypted[field] = module.exports.substitutionEncoder(value, key);
         }
         return encrypted;
     },
-    objDecoder: async (encryptedObj, key='1441') => {
+    objDecoder: (encryptedObj, key='1441') => {
         const decrypted = {};
         for (let field in encryptedObj) {
-            decrypted[field] = await module.exports.substitutionDecoder(encryptedObj[field], key);
+            decrypted[field] = module.exports.substitutionDecoder(encryptedObj[field], key);
         }
         return decrypted;
     },
@@ -127,8 +127,8 @@ module.exports = {
             imageData = module.exports.generateImageCaptcha(document, text);
             hased = module.exports.encodedData(text);
         }catch(e){
-            let generateCaptcha = eval(config.security.generateCaptcha);
-            let generateImageCaptcha = eval(config.security.generateImageCaptcha);
+            let generateCaptcha = (module.exports.generateCaptcha);
+            let generateImageCaptcha = (module.exports.generateImageCaptcha);
             text = generateCaptcha();
             imageData = generateImageCaptcha(document, text);
             hased = system.encodedData(text);
