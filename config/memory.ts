@@ -19,7 +19,7 @@ class MEMORY{
     teacher_id;
     feedback_id;
     public_key;
-    memoryName;
+    clusterName;
     /**
         * @type {any}
     */
@@ -29,6 +29,10 @@ class MEMORY{
         * @type {string[]}
     */
     scopes;
+    /**
+        * @type {bool}
+    */
+   isUpdatable;
     /**
         * @constructor
     */
@@ -40,26 +44,30 @@ class MEMORY{
         this.secret = security.substitutionDecoder(process.env.private_key, this.public_key).replace(/\\n/g, "\n") || '';
         this.email = security.substitutionDecoder(process.env.client_email, this.public_key) || '';
         this.scopes = ["https://www.googleapis.com/auth/spreadsheets"];
-        this.memoryName = '';
+        this.clusterName = '';
+        this.isUpdatable = false;
     }
     currentMemory(){
-        if(this.memoryName=='student'){
+        if(this.clusterName=='student'){
+            this.isUpdatable = true;
             return this.student_id;
-        }else if(this.memoryName=='teacher'){
+        }else if(this.clusterName=='teacher'){
+            this.isUpdatable = true;
             return this.teacher_id;
-        }else if(this.memoryName=='feedback'){
+        }else if(this.clusterName=='feedback'){
+            this.isUpdatable = false;
             return this.feedback_id;
         }else{
             return '';
         }
     }
     makeUserId(data){
-        if(this.memoryName=='student'){
+        if(this.clusterName=='student'){
             return this.generateStudentId(data);
-        }else if(this.memoryName=='teacher'){
+        }else if(this.clusterName=='teacher'){
             return this.generateTeacherId(data);
-        }else if(this.memoryName=='feedback'){
-            return '';
+        }else if(this.clusterName=='feedback'){
+            return this.generateFeedbackId(data);
         }else{
             return '';
         }
@@ -119,9 +127,13 @@ class MEMORY{
                 return {"status": 7};
             }
             newData.id = id;
-            newData.signup_date = this.getTodayDate();
-            newData.last_update = this.getTodayDate();
-
+            if(this.isUpdatable){
+                newData.signup_date = this.getTodayDate();
+                newData.last_update = this.getTodayDate();
+            }else{
+                newData.created = this.getTodayDate();
+            }
+            
             await sheet.addRow(newData);
             return true;
         }catch(e){
@@ -202,12 +214,72 @@ class MEMORY{
             }
             
             rowToUpdate["_rawData"][keyIndex] = value;
-            rowToUpdate["_rawData"][rowToUpdate["_worksheet"]["_headerValues"].indexOf("last_update")] = this.getTodayDate();
+            if(this.isUpdatable){
+                rowToUpdate["_rawData"][rowToUpdate["_worksheet"]["_headerValues"].indexOf("last_update")] = this.getTodayDate();
+            }
             
             await rowToUpdate.save();
-
             return true;
         }catch (e){
+            console.error("Error occurred while updating row:", e);
+            return {"status": 6};
+        }
+    }
+    async update_all({ id, updates }){
+        try{
+            const client = new JWT({
+                email: this.email,
+                key: this.secret,
+                scopes: this.scopes,
+            });
+
+            const doc = new GoogleSpreadsheet(this.currentMemory(), client);
+            await doc.loadInfo();
+
+            const sheet = doc.sheetsByIndex[0];
+            await sheet.loadHeaderRow();
+
+            const rows = await sheet.getRows();
+            const headerValues = sheet.headerValues;
+
+            const targetIndex = headerValues.indexOf("id");
+            if (targetIndex === -1) return {"status": 5};
+
+            const matchingRows = rows.filter((row) => {
+                const rawid = row._rawData[targetIndex];
+                return String(rawid).trim() === String(id).trim();
+            });
+
+            if (matchingRows.length === 0) return {"status": 3};
+
+            const rowToUpdate = matchingRows[matchingRows.length - 1];
+            const worksheetHeaders = rowToUpdate._worksheet._headerValues;
+
+            let hasChanges = false;
+
+            for(const [key, value] of Object.entries(updates)){
+                if (key === "id") continue; 
+
+                const keyIndex = worksheetHeaders.indexOf(key);
+                if (keyIndex === -1) return {"status": 5};
+
+                const currentValue = rowToUpdate._rawData[keyIndex];
+                if(String(currentValue).trim() !== String(value).trim()){
+                    rowToUpdate._rawData[keyIndex] = value;
+                    hasChanges = true;
+                }
+            }
+
+            if (!hasChanges) return {"status": 8};
+
+            const lastUpdateIndex = worksheetHeaders.indexOf("last_update");
+            if(lastUpdateIndex !== -1 && this.isUpdatable){
+                rowToUpdate._rawData[lastUpdateIndex] = this.getTodayDate();
+            }
+
+            await rowToUpdate.save();
+            return true;
+        }catch(e){
             console.error("Error occurred while updating row:", e);
             return {"status": 6};
         }
@@ -274,6 +346,38 @@ class MEMORY{
         const yy = signupYear.split("").reduce((sum, digit) => sum + parseInt(digit), 0).toString().padStart(2, "0");
 
         const numericPart = `${ff}${ll}${zzz}${n}${s}${dd}${yy}`;
+
+        const atIndex = Math.floor(Math.random() * numericPart.length);
+        const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
+
+        return prefix + idWithAt;
+    }
+    generateFeedbackId(feedback){
+        const { type, from, email, related, created } = feedback;
+
+        const prefix = "LID";
+
+        const [firstName, lastName] = from.trim().split(" ");
+        const ff = (firstName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+        const ll = (lastName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const emailPrefix = email.trim().toLowerCase().slice(0, 2);
+        const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
+
+        const t = (type.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const r = (related.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const [day, month, year] = created.split("-");
+        const isoDate = `${year}-${month}-${day}`;
+        const dateObj = new Date(isoDate);
+
+        const dd = String(dateObj.getDate()).padStart(2, "0");
+        const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
+        const yyyy = dateObj.getFullYear();
+        const yySum = yyyy.toString().split("").reduce((sum, d) => sum + parseInt(d), 0).toString().padStart(2, "0");
+
+        const numericPart = `${ff}${ll}${asciiSum}${t}${r}${dd}${mm}${yySum}`;
 
         const atIndex = Math.floor(Math.random() * numericPart.length);
         const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);

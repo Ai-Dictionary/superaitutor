@@ -190,7 +190,8 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.memoryName = 'student';
+//     memory.clusterName = 'feedback';
+//     console.log(await memory.read());
 // })();
 
 server.listen(PORT, (err) => {
