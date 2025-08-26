@@ -1,4 +1,4 @@
-# SuperAITutor
+# SuperAITutor <img src="./public/favicon.ico" width="30" alt="SuperAITutor"/>
 ### A Project by Ai-Dictionary 
 [![🌐 Visit Our Website](https://img.shields.io/badge/Website-SuperAITutor-blue?logo=google-chrome)](https://superaitutor.com/)
 [![📸 Instagram Page](https://img.shields.io/badge/Instagram-Follow%20Us-purple?logo=instagram)](https://www.instagram.com/aidictionary001/)
