@@ -190,7 +190,7 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'feedback';
+//     memory.clusterName = 'rate';
 //     console.log(await memory.read());
 // })();
 

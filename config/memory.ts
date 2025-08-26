@@ -18,6 +18,7 @@ class MEMORY{
     student_id;
     teacher_id;
     feedback_id;
+    relationship_id;
     public_key;
     clusterName;
     /**
@@ -32,7 +33,7 @@ class MEMORY{
     /**
         * @type {bool}
     */
-   isUpdatable;
+    isUpdatable;
     /**
         * @constructor
     */
@@ -40,6 +41,7 @@ class MEMORY{
         this.student_id = process.env.STUDENT_ID || '';
         this.teacher_id = process.env.TEACHER_ID || '';
         this.feedback_id = process.env.FEEDBACK_ID || '';
+        this.relationship_id = process.env.RELATIONSHIP_ID || '';
         this.public_key = String(process.env.PUBLIC_KEY) || '';
         this.secret = security.substitutionDecoder(process.env.private_key, this.public_key).replace(/\\n/g, "\n") || '';
         this.email = security.substitutionDecoder(process.env.client_email, this.public_key) || '';
@@ -57,6 +59,9 @@ class MEMORY{
         }else if(this.clusterName=='feedback'){
             this.isUpdatable = false;
             return this.feedback_id;
+        }else if(this.clusterName=='relationship' || this.clusterName=='rate'){
+            this.isUpdatable = true;
+            return this.relationship_id;
         }else{
             return '';
         }
@@ -68,6 +73,8 @@ class MEMORY{
             return this.generateTeacherId(data);
         }else if(this.clusterName=='feedback'){
             return this.generateFeedbackId(data);
+        }else if(this.clusterName=='relationship' || this.clusterName=='rate'){
+            return this.generateRateId(data);
         }else{
             return '';
         }
@@ -119,9 +126,15 @@ class MEMORY{
             
             const id = this.makeUserId(newData);
             
-            const isDuplicate = rows.some(row =>
-                row.email === newData.email || row.contact === newData.contact || row.id.replace("@","") === id.replace("@","")
-            );
+            const isDuplicate = rows.some(row => {
+                if(['rate', 'relationship'].includes(this.clusterName)){
+                    return row._rawData[sheet.headerValues.indexOf('id')] === id;
+                }else{
+                    return row._rawData[sheet.headerValues.indexOf('email')] === newData.email || 
+                            row._rawData[sheet.headerValues.indexOf('contact')] === newData.contact || 
+                            row._rawData[sheet.headerValues.indexOf('id')].replace("@", "") === id.replace("@", "");
+                }
+            });
 
             if(isDuplicate){
                 return {"status": 7};
@@ -284,6 +297,31 @@ class MEMORY{
             return {"status": 6};
         }
     }
+    async truncate(){
+        try{
+            const client = new JWT({
+                email: this.email,
+                key: this.secret,
+                scopes: this.scopes,
+            });
+
+            const doc = new GoogleSpreadsheet(this.currentMemory(), client);
+            await doc.loadInfo();
+
+            const sheet = doc.sheetsByIndex[0];
+            await sheet.loadHeaderRow();
+
+            const rows = await sheet.getRows();
+
+            for(const row of rows){
+                await row.delete();
+            }
+            return true;
+        }catch(e){
+            console.error("Error occure when try to truncating the memory:", e);
+            return {"status": 4};
+        }
+    }
     generateStudentId(student){
         const { name, dob, email, pin, contact, parent_name } = student;
 
@@ -383,6 +421,11 @@ class MEMORY{
         const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
 
         return prefix + idWithAt;
+    }
+    generateRateId(data){
+        const sid = data?.id?.sid || data?.sid;
+        const tid = data?.id?.tid || data?.tid;
+        return `${sid}-${tid}`;
     }
     getTodayDate(){
         const today = new Date();
