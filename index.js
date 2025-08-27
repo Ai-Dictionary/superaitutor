@@ -184,15 +184,73 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/my_profile_info', async (req, res) => {
+    let memory = new Memory();
+    if(req.body.id.startsWith('AID')){
+        memory.clusterName = 'student';
+    }else if(req.body.id.startsWith('UID')){
+        memory.clusterName = 'teacher';
+    }else{
+        return null;
+    }
+    let profile_info = await memory.find_profile(req.body.id);
+    profile_info.bg = hex.generateBGColor(profile_info.name);
+    return profile_info;
+});
+
+app.get('/other_profile_info', async (req, res) => {
+    let memory = new Memory();
+    if(req.body.id.startsWith('AID')){
+        memory.clusterName = 'student';
+    }else if(req.body.id.startsWith('UID')){
+        memory.clusterName = 'teacher';
+    }else{
+        return null;
+    }
+    let basic_info = await memory.find_profile(req.body.id);
+    return hex.profile_setup(basic_info);
+});
+
+app.get('/relation_profile_info', async (req, res) => {
+    let memory = new Memory();
+    memory.clusterName = "relationship";
+    let relation_info = await memory.find_relation(req.body.id);
+    if(relation_info && relation_info.length!=0 && relation_info?.status==undefined){
+        let id_pool = [];
+        for(let i=0; i<relation_info.length; i++){
+            id_pool.push(relation_info[i].id);
+        }
+        if(req.body.id.startsWith('AID')){
+            memory.clusterName = 'teacher';
+        }else if(req.body.id.startsWith('UID')){
+            memory.clusterName = 'student';
+        }else{
+            return null;
+        }
+        let relative_info = await memory.find_all(id_pool);
+        if(relative_info && relative_info.length!=0 && relative_info?.status==undefined){
+            return relative_info;
+        }else{
+            return null;
+        }
+    }else{
+        return null;
+    }
+
+});
+
 app.all(/.*/, (req, res) => {
     res.status(404).render('notfound',{error: 404, message: "Page not found on this url, check the source or report it"});
 });
 
-// (async ()=>{
-//     let memory = new Memory();
-//     memory.clusterName = 'rate';
-//     console.log(await memory.read());
-// })();
+(async ()=>{
+    let memory = new Memory();
+    memory.clusterName = 'student';
+    // console.log(await memory.read());
+    let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
+    // let basic_info = await memory.find_profile('AIDA1302542@709');
+    console.log(basic_info);
+})();
 
 server.listen(PORT, (err) => {
     if(err) console.log("Oops an error occure:  "+err);

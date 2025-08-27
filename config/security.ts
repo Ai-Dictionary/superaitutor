@@ -120,22 +120,22 @@ module.exports = {
         ctx.stroke();
         return canvas.toDataURL();
     },
-    getCaptcha: (document) => {
-        let text, imageData, hased;
-        try{
-            text = module.exports.generateCaptcha();
-            imageData = module.exports.generateImageCaptcha(document, text);
-            hased = module.exports.encodedData(text);
-        }catch(e){
-            let generateCaptcha = (module.exports.generateCaptcha);
-            let generateImageCaptcha = (module.exports.generateImageCaptcha);
-            text = generateCaptcha();
-            imageData = generateImageCaptcha(document, text);
-            hased = system.encodedData(text);
-        }
-        security.vitals = hased;
-        return imageData.toString();
-    }, 
+    // getCaptcha: (document) => {
+    //     let text, imageData, hased;
+    //     try{
+    //         text = module.exports.generateCaptcha();
+    //         imageData = module.exports.generateImageCaptcha(document, text);
+    //         hased = module.exports.encodedData(text);
+    //     }catch(e){
+    //         let generateCaptcha = (module.exports.generateCaptcha);
+    //         let generateImageCaptcha = (module.exports.generateImageCaptcha);
+    //         text = generateCaptcha();
+    //         imageData = generateImageCaptcha(document, text);
+    //         hased = system.encodedData(text);
+    //     }
+    //     security.vitals = hased;
+    //     return imageData.toString();
+    // }, 
     generateCaptcha: () => {
         var cap = new Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','/','@','&','!','#','*','?','%','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9');
         let i, a, b, c, d, e, f;
@@ -155,5 +155,119 @@ module.exports = {
         let right_key = module.exports.generateCaptcha();
         let key = 'chs'+left_key+right_key;
         return key;
+    },
+    generateStudentId: (student) => {
+        const { name, dob, email, pin, contact, parent_name } = student;
+
+        const prefix = "AID";
+
+        const x = name.trim()[0].toUpperCase();
+
+        const birthYear = dob.split("-")[2];
+        const y = birthYear[birthYear.length - 1];
+
+        const emailPrefix = email.trim()[0] + email.trim()[1];
+        const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
+        const pinStr = pin.toString();
+        const lastThreePin = parseInt(pinStr.slice(-3), 10);
+        const zzz = asciiSum + lastThreePin;
+
+        const contactSum = contact.toString().split("").reduce((sum, digit) => sum + parseInt(digit), 0);
+        const n = contactSum.toString().slice(-1);
+
+        const [parentFirst, parentLast] = parent_name.trim().split(" ");
+        const parentAsciiSum = parentFirst.charCodeAt(0) + parentLast.charCodeAt(0);
+        const p = parentAsciiSum.toString().slice(-1);
+
+        const dd = String(this.getTodayDate()).split("-")[0];
+
+        const signupYear = String(this.getTodayDate()).split("-")[2];
+        const yy = signupYear.split("").reduce((sum, digit) => sum + parseInt(digit), 0).toString().padStart(2, "0");
+
+        const numericPart = `${x}${y}${zzz}${n}${p}${dd}${yy}`;
+
+        const atIndex = Math.floor(Math.random() * numericPart.length);
+        const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
+
+        return prefix + idWithAt;
+    },
+    generateTeacherId: (teacher) => {
+        const { name, email, pin, contact, subject } = teacher;
+
+        const prefix = "UID";
+
+        const [firstName, lastName] = name.trim().split(" ");
+
+        const ff = (firstName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const ll = (lastName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const emailPrefix = email.trim().toLowerCase()[0] + email.trim().toLowerCase()[1];
+        const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
+        const lastThreePin = parseInt(pin.toString().slice(-3), 10);
+        const zzz = (asciiSum + lastThreePin).toString().padStart(3, "0");
+
+        const contactSum = contact.toString().split("").reduce((sum, digit) => sum + parseInt(digit), 0);
+        const n = contactSum.toString().slice(-1);
+
+        const s = (subject.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const dd = String(this.getTodayDate()).split("-")[0];
+
+        const signupYear = String(this.getTodayDate()).split("-")[2];
+        const yy = signupYear.split("").reduce((sum, digit) => sum + parseInt(digit), 0).toString().padStart(2, "0");
+
+        const numericPart = `${ff}${ll}${zzz}${n}${s}${dd}${yy}`;
+
+        const atIndex = Math.floor(Math.random() * numericPart.length);
+        const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
+
+        return prefix + idWithAt;
+    },
+    generateFeedbackId: (feedback) => {
+        const { type, from, email, related, created } = feedback;
+
+        const prefix = "LID";
+
+        const [firstName, lastName] = from.trim().split(" ");
+        const ff = (firstName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+        const ll = (lastName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const emailPrefix = email.trim().toLowerCase().slice(0, 2);
+        const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
+
+        const t = (type.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const r = (related.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
+
+        const [day, month, year] = created.split("-");
+        const isoDate = `${year}-${month}-${day}`;
+        const dateObj = new Date(isoDate);
+
+        const dd = String(dateObj.getDate()).padStart(2, "0");
+        const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
+        const yyyy = dateObj.getFullYear();
+        const yySum = yyyy.toString().split("").reduce((sum, d) => sum + parseInt(d), 0).toString().padStart(2, "0");
+
+        const numericPart = `${ff}${ll}${asciiSum}${t}${r}${dd}${mm}${yySum}`;
+
+        const atIndex = Math.floor(Math.random() * numericPart.length);
+        const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
+
+        return prefix + idWithAt;
+    },
+    generateRateId: (data) => {
+        const sid = data?.id?.sid || data?.sid;
+        const tid = data?.id?.tid || data?.tid;
+        return `${sid}-${tid}`;
+    },
+    getTodayDate: () => {
+        const today = new Date();
+
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const yyyy = today.getFullYear();
+
+        return `${dd}-${mm}-${yyyy}`;
     }
 };

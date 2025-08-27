@@ -1,10 +1,12 @@
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const { JWT } = require("google-auth-library");
-let security;
+let security, hex;
 try{
     security = require('./security');
+    hex = require('./hex');
 }catch{
     security = require('./security.ts');
+    hex = require('./hex.ts');
 }
 require('dotenv').config();
 
@@ -68,13 +70,13 @@ class MEMORY{
     }
     makeUserId(data){
         if(this.clusterName=='student'){
-            return this.generateStudentId(data);
+            return security.generateStudentId(data);
         }else if(this.clusterName=='teacher'){
-            return this.generateTeacherId(data);
+            return security.generateTeacherId(data);
         }else if(this.clusterName=='feedback'){
-            return this.generateFeedbackId(data);
+            return security.generateFeedbackId(data);
         }else if(this.clusterName=='relationship' || this.clusterName=='rate'){
-            return this.generateRateId(data);
+            return security.generateRateId(data);
         }else{
             return '';
         }
@@ -141,10 +143,10 @@ class MEMORY{
             }
             newData.id = id;
             if(this.isUpdatable){
-                newData.signup_date = this.getTodayDate();
-                newData.last_update = this.getTodayDate();
+                newData.signup_date = security.getTodayDate();
+                newData.last_update = security.getTodayDate();
             }else{
-                newData.created = this.getTodayDate();
+                newData.created = security.getTodayDate();
             }
             
             await sheet.addRow(newData);
@@ -228,7 +230,7 @@ class MEMORY{
             
             rowToUpdate["_rawData"][keyIndex] = value;
             if(this.isUpdatable){
-                rowToUpdate["_rawData"][rowToUpdate["_worksheet"]["_headerValues"].indexOf("last_update")] = this.getTodayDate();
+                rowToUpdate["_rawData"][rowToUpdate["_worksheet"]["_headerValues"].indexOf("last_update")] = security.getTodayDate();
             }
             
             await rowToUpdate.save();
@@ -287,7 +289,7 @@ class MEMORY{
 
             const lastUpdateIndex = worksheetHeaders.indexOf("last_update");
             if(lastUpdateIndex !== -1 && this.isUpdatable){
-                rowToUpdate._rawData[lastUpdateIndex] = this.getTodayDate();
+                rowToUpdate._rawData[lastUpdateIndex] = security.getTodayDate();
             }
 
             await rowToUpdate.save();
@@ -295,6 +297,126 @@ class MEMORY{
         }catch(e){
             console.error("Error occurred while updating row:", e);
             return {"status": 6};
+        }
+    }
+    async find_profile(id){
+        try{
+            const client = new JWT({
+                email: this.email,
+                key: this.secret,
+                scopes: this.scopes,
+            });
+
+            const doc = new GoogleSpreadsheet(this.currentMemory(), client);
+            await doc.loadInfo();
+
+            const sheet = doc.sheetsByIndex[0];
+            await sheet.loadHeaderRow();
+
+            const rows = await sheet.getRows();
+
+            const match = rows.find(row => {
+                const rawId = row._rawData[sheet.headerValues.indexOf('id')];
+                return rawId && rawId === id;
+            });
+
+            if (!match) return {"status": 3};
+
+            const result = {};
+            sheet.headerValues.forEach((key, i) => {
+                result[key] = match._rawData[i];
+            });
+            return result;
+        }catch(e){
+            console.error("Error to finding specific row by ID:", e);
+            return {"status": 1};
+        }
+    }
+    async find_relation(id){
+        try{
+            const client = new JWT({
+                email: this.email,
+                key: this.secret,
+                scopes: this.scopes,
+            });
+
+            const doc = new GoogleSpreadsheet(this.relationship_id, client);
+            await doc.loadInfo();
+
+            const sheet = doc.sheetsByIndex[0];
+            await sheet.loadHeaderRow();
+
+            const rows = await sheet.getRows();
+
+            const matches = rows.filter(row => {
+                const rawId = row._rawData[sheet.headerValues.indexOf('id')];
+                if (!rawId) return false;
+                if(id.startsWith('AID')){
+                    return rawId.split("-")[0] === id;
+                }else{
+                    return rawId.split("-")[1] === id;
+                }
+            });
+
+            if (matches.length === 0) return { status: 3 };
+
+            const results = matches.map(row => {
+                const obj = {};
+                sheet.headerValues.forEach((key, i) => {
+                    obj[key] = row._rawData[i];
+                });
+                return obj;
+            });
+
+            return results;
+        }catch(e){
+            console.error("Error to finding specific relation by ID:", e);
+            return {"status": 1};
+        }
+    }
+    async find_all(id_list){
+        try{
+            const client = new JWT({
+                email: this.email,
+                key: this.secret,
+                scopes: this.scopes,
+            });
+
+            const doc = new GoogleSpreadsheet(this.currentMemory(), client);
+            await doc.loadInfo();
+
+            const sheet = doc.sheetsByIndex[0];
+            await sheet.loadHeaderRow();
+
+            const rows = await sheet.getRows();
+            
+            let results = [];
+            for(let j=0; j<id_list.length; j++){
+
+                const id = id_list[j];
+                const matches = rows.filter(row => {
+                    const rawId = row._rawData[sheet.headerValues.indexOf('id')];
+                    if (!rawId) return false;
+                    if(id.startsWith('AID')){
+                        return rawId.split("-")[0] === id;
+                    }else{
+                        return rawId.split("-")[1] === id;
+                    }
+                });
+
+                let result = matches.map(row => {
+                    const obj = {};
+                    sheet.headerValues.forEach((key, i) => {
+                        obj[key] = row._rawData[i];
+                    });
+                    return hex.profile_setup(obj);
+                });
+                if (result.length!=0) results.push(result[0]);
+            }
+            return results;
+        }catch(e){
+            console.error("Error to finding specific relation by ID:", e);
+            return {"status": 1};
         }
     }
     async truncate(){
@@ -321,121 +443,7 @@ class MEMORY{
             console.error("Error occure when try to truncating the memory:", e);
             return {"status": 4};
         }
-    }
-    generateStudentId(student){
-        const { name, dob, email, pin, contact, parent_name } = student;
-
-        const prefix = "AID";
-
-        const x = name.trim()[0].toUpperCase();
-
-        const birthYear = dob.split("-")[2];
-        const y = birthYear[birthYear.length - 1];
-
-        const emailPrefix = email.trim()[0] + email.trim()[1];
-        const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
-        const pinStr = pin.toString();
-        const lastThreePin = parseInt(pinStr.slice(-3), 10);
-        const zzz = asciiSum + lastThreePin;
-
-        const contactSum = contact.toString().split("").reduce((sum, digit) => sum + parseInt(digit), 0);
-        const n = contactSum.toString().slice(-1);
-
-        const [parentFirst, parentLast] = parent_name.trim().split(" ");
-        const parentAsciiSum = parentFirst.charCodeAt(0) + parentLast.charCodeAt(0);
-        const p = parentAsciiSum.toString().slice(-1);
-
-        const dd = String(this.getTodayDate()).split("-")[0];
-
-        const signupYear = String(this.getTodayDate()).split("-")[2];
-        const yy = signupYear.split("").reduce((sum, digit) => sum + parseInt(digit), 0).toString().padStart(2, "0");
-
-        const numericPart = `${x}${y}${zzz}${n}${p}${dd}${yy}`;
-
-        const atIndex = Math.floor(Math.random() * numericPart.length);
-        const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
-
-        return prefix + idWithAt;
-    }
-    generateTeacherId(teacher){
-        const { name, email, pin, contact, subject } = teacher;
-
-        const prefix = "UID";
-
-        const [firstName, lastName] = name.trim().split(" ");
-
-        const ff = (firstName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
-
-        const ll = (lastName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
-
-        const emailPrefix = email.trim().toLowerCase()[0] + email.trim().toLowerCase()[1];
-        const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
-        const lastThreePin = parseInt(pin.toString().slice(-3), 10);
-        const zzz = (asciiSum + lastThreePin).toString().padStart(3, "0");
-
-        const contactSum = contact.toString().split("").reduce((sum, digit) => sum + parseInt(digit), 0);
-        const n = contactSum.toString().slice(-1);
-
-        const s = (subject.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
-
-        const dd = String(this.getTodayDate()).split("-")[0];
-
-        const signupYear = String(this.getTodayDate()).split("-")[2];
-        const yy = signupYear.split("").reduce((sum, digit) => sum + parseInt(digit), 0).toString().padStart(2, "0");
-
-        const numericPart = `${ff}${ll}${zzz}${n}${s}${dd}${yy}`;
-
-        const atIndex = Math.floor(Math.random() * numericPart.length);
-        const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
-
-        return prefix + idWithAt;
-    }
-    generateFeedbackId(feedback){
-        const { type, from, email, related, created } = feedback;
-
-        const prefix = "LID";
-
-        const [firstName, lastName] = from.trim().split(" ");
-        const ff = (firstName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
-        const ll = (lastName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
-
-        const emailPrefix = email.trim().toLowerCase().slice(0, 2);
-        const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
-
-        const t = (type.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
-
-        const r = (related.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
-
-        const [day, month, year] = created.split("-");
-        const isoDate = `${year}-${month}-${day}`;
-        const dateObj = new Date(isoDate);
-
-        const dd = String(dateObj.getDate()).padStart(2, "0");
-        const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
-        const yyyy = dateObj.getFullYear();
-        const yySum = yyyy.toString().split("").reduce((sum, d) => sum + parseInt(d), 0).toString().padStart(2, "0");
-
-        const numericPart = `${ff}${ll}${asciiSum}${t}${r}${dd}${mm}${yySum}`;
-
-        const atIndex = Math.floor(Math.random() * numericPart.length);
-        const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
-
-        return prefix + idWithAt;
-    }
-    generateRateId(data){
-        const sid = data?.id?.sid || data?.sid;
-        const tid = data?.id?.tid || data?.tid;
-        return `${sid}-${tid}`;
-    }
-    getTodayDate(){
-        const today = new Date();
-
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
-
-        return `${dd}-${mm}-${yyyy}`;
-    }
+    }    
 }
 
 

@@ -82,6 +82,46 @@ module.exports = {
         }
         return null;
     },
+    generateBGColor: (name, email='') => {
+        function hashString(str){
+            let hash = 0;
+            for(let i = 0; i < str.length; i++){
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return hash;
+        }
+        const hash = hashString(name);
+        const hue = Math.abs(hash) % 360;
+        const saturation = 75;
+        const lightness = 88;
+        if(name=='Krishnendu Mitra' && email=='krishnendumitra24@gmail.com'){
+            return '#0c8ff9';
+        }
+        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    },
+    profile_setup(profile_info){
+        try{
+            let props;
+            if(profile_info.id.startsWith('UID')){
+                props = ['emergency_contact', 'relevent_certificate', 'job_status', 'previous_institute', 'familiar', 'fav_color', 'fav_book', 'amount', 'as_stud'];
+            }else if(profile_info.id.startsWith('AID')){
+                props = ['contact', 'address', 'parent_contact', 'previous_institute', 'fav_color', 'fav_book', 'amount', 'as_tech'];
+            }else{
+                return null;
+            }
+            for(let i=0; i<props.length; i++){
+                delete profile_info[props[i]];
+            }
+            let confidence = delete profile_info?.pass;
+            if(confidence!=true){
+                return false;
+            }
+            profile_info.bg = module.exports.generateBGColor(profile_info.name);
+            return profile_info;
+        }catch{
+            return false;
+        }
+    },
     foo:() => {
         return 0;
     }
