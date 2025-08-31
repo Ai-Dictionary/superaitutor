@@ -1,3 +1,5 @@
+/** @type {NodeJS.Require} */
+var require = require;
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const { JWT } = require("google-auth-library");
 let security, hex;
@@ -411,6 +413,7 @@ class MEMORY{
                     });
                     return hex.profile_setup(obj);
                 });
+                // @ts-ignore
                 if (result.length!=0) results.push(result[0]);
             }
             return results;
@@ -446,6 +449,6 @@ class MEMORY{
     }    
 }
 
-
+// @ts-ignore
 module.exports = MEMORY;
 

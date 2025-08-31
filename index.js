@@ -69,7 +69,7 @@ app.use(helmet.contentSecurityPolicy({
             "https://vercel.com",
             (req, res) => `'nonce-${res.locals.nonce}'`
         ],
-        // "script-src-attr": ["'unsafe-inline'"],
+        "script-src-attr": ["'unsafe-inline'"],
         "style-src": [
             "'self'",
             "https://fonts.googleapis.com",
@@ -243,14 +243,14 @@ app.all(/.*/, (req, res) => {
     res.status(404).render('notfound',{error: 404, message: "Page not found on this url, check the source or report it"});
 });
 
-(async ()=>{
-    let memory = new Memory();
-    memory.clusterName = 'student';
-    // console.log(await memory.read());
-    let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
-    // let basic_info = await memory.find_profile('AIDA1302542@709');
-    console.log(basic_info);
-})();
+// (async ()=>{
+//     let memory = new Memory();
+//     memory.clusterName = 'student';
+//     // console.log(await memory.read());
+//     let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
+//     // let basic_info = await memory.find_profile('AIDA1302542@709');
+//     console.log(basic_info);
+// })();
 
 server.listen(PORT, (err) => {
     if(err) console.log("Oops an error occure:  "+err);
