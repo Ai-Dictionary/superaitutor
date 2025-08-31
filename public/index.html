@@ -103,6 +103,7 @@
     <div class="under-development">Under Development</div>
     <div id="countdown" style="font-weight: bold; margin-top: 20px;"></div>
     <div class="btn btn-dark" onclick="insta();"><i class="fa fa-instagram"></i> Visite our page</div>
+    <div class="btn btn-outline-dark" onclick="login();"><i class="fa fa-user-secret"></i> Login your account</div>
   </div>
   <div class="circle circle-left"></div>
   <div class="circle circle-right"></div>
@@ -110,6 +111,9 @@
 <script>
   function insta(){
     window.location = "https://www.instagram.com/aidictionary001/";
+  }
+  function login(){
+    window.location = "/login";
   }
   var countDownDate = new Date("Jan 30, 2026 00:00:00").getTime();
   var x = setInterval(function(){

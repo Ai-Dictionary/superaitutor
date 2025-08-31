@@ -25,9 +25,9 @@ module.exports = {
             }
         }else{
             if(req == 6100){
-                return false;
-            }else{
                 return true;
+            }else{
+                return false;
             }
         }
     },

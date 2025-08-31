@@ -84,7 +84,7 @@ app.use(helmet.contentSecurityPolicy({
             "https://fonts.gstatic.com",
             "data:"
         ],
-        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com"],
+        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com", "https://raw.githubusercontent.com", "https://captcha.com"],
         "connect-src": [
             "'self'",
             "wss://ws-us3.pusher.com",
@@ -106,9 +106,10 @@ app.use([
     (req, res, next) => {
         const BLOCK_DURATION_MS = 60 * 1000;
         const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;
+        const userAgent = req.headers['user-agent'];
         const cookieBlock = hex.isClientBlockedByCookie(req);
         
-        if(varchar.blockedIPs.includes(clientIP) || cookieBlock === 'blocked'){
+        if(varchar.blockedIPs.includes(clientIP) || cookieBlock === 'blocked' || (!userAgent || userAgent.includes('bot') || userAgent.length < 10)){
             console.warn(`Blocked IP attempt to attack: ${clientIP}`);
             return req.destroy() || res.connection.destroy();
         }
@@ -184,11 +185,15 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/login', (req, res) => {
+    res.status(200).render('login');
+});
+
 app.get('/my_profile_info', async (req, res) => {
     let memory = new Memory();
-    if(req.body.id.startsWith('AID')){
+    if(String(req.body.id).startsWith('AID')){
         memory.clusterName = 'student';
-    }else if(req.body.id.startsWith('UID')){
+    }else if(String(req.body.id).startsWith('UID')){
         memory.clusterName = 'teacher';
     }else{
         return null;
@@ -200,9 +205,9 @@ app.get('/my_profile_info', async (req, res) => {
 
 app.get('/other_profile_info', async (req, res) => {
     let memory = new Memory();
-    if(req.body.id.startsWith('AID')){
+    if(String(req.body.id).startsWith('AID')){
         memory.clusterName = 'student';
-    }else if(req.body.id.startsWith('UID')){
+    }else if(String(req.body.id).startsWith('UID')){
         memory.clusterName = 'teacher';
     }else{
         return null;

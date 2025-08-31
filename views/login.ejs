@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="superaitutor">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" name="og:image">
+    <meta itemprop="image" content="https://superaitutor.vercel.app/public/logo1500.png">
+    <meta property="og:site_name" content="superaitutor">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="superaitutor">
+    <meta content="SuperAITutor is a next-generation educational 
+    platform that reimagines how students, teachers, and parents 
+    engage with learning. Designed to foster meaningful connections 
+    and empower academic growth, it offers a personalized ecosystem 
+    where students can access AI-powered doubt solving, career 
+    guidance, exam preparation, and mentorship in one place." lang="en-us" name="description">
+    <meta content="SuperAITutor, sait, ai tutor, super ai, chatbot teacher, progress track, project, JPEN, Ai Dictionary" lang="en-us" name="keywords">
+    <title version="1.0">Login - SuperAITutor</title>
+    <meta name="author" content="Ai-Dictionary">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <link rel="icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" sizes="192x192">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Feed" href="https://superaitutor.com/feed/">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../public/App.css"/>
+</head>
+<style>
+    body{
+        background: #FBFAF5;
+    }
+    .flx section{
+        width: 50%;
+    }
+    .left-component{
+        padding: 40px 40px 0px 40px;
+        .logo, .logo img{
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+        .heading{
+            margin-top: 6%;
+            font-size: 50px;
+            color: var(--rblue);
+            font-family: sans-serif;
+            font-weight: bold;
+            line-height: normal;
+        }
+        .student_reading{
+            position: absolute;
+            bottom: 20px;
+            left: 15%; 
+            width: 500px;
+        }
+    }
+    .right-component{
+        .log-from{
+            width: 80%;
+            border-radius: 10px;
+            background: var(--lavender);
+            font-family: sans-serif;
+            padding: 30px 30px;
+            margin-top: 40px;
+            h3{
+                font-weight: bold;
+            }
+            h5{
+                margin-bottom: 50px;
+            }
+            #captcha-img{
+                width: 70%;
+                height: 40px;
+                position: relative;
+            }
+            .helping{
+                margin: 10px 0px;
+                padding: 10px;
+                span{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+</style>
+<body>
+    <main class="workspace flx">
+        <section class="left-component">
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/logo1500.png" alt="superaitutor" title="SuperAITutor"/>
+            </div>
+            <div class="heading">Helping students<br> achieve the education<br> they deserve</div>
+            <img src="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/assets/images/student_reading.png" alt="superaitutor" class="student_reading"/>
+        </section>
+        <section class="right-component">
+            <div class="log-from">
+                <h3>Welcome to Super AI Tutor</h3>
+                <h5>Login to your account</h5>
+                <div class="form-group mb-3">
+                    <input type="email" class="form-control" id="useremail" placeholder="Enter User Id or Email Id" required/>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="password" class="form-control" id="userpassword" placeholder="Enter Password" required/>
+                </div>
+                <div class="form-group flx">
+                    <img src="https://captcha.com/images/captcha/botdetect3-captcha-spiderweb.jpg" alt="captcha" title="This is for your security and verification" id="captcha-img"/>
+                    <div class="btn btn-outline-process"><i class="fa fa-refresh"></i> Refresh</div>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="password" class="form-control" id="captcha-txt" placeholder="Enter Captcha" required/>
+                </div>
+                <div class="btn btn-process btn-lg btn-block">Login</div>
+                <div class="helping flx"><span>Create your account</span><span>Forgot Password</span></div>
+                <hr>
+                <div class="btn btn-light btn-block"><i class="fa fa-google"></i> Sign In with Google</div>
+                <div class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign In with Facebook</div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

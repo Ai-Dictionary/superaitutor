@@ -1,0 +1,80 @@
+:root{
+    --bg-color: #f6f6f6;
+    --mit-color: #ececec;
+    --simple-color: #FBFAF5;
+    --blend-color: #e8eae8e1;
+    --dark-color: #e3e0e0be;
+    --venda: #f2f2f2;
+    --rblue: #4169e1;
+    --cwhite: #FFFDD0;
+    --lavender: #E6E6FA;
+    --revers-white: #000;
+    --glass-color: #ececec79;
+    --code-color: #ebf0f4;
+    --code-li-color: #fff;
+    --loader-back: #fffffff6;
+    --loader-font: #320064;
+}
+body{
+    margin: 0px;
+    padding: 0%;
+    max-width: 100%;
+    overflow-x: hidden;
+    background: var(--bg-color);
+    transition: 1s ease-in-out;
+}
+html{
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+.flo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.flx{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.workspace{
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    background: transparent;
+}
+.blbg{
+    width: 100%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 99;
+    background: transparent;
+}
+.tabPage{
+    height: 100%;
+    position: fixed;
+    background: #00000069;
+}
+.btn-process{
+    color: #fff;
+    background-color: #915ff0;
+    border-color: #a76eee;
+}
+.btn-process:hover{
+    color: #fff;
+    background-color: var(--loader-font);
+    border-color: var(--loader-font);
+}
+.btn-outline-process{
+    color: #cb94f7;
+    background-color: transparent;
+    border-color: #cb94f7;
+}
+.btn-outline-process:hover{
+    color: #fff;
+    background-color: #915ff0;
+    border-color: #a76eee;
+}
