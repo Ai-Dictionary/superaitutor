@@ -29,8 +29,7 @@ function login() {
     const captcha_text = document.getElementById("captcha-txt").value;
     document.querySelector('.error').style.display = "block";
     if (validEmail && validPassword) {
-        console.log(captcha_text, captcha.vitals == captcha.tokenizer(captcha_text, "<%= key %>"));
-        if (captcha.vitals == captcha.tokenizer(captcha_text, "<%= key %>") && captcha_text != '') {
+        if (captcha.vitals == captcha.tokenizer(captcha_text, "404") && captcha_text != '') {
             document.querySelector('.error').innerHTML = "<span style='color: green;'>Waiting for server response!</span>";
             fetch('/auth', {
                 method: 'POST',

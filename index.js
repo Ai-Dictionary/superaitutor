@@ -67,6 +67,7 @@ app.use(helmet.contentSecurityPolicy({
             "https://cdnjs.cloudflare.com",
             "https://vercel.live",
             "https://vercel.com",
+            "https://raw.githubusercontent.com/Ai-Dictionary",
             (req, res) => `'nonce-${res.locals.nonce}'`
         ],
         "script-src-attr": ["'unsafe-inline'"],
@@ -75,6 +76,7 @@ app.use(helmet.contentSecurityPolicy({
             "https://fonts.googleapis.com",
             "https://maxcdn.bootstrapcdn.com",
             "https://stackpath.bootstrapcdn.com",
+            "https://raw.githubusercontent.com/Ai-Dictionary",
             "'unsafe-inline'" 
         ],
         "font-src": [
