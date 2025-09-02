@@ -1,6 +1,5 @@
 module.exports = {
     substitutionEncoder: (plain_txt, key) => {
-        // vigenere encoding
         const vocabulary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
         let cipher = "";
         key = key.repeat(Math.ceil(plain_txt.length / key.length));
@@ -18,7 +17,6 @@ module.exports = {
         return cipher;
     },
     substitutionDecoder: (cipher, key) => {
-        // vigenere decoding
         const vocabulary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
         let plain_txt = "";
         key = key.repeat(Math.ceil(cipher.length / key.length));
@@ -120,34 +118,28 @@ module.exports = {
         ctx.stroke();
         return canvas.toDataURL();
     },
-    // getCaptcha: (document) => {
-    //     let text, imageData, hased;
-    //     try{
-    //         text = module.exports.generateCaptcha();
-    //         imageData = module.exports.generateImageCaptcha(document, text);
-    //         hased = module.exports.encodedData(text);
-    //     }catch(e){
-    //         let generateCaptcha = (module.exports.generateCaptcha);
-    //         let generateImageCaptcha = (module.exports.generateImageCaptcha);
-    //         text = generateCaptcha();
-    //         imageData = generateImageCaptcha(document, text);
-    //         hased = system.encodedData(text);
-    //     }
-    //     security.vitals = hased;
-    //     return imageData.toString();
-    // }, 
-    generateCaptcha: () => {
-        var cap = new Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','/','@','&','!','#','*','?','%','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9');
-        let i, a, b, c, d, e, f;
-        for(i=0;i<6;i++){
-            a = cap[Math.floor(Math.random()*cap.length)];
-            b = cap[Math.floor(Math.random()*cap.length)];
-            c = cap[Math.floor(Math.random()*cap.length)];
-            d = cap[Math.floor(Math.random()*cap.length)];
-            e = cap[Math.floor(Math.random()*cap.length)];
-            f = cap[Math.floor(Math.random()*cap.length)];
+    getCaptcha: (document) => {
+        let text, imageData, hased;
+        try{
+            text = module.exports.generateCaptcha();
+            imageData = module.exports.generateImageCaptcha(document, text);
+            hased = module.exports.substitutionEncoder(text, '404');
+        }catch(e){
+            let generateCaptcha = (module.exports.generateCaptcha);
+            let generateImageCaptcha = (module.exports.generateImageCaptcha);
+            text = generateCaptcha();
+            imageData = generateImageCaptcha(document, text);
+            hased = module.exports.substitutionEncoder(text, '404');
         }
-        var code = a+b+c+d+e+f;
+        // security.vitals = hased;
+        return imageData.toString();
+    }, 
+    generateCaptcha: () => {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/@&!#*?%';
+        let code = '';
+        for(let i = 0; i < 6; i++){
+            code += chars[Math.floor(Math.random() * chars.length)];
+        }
         return code;
     },
     sessionKey: () => {

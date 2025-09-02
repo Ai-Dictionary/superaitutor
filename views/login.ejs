@@ -37,6 +37,7 @@
     }
     .left-component{
         padding: 40px 40px 0px 40px;
+        user-select: none;
         .logo, .logo img{
             width: 80px;
             height: 80px;
@@ -52,9 +53,10 @@
         }
         .student_reading{
             position: absolute;
-            bottom: 20px;
+            top: 30%;
             left: 15%; 
             width: 500px;
+            transform: rotateY(180deg);
         }
     }
     .right-component{
@@ -64,17 +66,25 @@
             background: var(--lavender);
             font-family: sans-serif;
             padding: 30px 30px;
-            margin-top: 40px;
+            margin-top: 80px;
             h3{
                 font-weight: bold;
             }
             h5{
                 margin-bottom: 50px;
             }
-            #captcha-img{
-                width: 70%;
+            .captcha{
+                width: 40%;
                 height: 40px;
-                position: relative;
+                background-image: url('../assets/images/haze.png');
+                background-repeat: no-repeat;
+                background-size: cover;
+                #captcha-img{
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    user-select: none;
+                }
             }
             .helping{
                 margin: 10px 0px;
@@ -82,6 +92,60 @@
                 span{
                     cursor: pointer;
                 }
+            }
+            .error{
+                display: none;
+                color: red;
+                margin: 0px 5px;
+                font-family: consolas;
+            }
+        }
+    }
+    @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px){
+        .flx section{
+            width: 100%;
+        }
+        .left-component{
+            display: none;
+        }
+        .right-component{
+            .log-from{
+                margin: 20px auto;
+                width: 95%;
+                h3{
+                    font-size: 22px;
+                }
+                h5{
+                    font-size: 18px;
+                }
+                .captcha{
+                    width: 60%;
+                }
+                .btn-lg{
+                    font-size: 16px;
+                    padding: .375rem .75rem !important;
+                }
+            }
+            .helping{
+                font-size: 14px;
+            }
+        }
+    }
+    /* Desktop view */
+    @media only screen and (min-width: 481px) and (max-width: 767px) {
+        .right-component{
+            .log-from{
+                margin: 40px auto;
+                width: 80%;
+            }
+        }
+    }
+    /* Tab view */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        .right-component{
+            .log-from{
+                margin: 30px auto;
+                width: 60%;
             }
         }
     }
@@ -106,19 +170,21 @@
                     <input type="password" class="form-control" id="userpassword" placeholder="Enter Password" required/>
                 </div>
                 <div class="form-group flx">
-                    <img src="https://captcha.com/images/captcha/botdetect3-captcha-spiderweb.jpg" alt="captcha" title="This is for your security and verification" id="captcha-img"/>
-                    <div class="btn btn-outline-process"><i class="fa fa-refresh"></i> Refresh</div>
+                    <div class="captcha">
+                        <img src="" alt="captcha" title="This is for your security and verification" id="captcha-img"/>
+                    </div>
+                    <div class="btn btn-outline-process" id="captcha-btn"><i class="fa fa-refresh"></i> Refresh</div>
                 </div>
                 <div class="form-group mb-3">
-                    <input type="password" class="form-control" id="captcha-txt" placeholder="Enter Captcha" required/>
+                    <input type="text" class="form-control" id="captcha-txt" placeholder="Enter Captcha" required/>
                 </div>
-                <div class="btn btn-process btn-lg btn-block">Login</div>
-                <div class="helping flx"><span>Create your account</span><span>Forgot Password</span></div>
-                <!-- <hr>
-                <div class="btn btn-light btn-block"><i class="fa fa-google"></i> Sign In with Google</div>
-                <div class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign In with Facebook</div> -->
+                <div class="btn btn-process btn-lg btn-block" id="login">Login</div>
+                <div class="helping flx"><span>Create Your Account</span><span>Forgot Password</span></div>
+                <div class="error"></div>
             </div>
         </section>
     </main>
 </body>
+<script src="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/assets/scripts/captcha.js" nonce="<%= nonce %>"></script>
+<script src="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/assets/scripts/login.js" nonce="<%= nonce %>"></script>
 </html>

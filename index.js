@@ -84,7 +84,7 @@ app.use(helmet.contentSecurityPolicy({
             "https://fonts.gstatic.com",
             "data:"
         ],
-        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com", "https://raw.githubusercontent.com", "https://captcha.com"],
+        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com", "https://raw.githubusercontent.com"],
         "connect-src": [
             "'self'",
             "wss://ws-us3.pusher.com",
@@ -186,7 +186,67 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.status(200).render('login');
+    const nonce = res.locals.nonce;
+    res.status(200).render('login',{nonce: nonce, key: '404'});
+});
+
+app.post('/auth', async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    
+    let memory = new Memory();
+    let profile_info = null;
+
+    if(String(email).startsWith('AID')){
+        memory.clusterName = 'student';
+        profile_info = await memory.find_profile(email);
+    }else if(String(email).startsWith('UID')){
+        memory.clusterName = 'teacher';
+        profile_info = await memory.find_profile(email);
+    }else{
+        memory.clusterName = 'student';
+        profile_info = await memory.find_profile(email);
+        if(!profile_info || Object.keys(profile_info).length === 0){
+            memory.clusterName = 'teacher';
+            profile_info = await memory.find_profile(email);
+        }
+    }
+    
+    if(profile_info!=[] && profile_info && Object.keys(profile_info).length > 0){
+        if ((profile_info.id === email || profile_info.email === email) && profile_info.pass === password) {
+            const expiryTime = Date.now() + 30 * 60 * 1000;
+            const tokenPayload = JSON.stringify({ token: security.substitutionEncoder(String(email+'-'+expiryTime), 'security') });
+
+            res.cookie('auth_token', tokenPayload, {
+                maxAge: 30 * 60 * 1000,
+                httpOnly: true,
+                secure: true,
+                sameSite: 'Strict'
+            });
+
+            res.status(200).json({ 'success': true, 'message': 'Authentication successful!' });
+        }else{
+            res.status(200).json({'error': 400, 'message': 'User provided credintials is wrong, Please try again later!'});
+        }
+    }else{
+        res.status(200).json({'error': 404, 'message': 'No profile found according to provided details, Please check the input..'});
+    }
+
+});
+
+app.get('/deshboard', (req, res) => {
+    const token = req.cookies.auth_token;
+    if(token){
+        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+        let expiry = encripted_info.split("-")[1];
+        if(Date.now() < expiry){
+            res.status(200).send('<section style="text-align: center; margin: 10% auto; font-family: sans-serif;"><h1>Welcome Krish nice to meet you!</h1><p>Currently we can\'t provide you a web interface, because SAIT is under develoment, hope you understand.</p></section>');
+        }else{
+            res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>Session Expired!</h2><p>Please login again, because your Identity card is now expired when check it.<a href="/login">Login</a></p></div>');
+        }
+    }else{
+        res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>We are not get your Identity Card</h2><p>Please login on SAIT at first then use this feature.<br>But if you are already login and still show this error then please contact us.<br><a href="/login">Login</a></p></div>');
+    }
 });
 
 app.get('/my_profile_info', async (req, res) => {
