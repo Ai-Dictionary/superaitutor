@@ -309,7 +309,7 @@ app.get('/relation_profile_info', async (req, res) => {
 });
 
 app.all(/.*/, (req, res) => {
-    res.status(404).render('notfound',{error: 404, message: "Page not found on this url, check the source or report it"});
+    res.status(404).render('notfound',{nonce: res.locals.nonce, error: 404, message: "Page not found on this url, check the source or report it"});
 });
 
 // (async ()=>{

@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:image" content="public/logo.png" name="og:image">
-    <meta content="SuperAITutor is a next-generation educational platform that reimagines how students, teachers, and parents engage with learning. Designed to foster meaningful connections and empower academic growth, it offers a personalized ecosystem where students can access AI-powered doubt solving, career guidance, exam preparation, and mentorship in one place." lang="en-us" name="description">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="superaitutor">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" name="og:image">
+    <meta itemprop="image" content="https://superaitutor.vercel.app/public/logo1500.png">
+    <meta property="og:site_name" content="superaitutor">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="superaitutor">
+    <meta content="SuperAITutor is a next-generation educational 
+    platform that reimagines how students, teachers, and parents 
+    engage with learning. Designed to foster meaningful connections 
+    and empower academic growth, it offers a personalized ecosystem 
+    where students can access AI-powered doubt solving, career 
+    guidance, exam preparation, and mentorship in one place." lang="en-us" name="description">
     <meta content="SuperAITutor, sait, ai tutor, super ai, chatbot teacher, progress track, project, JPEN, Ai Dictionary" lang="en-us" name="keywords">
     <title version="1.0">SuperAITutor</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="icon" href="public/favicon.ico"/>
+    <meta name="author" content="Ai-Dictionary">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <link rel="icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" sizes="192x192">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Feed" href="https://superaitutor.com/feed/">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../public/App.css"/>
 </head>
 <style>
     body{
         overflow: hidden!important;
-        background-image: url('https://bsaeu.net.in/bedactivity/assets/images/error-texture.png');
+        background-image: url('https://ai-dictionary.github.io/superaitutor/assets/images/error-texture.png');
     }
     small{
         display: none;
@@ -86,8 +102,8 @@
 </style>
 <body>
     <section class="workspace" id="e404">
-        <img src="../images/shape1.png" class="l-img" alt="load"/>
-        <img src="../images/shape1.png" class="r-img" alt="load"/>
+        <img src="https://ai-dictionary.github.io/superaitutor/assets/images/shape1.png" class="l-img" alt="load"/>
+        <img src="https://ai-dictionary.github.io/superaitutor/assets/images/shape1.png" class="r-img" alt="load"/>
         <h1>ERROR <span><%= error %></span></h1>
         <h2>Something <u>went</u> wrong!</h2>
         <h4><%= message %></h4>
@@ -97,8 +113,8 @@
         </div>
     </section>
 </body>
-<script src="../public/App.js"></script>
-<script>
+<script src="../public/App.js" nonce="<%= nonce %>"></script>
+<script nonce="<%= nonce %>">
     setTimeout(()=>{
         if(document.getElementById('statement').textContent!=''){
             document.getElementById('statement').style.display = "block";

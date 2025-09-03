@@ -29,3 +29,6 @@ document.addEventListener("DOMContentLoaded",() => {
     loader.remove(2000);
 });
 
+function route(link){
+    window.location.href = link;
+}

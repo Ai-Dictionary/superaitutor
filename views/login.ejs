@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../public/App.css"/>
-    <link rel="stylesheet" href="../assets/styles/login.css"/>
+    <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/login.css"/>
 </head>
 <body>
     <main class="workspace flx">
@@ -58,7 +58,7 @@
                     <input type="text" class="form-control" id="captcha-txt" placeholder="Enter Captcha" required/>
                 </div>
                 <div class="btn btn-process btn-lg btn-block" id="login">Login</div>
-                <div class="helping flx"><span>Create Your Account</span><span>Forgot Password</span></div>
+                <div class="helping flx"><span onclick="route('/signup');">Create Your Account</span><span onclick="route('/forgot_password');">Forgot Password</span></div>
                 <div class="error"></div>
             </div>
         </section>
