@@ -36,7 +36,7 @@ const AppName = "superAITutor";
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use('/assets', express.static(path.join(__dirname,'assets'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
+// app.use('/assets', express.static(path.join(__dirname,'assets'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
 app.use('/config', express.static(path.join(__dirname,'config'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
 app.use('/public', express.static(path.join(__dirname,'public'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
 
