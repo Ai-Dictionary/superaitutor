@@ -1,0 +1,144 @@
+body{
+    background: #FBFAF5;
+}
+.flx section{
+    width: 50%;
+}
+.left-component{
+    padding: 40px 40px 0px 40px;
+    user-select: none;
+    .logo, .logo img{
+        width: 80px;
+        height: 80px;
+        position: relative;
+    }
+    .heading{
+        margin-top: 6%;
+        font-size: 50px;
+        color: var(--rblue);
+        font-family: sans-serif;
+        font-weight: bold;
+        line-height: normal;
+    }
+    .student_reading{
+        position: absolute;
+        top: 28%;
+        left: 15%;
+        width: 500px;
+        transform: rotateY(180deg);
+    }
+}
+.right-component{
+    .log-from{
+        width: 80%;
+        border-radius: 10px;
+        background: var(--lavender);
+        font-family: sans-serif;
+        padding: 30px 30px;
+        margin-top: 80px;
+        h3{
+            font-weight: bold;
+        }
+        h5{
+            margin-bottom: 50px;
+        }
+        .captcha{
+            width: 40%;
+            height: 40px;
+            background-image: url('https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/assets/images/haze.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            #captcha-img{
+                position: relative;
+                width: 100%;
+                height: 100%;
+                user-select: none;
+            }
+        }
+        .helping{
+            margin: 10px 0px;
+            padding: 10px;
+            span{
+                cursor: pointer;
+            }
+        }
+        .error{
+            display: none;
+            color: red;
+            margin: 0px 5px;
+            font-family: consolas;
+        }
+    }
+}
+
+/* Mobile view */
+@media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
+    .flx section{
+        width: 100%;
+    }
+    .left-component{
+        display: none;
+    }
+    .right-component{
+        .log-from{
+            margin: 20px auto;
+            margin-top: 15%;
+            width: 95%;
+            h3{
+                font-size: 22px;
+            }
+            h5{
+                font-size: 18px;
+            }
+            .captcha{
+                width: 60%;
+            }
+            .btn-lg{
+                font-size: 16px;
+                padding: .375rem .75rem !important;
+            }
+        }
+        .helping{
+            font-size: 14px;
+        }
+    }
+}
+
+/* Desktop view */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    .workspace{
+        flex-direction: column;
+    }
+    .left-component{
+        display: block;
+        .logo, .logo img{
+            width: 50px;
+            height: 50px;
+        }
+        .heading{
+            font-size: 30px;
+        }
+        .student_reading{
+            width: 200px;
+            top: 8%;
+            left: 55%;
+        }
+    }
+    .right-component{
+        .log-from{
+            margin: 40px auto;
+            margin-bottom: 80px;
+            width: 80%;
+        }
+    }
+}
+
+/* Tab view */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .right-component{
+        .log-from{
+            margin: 40px auto;
+            width: 60%;
+        }
+    }
+}

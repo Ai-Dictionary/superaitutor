@@ -67,7 +67,7 @@ app.use(helmet.contentSecurityPolicy({
             "https://cdnjs.cloudflare.com",
             "https://vercel.live",
             "https://vercel.com",
-            "https://raw.githubusercontent.com/Ai-Dictionary",
+            "https://ai-dictionary.github.io",
             (req, res) => `'nonce-${res.locals.nonce}'`
         ],
         "script-src-attr": ["'unsafe-inline'"],
@@ -76,7 +76,7 @@ app.use(helmet.contentSecurityPolicy({
             "https://fonts.googleapis.com",
             "https://maxcdn.bootstrapcdn.com",
             "https://stackpath.bootstrapcdn.com",
-            "https://raw.githubusercontent.com/Ai-Dictionary",
+            "https://ai-dictionary.github.io",
             "'unsafe-inline'" 
         ],
         "font-src": [
@@ -187,9 +187,12 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/login', (req, res) => {
+app.get('/login', async (req, res) => {
     const nonce = res.locals.nonce;
-    res.status(200).render('login',{nonce: nonce, key: '404'});
+    const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
+        link: 'https://youtube.com/@AiDictionary-e2x',
+    });
+    res.status(200).render('login',{nonce: nonce, key: '404', tutorial});
 });
 
 app.post('/auth', async (req, res) => {
@@ -208,14 +211,14 @@ app.post('/auth', async (req, res) => {
     }else{
         memory.clusterName = 'student';
         profile_info = await memory.find_profile(email);
-        if(!profile_info || Object.keys(profile_info).length === 0){
+        if(profile_info?.status==3 && (!profile_info || Object.keys(profile_info).length === 0)){
             memory.clusterName = 'teacher';
             profile_info = await memory.find_profile(email);
         }
     }
     
-    if(profile_info!=[] && profile_info && Object.keys(profile_info).length > 0){
-        if ((profile_info.id === email || profile_info.email === email) && profile_info.pass === password) {
+    if(profile_info?.status!=3 && profile_info && Object.keys(profile_info).length > 0){
+        if((profile_info.id === email || profile_info.email === email) && profile_info.pass === password){
             const expiryTime = Date.now() + 30 * 60 * 1000;
             const tokenPayload = JSON.stringify({ token: security.substitutionEncoder(String(email+'-'+expiryTime), 'security') });
 
@@ -228,12 +231,11 @@ app.post('/auth', async (req, res) => {
 
             res.status(200).json({ 'success': true, 'message': 'Authentication successful!' });
         }else{
-            res.status(200).json({'error': 400, 'message': 'User provided credintials is wrong, Please try again later!'});
+            res.status(200).json({'error': 400, 'message': 'It looks like the login details you entered are not correct. Please double-check your userid and password, and try again in a little while.'});
         }
     }else{
-        res.status(200).json({'error': 404, 'message': 'No profile found according to provided details, Please check the input..'});
+        res.status(200).json({'error': 404, 'message': 'We could not find any profile that matches the details you entered. Please check your information carefully—like your name, ID, or email—and try again.'});
     }
-
 });
 
 app.get('/deshboard', (req, res) => {

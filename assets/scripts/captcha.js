@@ -26,7 +26,7 @@ class CAPTCHA{
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = '#FFFFFF00';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = 'normal italic 40px Verdana';
+        ctx.font = 'normal italic 35px Verdana';
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -73,7 +73,8 @@ class CAPTCHA{
         return imageData.toString();
     }
     generateCaptcha(){
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/@&!#*?%';
+        // const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/@&!#*?%';
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/@&!#*?%';
         let code = '';
         for(let i = 0; i < 6; i++){
             code += chars[Math.floor(Math.random() * chars.length)];
