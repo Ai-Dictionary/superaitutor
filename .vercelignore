@@ -3,6 +3,7 @@
 
 # Ignore the entire images folder (if it's large and we plan to use external CDN or lazy load)
 images/
+assets/
 assets/styles/
 assets/scripts/
 assets/images/
