@@ -40,9 +40,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/config', express.static(path.join(__dirname,'config'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
 app.use('/public', express.static(path.join(__dirname, 'public'), {
   etag: false,
+  lastModified: false,
   maxAge: 0,
   setHeaders: function (res, path) {
-    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
   }
 }));
 
