@@ -36,9 +36,9 @@ const AppName = "superAITutor";
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use('/assets', express.static(path.join(__dirname,'assets'), hex.isHosted(PORT) ? { maxAge: '30d' } : {}));
-app.use('/config', express.static(path.join(__dirname,'config'), hex.isHosted(PORT) ? { maxAge: '30d' } : {}));
-app.use('/public', express.static(path.join(__dirname,'public'), hex.isHosted(PORT) ? { maxAge: '30d' } : {}));
+app.use('/assets', express.static(path.join(__dirname,'assets'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
+app.use('/config', express.static(path.join(__dirname,'config'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
+app.use('/public', express.static(path.join(__dirname,'public'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
 
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
@@ -177,24 +177,6 @@ app.use(async (req, res, next) => {
     }
 });
 
-
-app.get('/', (req, res) => {
-    const nonce = res.locals.nonce;
-    fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
-        if (err) return res.status(200).send('Error to loading the page, contain non-auth scripting!');
-        const modifiedHtml = html.replaceAll('<script>', `<script nonce="${nonce}">`);
-        res.status(200).send(modifiedHtml);
-    });
-});
-
-app.get('/login', async (req, res) => {
-    const nonce = res.locals.nonce;
-    const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
-        link: 'https://youtube.com/@AiDictionary-e2x',
-    });
-    res.status(200).render('login',{nonce: nonce, key: '404', tutorial});
-});
-
 app.post('/auth', async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -236,6 +218,39 @@ app.post('/auth', async (req, res) => {
     }else{
         res.status(200).json({'error': 404, 'message': 'We could not find any profile that matches the details you entered. Please check your information carefully—like your name, ID, or email—and try again.'});
     }
+});
+
+app.get('/', (req, res) => {
+    const nonce = res.locals.nonce;
+    fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
+        if (err) return res.status(200).send('Error to loading the page, contain non-auth scripting!');
+        const modifiedHtml = html.replaceAll('<script>', `<script nonce="${nonce}">`);
+        res.status(200).send(modifiedHtml);
+    });
+});
+
+app.get('/login', async (req, res) => {
+    const nonce = res.locals.nonce;
+    const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
+        link: 'https://youtube.com/@AiDictionary-e2x',
+    });
+    const token = req.cookies.auth_token;
+    if(token && hex.isHosted(req)){
+        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+        let expiry = encripted_info.split("-")[1];
+        if(Date.now() < expiry){
+            return res.status(200).redirect("/deshboard");
+        }
+    }
+    res.status(200).render('login',{nonce: nonce, key: '404', tutorial});
+});
+
+app.get('/signup', async (req, res) => {
+    const nonce = res.locals.nonce;
+    const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
+        link: 'https://youtube.com/@AiDictionary-e2x',
+    });
+    res.status(200).render('signup',{nonce: nonce, key: '404', tutorial});
 });
 
 app.get('/deshboard', (req, res) => {

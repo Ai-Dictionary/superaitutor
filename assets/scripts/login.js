@@ -31,6 +31,7 @@ function login(){
     if(validEmail && validPassword){
         if (captcha.vitals == captcha.tokenizer(captcha_text, window.captchaKey) && captcha_text != '') {
             document.querySelector('.error').innerHTML = "<span style='color: green;'>Waiting for server response!</span>";
+            loginBtn.style.display = "none";
             fetch('/auth', {
                 method: 'POST',
                 headers: {
@@ -42,6 +43,7 @@ function login(){
                 })
             }).then(response => response.json()).then(data => {
                 if(data?.success){
+                    passwordField.value = "";
                     window.location.href = '/deshboard';
                 }else{
                     alertMessage(data);
