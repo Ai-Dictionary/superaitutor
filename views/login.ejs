@@ -26,10 +26,11 @@
     <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../public/App.css"/>
+    <link rel="stylesheet" href="../static/App.css"/>
     <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/login.css"/>
 </head>
 <body>
+    <%- header %>
     <main class="workspace flx">
         <section class="left-component">
             <div class="logo">
@@ -62,8 +63,8 @@
                 <div class="error"></div>
             </div>
         </section>
-        <%- tutorial %>
     </main>
+    <%- tutorial %>
 </body>
 <script src="../public/App.js" nonce="<%= nonce %>"></script>
 <script nonce="<%= nonce %>">

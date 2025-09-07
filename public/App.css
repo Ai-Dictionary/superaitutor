@@ -1,5 +1,5 @@
 :root{
-    --bg-color: #f6f6f6;
+    --bg-color: #FBFAF5;
     --mit-color: #ececec;
     --simple-color: #FBFAF5;
     --blend-color: #e8eae8e1;
@@ -121,9 +121,13 @@ html{
     75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
     100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
 }
+header{
+    height: 60px;
+    background-color: var(--rblue);
+}
 .small-tutorial{
     width: 250px!important;
-    position: absolute;
+    position: fixed;
     bottom: 8%;
     left: 3%;
     .left{

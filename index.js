@@ -37,8 +37,19 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // app.use('/assets', express.static(path.join(__dirname,'assets'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
-app.use('/config', express.static(path.join(__dirname,'config'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
-app.use('/public', express.static(path.join(__dirname,'public'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
+// app.use('/assets', express.static(path.join(__dirname,'assets')));
+app.use('/config', express.static(path.join(__dirname,'config')));
+app.use('/static', express.static(path.join(__dirname, 'public')));
+//{
+//     etag: false,
+//     lastModified: false,
+//     maxAge: 0,
+//     setHeaders: function (res, path) {
+//         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+//         res.setHeader('Pragma', 'no-cache');
+//         res.setHeader('Expires', '0');
+//     }
+// }));
 
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
@@ -234,6 +245,7 @@ app.get('/login', async (req, res) => {
     const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
         link: 'https://youtube.com/@AiDictionary-e2x',
     });
+    const header = await ejs.renderFile('./views/header.ejs');
     const token = req.cookies.auth_token;
     if(token && hex.isHosted(req)){
         const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
@@ -242,7 +254,7 @@ app.get('/login', async (req, res) => {
             return res.status(200).redirect("/deshboard");
         }
     }
-    res.status(200).render('login',{nonce: nonce, key: '404', tutorial});
+    res.status(200).render('login',{nonce: nonce, key: '404', header, tutorial});
 });
 
 app.get('/signup', async (req, res) => {
@@ -250,7 +262,35 @@ app.get('/signup', async (req, res) => {
     const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
         link: 'https://youtube.com/@AiDictionary-e2x',
     });
-    res.status(200).render('signup',{nonce: nonce, key: '404', tutorial});
+    const header = await ejs.renderFile('./views/header.ejs');
+    res.status(200).render('signup',{nonce: nonce, key: '404', header, tutorial});
+});
+
+app.post('/create_account', async (req, res) => {
+    const profile_info = req.body.info;
+    let id='';
+    try{
+        let memory = new Memory();
+        if(profile_info.type == 'student'){
+            memory.clusterName = 'student';
+            id = security.generateStudentId(profile_info.details);
+        }else if(profile_info.type == 'teacher'){
+            memory.clusterName = 'teacher';
+            id = security.generateTeacherId(profile_info.details);
+        }else{
+            return null;
+        }
+        profile_info.details.id = id;
+        let work = await memory.write(profile_info.details);
+        if(work==true){
+            res.status(200).json({'id': id});
+        }else{
+            res.status(200).json({'message': 'Profile is not create due to some error, please try again later'});
+        }
+    }catch{
+        console.log("Oops! you make some mistake to create a profile");
+        return null;
+    }
 });
 
 app.get('/deshboard', (req, res) => {

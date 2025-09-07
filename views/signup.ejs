@@ -26,17 +26,43 @@
     <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../public/App.css"/>
-    <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/login.css"/>
+    <link rel="stylesheet" href="../static/App.css"/>
+    <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/signup.css"/>
 </head>
 <body>
+    <%- header %>
     <main class="workspace flx">
-        <%- tutorial %>
+        <section class="account-type">
+            <h5>Create Your Account As</h5>
+            <div class="flx">
+                <div class="account-card" onclick="route('/signup/student');">
+                    <i class="fa fa-users"></i>
+                    <h6>A Student, looking for guidance</h6>
+                </div>
+                <div class="account-card" onclick="route('/signup/teacher');">
+                    <i class="fa fa-user-o"></i>
+                    <h6>A Teacher, looking for students</h6>
+                </div>
+                <div class="account-card">
+                    <i class="fa fa-building"></i>
+                    <h6>A Opportunities, seeking for job</h6>
+                </div>
+                <div class="account-card">
+                    <i class="fa fa-user-circle-o"></i>
+                    <h6>A Recruiter, looking for employees</h6>
+                </div>
+            </div>
+            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi corporis quam quidem maxime velit delectus perspiciatis nisi fugiat laboriosam quibusdam fugit, pariatur autem. Architecto exercitationem illum optio facilis ipsum nesciunt!</p>
+            <div class="flx btn-holder">
+                <div class="btn btn-outline-process" title="Return to the home page" onclick="route('/');"><i class="fa fa-arrow-left"></i> Back to Home</div>
+                <div class="btn btn-process" title="At first read about the account types and there role and permissions then come back to choose any account" onclick="route('/docs?search=account%20types');"><i class="fa fa-book"></i> Learn About It</div>
+            </div>
+        </section>
     </main>
+    <%- tutorial %>
 </body>
 <script src="../public/App.js" nonce="<%= nonce %>"></script>
 <script nonce="<%= nonce %>">
     window.captchaKey = "<%= key %>";
 </script>
-<script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/captcha.js" nonce="<%= nonce %>"></script>
 </html>
