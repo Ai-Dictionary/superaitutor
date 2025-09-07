@@ -122,6 +122,7 @@ html{
     100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
 }
 header{
+    display: none;
     height: 60px;
     background-color: var(--rblue);
 }
@@ -159,6 +160,9 @@ header{
     .alert{
         width: 95%;
     }
+    header{
+        display: block;
+    }
     .small-tutorial{
         bottom: 4%;
         left: 5%;
@@ -166,6 +170,9 @@ header{
 }
 /* Desktop view */
 @media only screen and (min-width: 481px) and (max-width: 767px) {
+    header{
+        display: block;
+    }
     .small-tutorial{
         bottom: -15%;
         margin-bottom: 20px;
@@ -173,6 +180,9 @@ header{
 }
 /* Tab view */
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
+    header{
+        display: block;
+    }
     .small-tutorial{
         top: 55%;
         height: fit-content;
