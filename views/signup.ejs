@@ -26,33 +26,61 @@
     <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../public/App.css"/>
-    <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/signup.css"/>
+    <link rel="stylesheet" href="../static/App.css"/>
+    <% if (isHosted) { %>
+        <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/signup.css"/>
+    <% } else { %>
+        <link rel="stylesheet" href="../assets/styles/signup.css"/>
+    <% } %>
 </head>
 <body>
     <%- header %>
-    <main class="workspace flx">
+    <main class="workspace flx" id="main">
         <section class="account-type">
             <h5>Create Your Account As</h5>
             <div class="flx">
-                <div class="account-card" onclick="route('/signup/student');">
-                    <i class="fa fa-users"></i>
-                    <h6>A Student, looking for guidance</h6>
+                <div class="account-card" onclick="accountType('student');">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-backpack3" viewBox="0 0 16 16">
+                        <path d="M4.04 7.43a4 4 0 0 1 7.92 0 .5.5 0 1 1-.99.14 3 3 0 0 0-5.94 0 .5.5 0 1 1-.99-.14M4 9.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm1 .5v3h6v-3h-1v.5a.5.5 0 0 1-1 0V10z"/>
+                        <path d="M6 2.341V2a2 2 0 1 1 4 0v.341c.465.165.904.385 1.308.653l.416-1.247a1 1 0 0 1 1.748-.284l.77 1.027a1 1 0 0 1 .15.917l-.803 2.407C13.854 6.49 14 7.229 14 8v5.5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5V8c0-.771.146-1.509.41-2.186l-.802-2.407a1 1 0 0 1 .15-.917l.77-1.027a1 1 0 0 1 1.748.284l.416 1.247A6 6 0 0 1 6 2.34ZM7 2v.083a6 6 0 0 1 2 0V2a1 1 0 1 0-2 0m5.941 2.595.502-1.505-.77-1.027-.532 1.595q.447.427.8.937M3.86 3.658l-.532-1.595-.77 1.027.502 1.505q.352-.51.8-.937M8 3a5 5 0 0 0-5 5v5.5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5V8a5 5 0 0 0-5-5"/>
+                    </svg>
+                    <h6>A <span>Student</span>, looking for guidance</h6>
                 </div>
-                <div class="account-card" onclick="route('/signup/teacher');">
-                    <i class="fa fa-user-o"></i>
-                    <h6>A Teacher, looking for students</h6>
+                <div class="account-card" onclick="accountType('teacher');">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
+                    </svg>
+                    <h6>A <span>Teacher</span>, looking for students</h6>
+                </div>
+                <div class="account-card" onclick="accountType('admin');">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                    </svg>
+                    <h6>An <span>Administator</span>, looking for managment</h6>
                 </div>
                 <div class="account-card">
-                    <i class="fa fa-building"></i>
-                    <h6>A Opportunities, seeking for job</h6>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person-vcard" viewBox="0 0 16 16">
+                        <path d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4m4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5M9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8m1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"/>
+                        <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96q.04-.245.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 1 1 12z"/>
+                    </svg>
+                    <h6>A <span>Creator</span>, looking for portfolio</h6>
                 </div>
                 <div class="account-card">
-                    <i class="fa fa-user-circle-o"></i>
-                    <h6>A Recruiter, looking for employees</h6>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                        <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+                    </svg>
+                    <h6>A <span>Opportunities</span>, seeking for job</h6>
+                </div>
+                <div class="account-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-buildings" viewBox="0 0 16 16">
+                        <path d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022M6 8.694 1 10.36V15h5zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5z"/>
+                        <path d="M2 11h1v1H2zm2 0h1v1H4zm-2 2h1v1H2zm2 0h1v1H4zm4-4h1v1H8zm2 0h1v1h-1zm-2 2h1v1H8zm2 0h1v1h-1zm2-2h1v1h-1zm0 2h1v1h-1zM8 7h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zM8 5h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zm0-2h1v1h-1z"/>
+                    </svg>
+                    <h6>A <span>Recruiter</span>, looking for employees</h6>
                 </div>
             </div>
-            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi corporis quam quidem maxime velit delectus perspiciatis nisi fugiat laboriosam quibusdam fugit, pariatur autem. Architecto exercitationem illum optio facilis ipsum nesciunt!</p>
+            <p class="text-muted">Please choose your SAIT account type carefully. You may create multiple accounts across different fields, but only one can be active at a time. This selection determines your invoice details and access permissions throughout the platform.</p>
             <div class="flx btn-holder">
                 <div class="btn btn-outline-process" title="Return to the home page" onclick="route('/');"><i class="fa fa-arrow-left"></i> Back to Home</div>
                 <div class="btn btn-process" title="At first read about the account types and there role and permissions then come back to choose any account" onclick="route('/docs?search=account%20types');"><i class="fa fa-book"></i> Learn About It</div>
@@ -61,8 +89,13 @@
     </main>
     <%- tutorial %>
 </body>
-<script src="../public/App.js" nonce="<%= nonce %>"></script>
+<script src="../static/App.js" nonce="<%= nonce %>"></script>
 <script nonce="<%= nonce %>">
     window.captchaKey = "<%= key %>";
 </script>
+<% if (isHosted) { %>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/signup.js" nonce="<%= nonce %>"></script>
+<% } else { %>
+    <script src="../assets/scripts/signup.js" nonce="<%= nonce %>"></script>
+<% } %>
 </html>

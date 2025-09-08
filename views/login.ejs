@@ -27,7 +27,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../static/App.css"/>
-    <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/login.css"/>
+    <% if (isHosted) { %>
+        <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/login.css"/>
+    <% } else { %>
+        <link rel="stylesheet" href="../assets/styles/login.css"/>
+    <% } %>
 </head>
 <body>
     <%- header %>
@@ -66,7 +70,7 @@
     </main>
     <%- tutorial %>
 </body>
-<script src="../public/App.js" nonce="<%= nonce %>"></script>
+<script src="../static/App.js" nonce="<%= nonce %>"></script>
 <script nonce="<%= nonce %>">
     window.captchaKey = "<%= key %>";
 </script>

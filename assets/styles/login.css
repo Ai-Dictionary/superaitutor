@@ -4,6 +4,9 @@ body{
 .flx section{
     width: 50%;
 }
+header{
+    display: none;
+}
 .left-component{
     padding: 40px 40px 0px 40px;
     user-select: none;
@@ -120,7 +123,7 @@ body{
         }
         .student_reading{
             width: 200px;
-            top: 8%;
+            top: 12%;
             left: 55%;
         }
     }
@@ -135,6 +138,24 @@ body{
 
 /* Tab view */
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .workspace{
+        flex-direction: column;
+    }
+    .left-component{
+        display: block;
+        .logo, .logo img{
+            width: 80px;
+            height: 80px;
+        }
+        .heading{
+            font-size: 40px;
+        }
+        .student_reading{
+            width: 300px;
+            top: 8%;
+            left: 55%;
+        }
+    }
     .right-component{
         .log-from{
             margin: 40px auto;

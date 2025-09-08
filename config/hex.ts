@@ -31,6 +31,17 @@ module.exports = {
             }
         }
     },
+    isLocalhost: (os) => {
+        const interfaces = os.networkInterfaces();
+        for (const name of Object.keys(interfaces)) {
+            for (const iface of interfaces[name]) {
+                if (iface.family === 'IPv4' && iface.internal === true) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
     mergeListToString: (singleImgBin) => {
         if (!Array.isArray(singleImgBin)) {
             throw new Error("Input must be an array");

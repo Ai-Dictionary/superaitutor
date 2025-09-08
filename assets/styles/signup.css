@@ -1,26 +1,39 @@
 .account-type{
     text-align: center;
     width: 70%;
-    margin: 5% auto;
+    margin: 3% auto;
+    .flx:has(.account-card){
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 20px;
+    }
     .flx .account-card{
         position: relative;
-        width: 18%;
+        /* width: 18%; */
         margin: 20px auto;
-        background-color: #fff;
+        /* background-color: #fff; */
+        background: var(--lavender);
         color: slategray;
         border-radius: 5px;
         text-align: center;
-        box-shadow: 0 0 4px 1px slategray;
+        /* box-shadow: 0 0 4px 1px slategray; */
         padding: 15px 10px 10px 10px;
         transition: 1s ease-in-out;
         cursor: pointer;
-        i{
+        i, svg{
             font-size: 80px;
             margin-bottom: 20px;
             color: var(--rblue);
         }
+        svg{
+            width: 80px;
+        }
+        span{
+            color: #000;
+        }
     }
-    .account-card:nth-last-child(1)::after, .account-card:nth-last-child(2)::after{
+    .account-card:nth-last-child(1)::after, .account-card:nth-last-child(2)::after, .account-card:nth-last-child(3)::after{
         content: "Lock";
         position: absolute;
         top: 0px;
@@ -35,7 +48,7 @@
         border-radius: 5px;
     }
     p{
-        margin-top: 40px!important;
+        margin-top: 15px!important;
         font-size: 12px;
     }
     .btn-holder{
@@ -62,7 +75,7 @@
                 width: 90%;
             }
         }
-        .account-card:nth-last-child(1)::after, .account-card:nth-last-child(2)::after{
+        .account-card:nth-last-child(1)::after, .account-card:nth-last-child(2)::after, .account-card:nth-last-child(3)::after{
             padding: 15% 0px;
         }
         .btn-holder{
@@ -78,12 +91,26 @@
         bottom: 2%;
         margin-bottom: 20px;
     }
+    .account-type{
+        .flx:has(.account-card){
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+    }
 }
 /* Tab view */
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .account-type{
-        .account-card:nth-last-child(1)::after, .account-card:nth-last-child(2)::after{
+        .account-card:nth-last-child(1)::after, .account-card:nth-last-child(2)::after, .account-card:nth-last-child(3)::after{
             padding: 5% 0px;
+        }
+        .flx:has(.account-card){
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
         }
     }
 }

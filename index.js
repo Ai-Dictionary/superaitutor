@@ -12,6 +12,7 @@ const helmet = require('helmet');
 const xss = require('xss-clean');
 const crypto = require('crypto');
 const cookieParser = require('cookie-parser');
+const os = require('os');
 let varchar, security, hex, Memory;
 try{
     varchar = require('./config/env-variables');
@@ -37,6 +38,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // app.use('/assets', express.static(path.join(__dirname,'assets'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
+if(hex.isLocalhost(os)){
+    app.use('/assets', express.static(path.join(__dirname, 'assets')));
+}
 app.use('/config', express.static(path.join(__dirname,'config')));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 //{
@@ -241,6 +245,7 @@ app.get('/', (req, res) => {
 
 app.get('/login', async (req, res) => {
     const nonce = res.locals.nonce;
+    const isHosted = hex.isHosted(req);
     const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
         link: 'https://youtube.com/@AiDictionary-e2x',
     });
@@ -253,16 +258,32 @@ app.get('/login', async (req, res) => {
             return res.status(200).redirect("/deshboard");
         }
     }
-    res.status(200).render('login',{nonce: nonce, key: '404', header, tutorial});
+    res.status(200).render('login',{nonce: nonce, key: '404', header, tutorial, isHosted});
 });
 
 app.get('/signup', async (req, res) => {
     const nonce = res.locals.nonce;
+    const isHosted = hex.isHosted(req);
     const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
         link: 'https://youtube.com/@AiDictionary-e2x',
     });
     const header = await ejs.renderFile('./views/header.ejs');
-    res.status(200).render('signup',{nonce: nonce, key: '404', header, tutorial});
+    res.status(200).render('signup',{nonce: nonce, key: '404', header, tutorial, isHosted});
+});
+
+app.get('/signup/student', async (req, res) => {
+    const filePath = path.join(__dirname, 'views', 'studentSignUp.ejs');
+    res.status(200).send({data: await ejs.renderFile(filePath)});
+});
+
+app.get('/signup/teacher', async (req, res) => {
+    const filePath = path.join(__dirname, 'views', 'studentSignUp.ejs');
+    res.status(200).send({data: await ejs.renderFile(filePath)});
+});
+
+app.get('/signup/admin', async (req, res) => {
+    const filePath = path.join(__dirname, 'views', 'studentSignUp.ejs');
+    res.status(200).send({data: await ejs.renderFile(filePath)});
 });
 
 app.post('/create_account', async (req, res) => {
