@@ -103,6 +103,7 @@ app.use(helmet.contentSecurityPolicy({
         "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com", "https://raw.githubusercontent.com"],
         "connect-src": [
             "'self'",
+            "https://maxcdn.bootstrapcdn.com",
             "wss://ws-us3.pusher.com",
             "https://ws-us3.pusher.com",
             "https://chsapi.vercel.app",
@@ -277,12 +278,12 @@ app.get('/signup/student', async (req, res) => {
 });
 
 app.get('/signup/teacher', async (req, res) => {
-    const filePath = path.join(__dirname, 'views', 'studentSignUp.ejs');
+    const filePath = path.join(__dirname, 'views', 'teacherSignUp.ejs');
     res.status(200).send({data: await ejs.renderFile(filePath)});
 });
 
 app.get('/signup/admin', async (req, res) => {
-    const filePath = path.join(__dirname, 'views', 'studentSignUp.ejs');
+    const filePath = path.join(__dirname, 'views', 'adminSignUp.ejs');
     res.status(200).send({data: await ejs.renderFile(filePath)});
 });
 

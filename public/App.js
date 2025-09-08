@@ -32,3 +32,25 @@ document.addEventListener("DOMContentLoaded",() => {
 function route(link){
     window.location.href = link;
 }
+
+function alertMessage(data){
+    try{
+        const alertId = "custom-alert";
+        const alertHTML = `
+            <section class="blbg" id="${alertId}">
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Error: ${data?.error} 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="document.getElementById('${alertId}').remove(); window.location.reload();">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h4>
+                    <p>${data?.message}</p>
+                    <hr>
+                    <p class="mb-0">If you see this message rapidly or unexpected way then please <a href="mailto:info.aidictionary24x7@gmail.com?subject=Unexpected%20Dialog%20popup%20coming%20in%20SAIT">contact us</a>.</p>
+                </div>
+            </section>`;
+        document.body.insertAdjacentHTML("beforeend", alertHTML);
+    }catch(e){
+        alert("Somthin went wrong! \n", e, String(data));
+    }
+}

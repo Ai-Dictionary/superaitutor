@@ -3,12 +3,13 @@ class SIGNUP{
         this.account_type = type;
     }
     async get_html_form(){
-        try {
+        try{
             const res = await fetch(`/signup/${this.account_type}`);
             const data = await res.json();
             return data;
-        } catch (err) {
+        }catch(err){
             console.error('Failed to load form:', err);
+            alertMessage({'error': 500, 'message': 'Oops! Something went wrong. Due to an internal issue, we couldn\'t load the required signup form. Please double-check your selected account type and try again sometime later.'});
             return null;
         }
     }
@@ -18,5 +19,8 @@ async function accountType(value){
     let html = await signup.get_html_form();
     if(html!=null){
         document.getElementById("main").innerHTML = html.data;
+        document.title = `Signup - ${value} - SuperAITutor`;
+    }else{
+        route('/signup');
     }
 }
