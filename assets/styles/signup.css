@@ -75,6 +75,10 @@
                 width: 90%;
             }
         }
+        .flx:has(.account-card){
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+        }
         .account-card:nth-last-child(1)::after, .account-card:nth-last-child(2)::after, .account-card:nth-last-child(3)::after{
             padding: 15% 0px;
         }
