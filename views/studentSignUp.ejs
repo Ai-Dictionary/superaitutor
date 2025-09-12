@@ -1,3 +1,640 @@
-<section class="account-form">
-    <h4>This is a student signup form</h4>
+<style>
+    .hire-form{
+        width: 95%;
+        margin: 20px auto;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .form-container{
+        width: 100%;
+        box-shadow: 0px 0px 4px 1px grey;
+        text-align: center;
+        border-radius: 5px;
+    }
+    .form-container .form-outer{
+        width: 100%;
+        overflow: hidden;
+        form{
+            display: flex;
+            width: 500%;
+            .page{
+                width: 20%;
+                padding-bottom: 10px;
+                transition: margin-left 0.3s ease-in-out;
+            }
+        }
+    }
+    .form-outer form .page .title{
+        text-align: left;
+        font-size: 20px;
+        font-weight: 500;
+        font-family: sans-serif;
+        color: #fff;
+        background: var(--rblue);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding: 10px 20px;
+        span{
+            text-align: right;
+            font-size: 14px;
+            font-weight: 600;
+            color: darkred;
+            margin: 0px 0px 0px 50%;
+        }
+    }
+    .form-group{
+        text-align: left;
+        padding: 10px 20px;
+        label{
+            color: var(--reverse-white);
+            transition: 1s ease-in-out;
+        }
+        input, select, textarea{
+            background: transparent;
+            transition: 1s ease-in-out;
+        }
+        textarea{
+            min-height: 60px;
+            max-height: 60px;
+            overflow: hidden;
+        }
+    }
+    .form-progress{
+        width: 500px;
+        display: flex;
+        margin: 40px auto;
+        user-select: none;
+    }
+    .form-progress .step{
+        text-align: center;
+        width: 100%;
+        position: relative;
+    }
+    .form-progress .step p{
+        font-weight: 500;
+        font-size: 16px;
+        color: lightgrey;
+        margin-bottom: 8px;
+    }
+    .form-progress .step .bullet{
+        height: 40px;
+        width: 40px;
+        border: 2px solid var(--rblue);
+        color: #1c6bac;
+        display: inline-block;
+        border-radius: 50%;
+        position: relative;
+        transition: 0.2s;
+        font-weight: 500;
+        font-size: 25px;
+        line-height: 32px;
+    }
+    .form-progress .step .bullet.active{
+        border-color: #0c8ff9;
+        background: var(--rblue);
+    }
+    .form-progress .step .bullet span{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .form-progress .step .bullet.active span{
+        display: none;
+    }
+    .form-progress .step .bullet:before,
+    .form-progress .step .bullet:after{
+        position: absolute;
+        content: '';
+        bottom: 16px;
+        right: -86px;
+        height: 3px;
+        width: 84px;
+        background: lightgray;
+    }
+    .form-progress .step .bullet.active:after{
+        background: slateblue;
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: animate 0.3s linear forwards;
+    }
+    @keyframes animate{
+        100%{
+            transform: scaleX(1);
+        }
+    }
+    .form-progress .step:last-child .bullet:before,
+    .form-progress .step:last-child .bullet:after{
+        display: none;
+    }
+    .form-progress .step p.active{
+        color: blue;
+        transition: 0.2s linear;
+    }
+    .form-progress .step .check{
+        position: absolute;
+        left: 50%;
+        top: 70%;
+        font-size: 15px;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
+    .form-progress .step .check.active{
+        display: block;
+        color: #fff!important;
+    }
+    @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px){
+        body{
+            overflow: auto;
+            #hire{
+                margin-bottom: 80px;
+            }
+        }
+        .form-progress{
+            width: 100%;
+        }
+        .form-progress .step p{
+            font-size: 12px;
+            .m-hide{
+                display: none;
+            }
+        }
+        .form-progress .step .bullet{
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            line-height: 24px;
+        }
+        .form-progress .step .bullet:before, .form-progress .step .bullet:after{
+            bottom: 12px;
+            right: -64px;
+            width: 62px;
+        }
+        .form-outer form .page .title span{
+            margin-left: 10%;
+        }
+        .form-outer form .page .row{
+            display: block;
+        }
+    }
+</style>
+<section id="hire" class="workspace">
+    <div class="form-progress">
+        <div class="step">
+            <p>Basic</p>
+            <div class="bullet">
+                <span>1</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Academic</p>
+            <div class="bullet">
+                <span>2</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Career</p>
+            <div class="bullet">
+                <span>3</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Submition</p>
+            <div class="bullet">
+                <span>4</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+    </div>
+    <div class="hire-form">
+        <div class="form-container">
+            <div class="form-outer">
+                <form>
+                    <div class="page slide-page" id="slidePage">
+                        <div class="title">Basic Information:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="userName">Full Name</label>
+                                    <input type="name" class="form-control" id="userName" aria-describedby="nameHelp" placeholder="Enter your full legal name" required />
+                                    <small id="nameHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select class="form-control" id="gender" required>
+                                        <option value="male">Male</option>
+                                        <option value="female" selected>Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <small id="nameHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" class="form-control" max="60" min="8" id="dob" aria-describedby="dobHelp" placeholder="dd-mm-yyyy" required />
+                                    <small id="dobHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="contact">Contact Number (WhatsApp Preferred)</label>
+                                    <input type="tel" class="form-control" maxlength="10" id="contact" aria-describedby="contactHelp" placeholder="Enter your contact number" required />
+                                    <small id="contactHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter your email id" required />
+                                    <small id="emailHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="address">Residential Address</label>
+                                    <input type="text" class="form-control" maxlength="30" id="address" aria-describedby="addressHelp" placeholder="Enter your current address" required />
+                                    <small id="addressHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="postoffice">Post Office</label>
+                                    <input type="postoffice" class="form-control" id="postoffice" aria-describedby="postofficeHelp" placeholder="Enter your nearest postoffice name" required />
+                                    <small id="postofficeHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" maxlength="30" id="city" aria-describedby="cityHelp" placeholder="Enter your current city" required />
+                                    <small id="cityHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="pin">PIN Code</label>
+                                    <input type="number" class="form-control" id="pin" maxlength="6" aria-describedby="pinHelp" placeholder="Enter your pin code" required />
+                                    <small id="pinHelp" class="form-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum fugiat natus quae? Itaque, aut sit!</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-process" id="firstNext" tabindex="0" data-next-step="1">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Academic Background:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="projName">Project Title / Name</label>
+                                    <input type="name" class="form-control" id="projName" aria-describedby="nameHelp"
+                                        placeholder="Brief and descriptive name of the project" required />
+                                    <small id="nameHelp" class="form-text text-muted">Summarizes your initiative by this
+                                        project name</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="projType">Project Type</label>
+                                    <select class="form-control" id="projType" required>
+                                        <option value="Fullstack">Full-Stack Web Development</option>
+                                        <option value="Frontend">Frontend Development</option>
+                                        <option value="Backend" selected>Backend Development</option>
+                                        <option value="API">API Development & Integration</option>
+                                        <option value="ML">Machine Learning / AI</option>
+                                        <option value="Data">Data Analysis / Dashboard Development</option>
+                                        <option value="Testing">Software Testing / QA</option>
+                                        <option value="Writing">Technical Writing / Documentation</option>
+                                        <option value="Automation">Automation Scripts / DevOps</option>
+                                        <option value="Consulting">Project Consultation / Architecture Design</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <small id="typeHelp" class="form-text text-muted">Helps me set technical
+                                        expectations</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="projDesc">Project Description</label>
+                            <textarea class="form-control" id="projDesc" rows="2" maxlength="200"
+                                aria-describedby="descHelp" required></textarea>
+                            <small id="descHelp" class="form-text text-muted">Keep it concise but informative under 2 to
+                                3 line</small>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="projStartTime">Expected Starting Date</label>
+                                    <input type="date" class="form-control" id="projStartTime"
+                                        aria-describedby="stimeHelp" placeholder="e.g. 01/01/1991" required />
+                                    <small id="stimeHelp" class="form-text text-muted">Timeline helps me plan
+                                        better</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="projEndTime">Expected Ending Date</label>
+                                    <input type="date" class="form-control" id="projEndTime"
+                                        aria-describedby="etimeHelp" placeholder="e.g. 01/01/1991" required />
+                                    <small id="etimeHelp" class="form-text text-muted">Timeline helps me plan
+                                        better</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-1 prev" data-prev-step="0">Previous</div>
+                        <div class="btn btn-outline-process next-1 next" data-next-step="2">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Career & Higher Education Interests:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="propRole">Proposed Role for Me</label>
+                                    <select class="form-control" id="propRole" required>
+                                        <option value="Fullstack">Full-Stack Web Developer</option>
+                                        <option value="Frontend">Frontend Developer</option>
+                                        <option value="Backend" selected>Backend Developer</option>
+                                        <option value="API">API Developer</option>
+                                        <option value="ML">Machine Learning Engineer</option>
+                                        <option value="Data">Data Analytics</option>
+                                        <option value="Tester">Tester / QA</option>
+                                        <option value="Writter">Technical Writter </option>
+                                        <option value="Automator">DevOps Engineer</option>
+                                        <option value="Consultent">Project Consultant</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <small id="typeHelp" class="form-text text-muted">Defines how I'll assist</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="workMode">Working Mode</label>
+                                    <select class="form-control" id="workMode" required>
+                                        <option value="Offline">Offline</option>
+                                        <option value="Online" selected>Online</option>
+                                        <option value="Hybrid">Hybrid</option>
+                                    </select>
+                                    <small id="typeHelp" class="form-text text-muted">Helps coordinate work
+                                        style</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="collabTime">Expected Collaboration Time</label>
+                                    <select class="form-control" id="collabTime" required>
+                                        <option value="1 day per week">1 day / week</option>
+                                        <option value="2 day per week">2 day / week</option>
+                                        <option value="3 day per week" selected>3 day / week</option>
+                                        <option value="4 day per week">4 day / week </option>
+                                        <option value="5 day per week">5 day / week</option>
+                                        <option value="6 day per week">6 day / week</option>
+                                        <option value="7 day per week">All day in every week</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <small id="typeHelp" class="form-text text-muted">If applicable, share the work
+                                        hours of every week</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="domHost">Domain & Hosting</label>
+                                    <select class="form-control" id="domHost" required>
+                                        <option value="Need but I don't have">Need but I don't have</option>
+                                        <option value="Need and I have" selected>Need and I have</option>
+                                        <option value="No need">No need</option>
+                                        <option value="others">Others</option>
+                                    </select>
+                                    <small id="typeHelp" class="form-text text-muted">Helps me to understand project
+                                        feasibility</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="teamMember">Team Members</label>
+                                    <select class="form-control" id="teamMember" required>
+                                        <option value="0-1">Only Me</option>
+                                        <option value="2-5" selected>2 to 5</option>
+                                        <option value="5-10">5 to 10</option>
+                                        <option value="10-20">10 to 20</option>
+                                        <option value="20-0">More then 20</option>
+                                    </select>
+                                    <small id="typeHelp" class="form-text text-muted">If applicable, share the team
+                                        size</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="teamLead">Team Lead</label>
+                                    <select class="form-control" id="teamLead" required>
+                                        <option value="No team members under me" selected>No team members under me
+                                        </option>
+                                        <option value="All team members report to me">All team members report to me
+                                        </option>
+                                        <option value="Some team members report to me">Some team members report to me
+                                        </option>
+                                    </select>
+                                    <small id="typeHelp" class="form-text text-muted">If applicable, please mention the
+                                        team lead.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-2 prev" data-prev-step="1">Previous</div>
+                        <div class="btn btn-outline-process next-2 next" data-next-step="3">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Final Submission:</div>
+                        <div class="row form-group" style="color: var(--reverse-white); text-align: left;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="iagree"
+                                    value="i agree" checked>
+                                <label class="form-check-label" for="iagree">I agree to the kidKrishkode's Terms and
+                                    Service</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <small class="text-muted" style="font-weight: 600; margin-top: 15px;color: #343a40;">
+                                    By checking this box, I hereby declare that I have thoroughly read and understood
+                                    the Terms of Service and Privacy Policy associated
+                                    with KidKrishkode (Krishnendu Mitra). I affirm that the information provided above
+                                    in the hiring form is accurate, complete, and submitted in good faith
+                                    based on my personal knowledge. I acknowledge that I am legally capable of entering
+                                    into this engagement, and I voluntarily choose to hire Mr. Krishnendu
+                                    Mitra for a personal, institutional, or organizational project, as applicable. I
+                                    confirm that I agree to all stated terms and conditions, and that I have
+                                    submitted this form with full awareness, clarity, and consent, without duress or
+                                    misrepresentation.</small>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-4 prev" data-prev-step="3">Previous</div>
+                        <div class="btn btn-outline-success next-4 submit">Save & Submit</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const slidePage = document.querySelector(".slide-page");
+    const progressText = document.querySelectorAll(".step p");
+    const progressCheck = document.querySelectorAll(".step .check");
+    const bullet = document.querySelectorAll(".step .bullet");
+    let current = 1;
+    
+    const nextBtns = document.querySelectorAll("[data-next-step]");
+    nextBtns.forEach(btn => {
+        btn.addEventListener("click", function (event) {
+            event.preventDefault();
+            const step = parseInt(btn.getAttribute("data-next-step"));
+            if(!validateCurrentPage(current - 1)){
+                return;
+            }
+            slidePage.style.marginLeft = `-${step * 20}%`;
+            bullet[current - 1].classList.add("active");
+            progressCheck[current - 1].classList.add("active");
+            progressText[current - 1].classList.add("active");
+            current += 1;
+        });
+    });
+
+    const prevBtns = document.querySelectorAll("[data-prev-step]");
+    prevBtns.forEach(btn => {
+        btn.addEventListener("click", function (event) {
+            event.preventDefault();
+            const step = parseInt(btn.getAttribute("data-prev-step"));
+            slidePage.style.marginLeft = `-${step * 20}%`;
+            bullet[current - 2].classList.remove("active");
+            progressCheck[current - 2].classList.remove("active");
+            progressText[current - 2].classList.remove("active");
+            current -= 1;
+        });
+    });
+
+    const submitBtn = document.querySelector(".submit");
+    submitBtn.addEventListener("click", function () {
+        const pages = document.querySelectorAll(".page");
+
+        let allValid = true;
+        const formData = {};
+
+        pages.forEach((page, index) => {
+            const isPageValid = validateCurrentPage(index);
+            if(!isPageValid){
+                pages[4].querySelector(".title").innerHTML += `<span>Page ${index + 1} is not filled out correctly.</span>`;
+                console.warn(`Page ${index + 1} is not filled out correctly.`);
+                allValid = false;
+            }else{
+                const fields = page.querySelectorAll("input, select, textarea");
+                fields.forEach(field => {
+                    const id = field.id;
+                    const value = field.value.trim();
+                    if(id){
+                        formData[id] = value;
+                    }
+                });
+            }
+        });
+
+        if (!allValid) return;
+
+        bullet[current - 1].classList.add("active");
+        progressCheck[current - 1].classList.add("active");
+        progressText[current - 1].classList.add("active");
+        current += 1;
+
+        console.log("All pages validated successfully!");
+        
+        (async()=>{
+            await make_request_to_hire(formData);
+        })();
+    });
+
+    function validateCurrentPage(stepIndex) {
+        const pages = document.querySelectorAll(".page");
+        const currentPage = pages[stepIndex];
+        const fields = currentPage.querySelectorAll("input, select, textarea");
+        let isValid = true;
+
+        currentPage.querySelector(".title").innerHTML = currentPage.querySelector(".title").innerHTML.replace("<span>Please complete all fields correctly before continuing</span>",'');
+
+        const regex = {
+            name: /^[a-zA-Z\s]{3,50}$/,
+            email: /^[\w.-]+@[\w.-]+\.\w{2,}$/,
+            url: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
+            textarea: /^(.{20,400})$/,
+            number: /^(?:[5-9][0-9]{2}|[1-9][0-9]{3,5}|10{5,6})$/,
+            text: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/
+        };
+
+        fields.forEach(field => {
+            const value = field.value.trim();
+            const type = field.type || field.tagName.toLowerCase();
+            const id = field.id;
+
+            let pass = false;
+
+            if(type === "name"){
+                pass = regex.name.test(value);
+            }else if (type === "email"){
+                pass = regex.email.test(value);
+            }else if (type === "url" || type === "link"){
+                pass = regex.url.test(value);
+            }else if (type === "select-one"){
+                pass = value !== "";
+            }else if (type === "textarea"){
+                pass = regex.textarea.test(value);
+            }else if (type === "date"){
+                pass = value !== "";
+            }else if (type === "text"){
+                pass = regex.text.test(value);
+            }else if (type === "number"){
+                pass = regex.number.test(value);
+            }else{
+                pass = value.length > 0;
+            }
+
+            field.classList.toggle("is-valid", pass);
+            field.classList.toggle("is-invalid", !pass);
+
+            if(!pass){
+                console.warn(`Invalid field: #${id} (${type}) – value entered: "${value}"`);
+                isValid = false;
+            }                                   
+        });
+        if(!isValid){
+            currentPage.querySelector(".title").innerHTML += "<span>Please complete all fields correctly before continuing</span>";
+            console.warn("Please complete all fields correctly before continuing.");
+        }
+        return isValid;
+    }
+
+});
+</script>

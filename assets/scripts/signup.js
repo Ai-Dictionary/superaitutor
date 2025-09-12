@@ -24,3 +24,13 @@ async function accountType(value){
         route('/signup');
     }
 }
+
+let params = new URL(window.location.href);
+let searchParams = new URLSearchParams(params.search);
+
+if(searchParams.has('type')){
+    let typeValue = searchParams.get('type');
+    (async () => {
+        await accountType(typeValue);
+    })();
+}
