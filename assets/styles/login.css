@@ -41,6 +41,7 @@ header{
         margin-top: 80px;
         h3{
             font-weight: bold;
+            user-select: none;
         }
         h5{
             margin-bottom: 50px;
@@ -61,6 +62,7 @@ header{
         .helping{
             margin: 10px 0px;
             padding: 10px;
+            user-select: none;
             span{
                 cursor: pointer;
             }

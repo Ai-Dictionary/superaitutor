@@ -40,7 +40,7 @@ function alertMessage(data){
             <section class="blbg" id="${alertId}">
                 <div class="alert alert-warning" role="alert">
                     <h4 class="alert-heading">Error: ${data?.error} 
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="document.getElementById('${alertId}').remove(); window.location.reload();">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="document.getElementById('${alertId}').remove(); ${data?.mute!=true ?'window.location.reload()':''};">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </h4>

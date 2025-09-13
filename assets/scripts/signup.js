@@ -20,6 +20,14 @@ async function accountType(value){
     if(html!=null){
         document.getElementById("main").innerHTML = html.data;
         document.title = `Signup - ${value} - SuperAITutor`;
+        const script = document.createElement('script');
+        script.id = 'dynamic-script';
+        script.type = 'text/javascript';
+        script.src = `${window.isHosted=='true'?'https://ai-dictionary.github.io/superaitutor':'..'}/assets/scripts/${value}SignUp.js`;
+        script.onload = () => console.log('Script loaded:', script.src);
+        script.onerror = () => console.error('Failed to load script:', script.src);
+
+        document.body.appendChild(script);
     }else{
         route('/signup');
     }

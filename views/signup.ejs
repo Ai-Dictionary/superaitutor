@@ -92,6 +92,7 @@
 <script src="../static/App.js" nonce="<%= nonce %>"></script>
 <script nonce="<%= nonce %>">
     window.captchaKey = "<%= key %>";
+    window.isHosted = "<%= isHosted %>";
 </script>
 <% if (isHosted) { %>
     <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/signup.js" nonce="<%= nonce %>"></script>
