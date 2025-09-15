@@ -8,6 +8,7 @@ class Loader{
             loaderEle.classList.add("loader");
             loaderEle.innerHTML = `<div class="centerDia"><div class="loading"></div></div>`;
             document.body.appendChild(loaderEle);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             document.body.style.overflowY = "hidden";
         }
     }

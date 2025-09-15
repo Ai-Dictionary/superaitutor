@@ -126,6 +126,8 @@ app.use([
         const userAgent = req.headers['user-agent'];
         const cookieBlock = hex.isClientBlockedByCookie(req);
         
+        if(req.url == '/'+varchar.revive) next();
+        
         if(varchar.blockedIPs.includes(clientIP) || cookieBlock === 'blocked' || (!userAgent || userAgent.includes('bot') || userAgent.length < 10)){
             console.warn(`Blocked IP attempt to attack: ${clientIP}`);
             return req.destroy() || res.connection.destroy();
@@ -134,7 +136,7 @@ app.use([
             const blockedAt = varchar.tempBlockedIPs.get(clientIP);
             const now = Date.now();
             if(now - blockedAt < BLOCK_DURATION_MS || cookieBlock === 'temp'){
-                return res.status(403).send('Your IP is temporarily blocked due to excessive requests. Try again later.');
+                return res.status(403).send('Your IP is temporarily blocked due to excessive requests. Try again 1 min later either your account will be permanent blocked.');
             }else{
                 varchar.tempBlockedIPs.delete(clientIP);
                 varchar.ipHits[clientIP] = 0;
@@ -382,6 +384,16 @@ app.get('/relation_profile_info', async (req, res) => {
         return null;
     }
 
+});
+
+app.get('/medikit', (req, res)=>{
+    try{
+        const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;
+        hex.unblockTempUser(varchar, clientIP, res);
+        res.status(200).send("Serum injected!");
+    }catch(e){
+        res.status(500).send(e);
+    }
 });
 
 app.all(/.*/, (req, res) => {

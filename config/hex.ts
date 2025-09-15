@@ -133,6 +133,13 @@ module.exports = {
             return false;
         }
     },
+    unblockTempUser: (varchar, clientIP, res) => {
+        if(varchar.tempBlockedIPs.has(clientIP)) {
+            varchar.tempBlockedIPs.delete(clientIP);
+        }
+        varchar.ipHits[clientIP] = 0;
+        module.exports.setBlockCookie(res, 'normal');
+    },
     foo:() => {
         return 0;
     }

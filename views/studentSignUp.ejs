@@ -22,7 +22,9 @@
             width: 500%;
             .page{
                 width: 20%;
+                height: fit-content;
                 padding-bottom: 10px;
+                background: #fff;
                 transition: margin-left 0.3s ease-in-out;
             }
         }
@@ -70,6 +72,22 @@
             min-height: 60px;
             max-height: 60px;
             overflow: hidden;
+        }
+        .table{
+            table-layout: fixed;
+            td, th{
+                word-wrap: break-word;
+                border: none;
+            }
+        }
+        .time-table input[type="radio"] {
+            display: none;
+        }
+        .time-table td.selected {
+            background: var(--lavender);
+            border-radius: 50px;
+            font-weight: bold;
+            border: 2px solid #fff;
         }
     }
     .form-progress{
@@ -140,7 +158,7 @@
         display: none;
     }
     .form-progress .step p.active{
-        color: blue;
+        color: #0c8ff9;
         transition: 0.2s linear;
     }
     .form-progress .step .check{
@@ -187,6 +205,23 @@
         }
         .form-outer form .page .row{
             display: block;
+        }
+    }
+    /* Desktop view */
+    @media only screen and (min-width: 481px) and (max-width: 767px) {
+        .form-progress .step p {
+            font-size: 16px;
+        }
+        .form-progress .step .bullet:before, .form-progress .step .bullet:after {
+            bottom: 12px;
+            right: -106px;
+            width: 104px;
+        }
+    }
+    /* Tab view */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        .form-progress{
+            width: 45%;
         }
     }
 </style>
@@ -319,58 +354,208 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="projName">Project Title / Name</label>
-                                    <input type="name" class="form-control" id="projName" aria-describedby="nameHelp"
-                                        placeholder="Brief and descriptive name of the project" required />
-                                    <small id="nameHelp" class="form-text text-muted">Summarizes your initiative by this
-                                        project name</small>
+                                    <label for="institutionName">Current Institution (School/College Name)</label>
+                                    <input type="text" class="form-control" id="institutionName" aria-describedby="institutionHelp" placeholder="Enter the name of your school or college" required />
+                                    <small id="institutionHelp" class="form-text text-muted">Please provide the full name of your current educational institution</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="projType">Project Type</label>
-                                    <select class="form-control" id="projType" required>
-                                        <option value="Fullstack">Full-Stack Web Development</option>
-                                        <option value="Frontend">Frontend Development</option>
-                                        <option value="Backend" selected>Backend Development</option>
-                                        <option value="API">API Development & Integration</option>
-                                        <option value="ML">Machine Learning / AI</option>
-                                        <option value="Data">Data Analysis / Dashboard Development</option>
-                                        <option value="Testing">Software Testing / QA</option>
-                                        <option value="Writing">Technical Writing / Documentation</option>
-                                        <option value="Automation">Automation Scripts / DevOps</option>
-                                        <option value="Consulting">Project Consultation / Architecture Design</option>
+                                    <label for="educationLevel">Education Level</label>
+                                    <select class="form-control" id="educationLevel" required>
+                                        <option value="primary_school">Primary School</option>
+                                        <option value="high_school">High School</option>
+                                        <option value="undergraduate" selected>Undergraduate</option>
+                                        <option value="postgraduate">Postgraduate</option>
+                                        <option value="doctorate">Doctorate / PhD</option>
+                                        <option value="diploma">Diploma / Certification</option>
                                         <option value="other">Other</option>
                                     </select>
-                                    <small id="typeHelp" class="form-text text-muted">Helps me set technical
-                                        expectations</small>
+                                    <small id="educationHelp" class="form-text text-muted">Helps us understand your academic background</small>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="projDesc">Project Description</label>
-                            <textarea class="form-control" id="projDesc" rows="2" maxlength="200"
-                                aria-describedby="descHelp" required></textarea>
-                            <small id="descHelp" class="form-text text-muted">Keep it concise but informative under 2 to
-                                3 line</small>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="projStartTime">Expected Starting Date</label>
-                                    <input type="date" class="form-control" id="projStartTime"
-                                        aria-describedby="stimeHelp" placeholder="e.g. 01/01/1991" required />
-                                    <small id="stimeHelp" class="form-text text-muted">Timeline helps me plan
-                                        better</small>
+                                    <label for="currentClass">Current Class</label>
+                                    <select class="form-control" id="currentClass" required>
+                                        <option value="6">Class 6</option>
+                                        <option value="7">Class 7</option>
+                                        <option value="8">Class 8</option>
+                                        <option value="9">Class 9</option>
+                                        <option value="10" selected>Class 10</option>
+                                        <option value="11">Class 11</option>
+                                        <option value="12">Class 12</option>
+                                        <option value="bachelor">Bachelor's Degree</option>
+                                        <option value="diploma">Diploma / Certification</option>
+                                        <option value="master">Master's Degree</option>
+                                        <option value="phd">PhD / Doctorate</option>
+                                        <option value="postdoc">Postdoctoral Research</option>
+                                        <option value="gap_year">Gap Year</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <small id="classHelp" class="form-text text-muted">Select your current academic class or program</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="projEndTime">Expected Ending Date</label>
-                                    <input type="date" class="form-control" id="projEndTime"
-                                        aria-describedby="etimeHelp" placeholder="e.g. 01/01/1991" required />
-                                    <small id="etimeHelp" class="form-text text-muted">Timeline helps me plan
-                                        better</small>
+                                    <label for="academicStream">Academic Stream / Major</label>
+                                    <select class="form-control" id="academicStream" required>
+                                        <option value="not_applicable">Not Applicable</option>
+                                        <option value="science" selected>Science</option>
+                                        <option value="commerce">Commerce</option>
+                                        <option value="arts">Arts / Humanities</option>
+                                        <option value="vocational">Vocational Studies</option>
+                                        <option value="engineering">Engineering (e.g., Mechanical, Electrical, Civil)</option>
+                                        <option value="computer_science">Computer Science / IT</option>
+                                        <option value="business">Business Administration / Management</option>
+                                        <option value="economics">Economics</option>
+                                        <option value="accounting">Accounting / Finance</option>
+                                        <option value="law">Law / Legal Studies</option>
+                                        <option value="medicine">Medicine / MBBS</option>
+                                        <option value="nursing">Nursing / Allied Health</option>
+                                        <option value="pharmacy">Pharmacy</option>
+                                        <option value="architecture">Architecture</option>
+                                        <option value="education">Education / B.Ed</option>
+                                        <option value="psychology">Psychology</option>
+                                        <option value="sociology">Sociology</option>
+                                        <option value="political_science">Political Science</option>
+                                        <option value="history">History</option>
+                                        <option value="literature">English / Literature</option>
+                                        <option value="media">Mass Communication / Journalism</option>
+                                        <option value="fine_arts">Fine Arts / Performing Arts</option>
+                                        <option value="agriculture">Agricultural Sciences</option>
+                                        <option value="environmental">Environmental Science</option>
+                                        <option value="statistics">Statistics / Mathematics</option>
+                                        <option value="foreign_languages">Foreign Languages</option>
+                                        <option value="hotel_management">Hotel Management / Hospitality</option>
+                                        <option value="fashion_design">Fashion Design</option>
+                                        <option value="interior_design">Interior Design</option>
+                                        <option value="animation">Animation / Multimedia</option>
+                                        <option value="culinary">Culinary Arts</option>
+                                        <option value="sports_science">Sports Science / Physical Education</option>
+                                        <option value="data_science">Data Science / AI / ML</option>
+                                        <option value="cybersecurity">Cybersecurity</option>
+                                        <option value="undecided">Undecided / Exploring Options</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <small id="streamHelp" class="form-text text-muted">Choose your current academic stream or major subject area</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="previousResults">Previous Academic Results</label>
+                                    <input type="number" class="form-control" id="previousResults" placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" required />
+                                    <small id="resultsHelp" class="form-text text-muted">
+                                        Enter your most recent academic scores or grades (e.g., board exam %, GPA, or class marks), We are consider previous class base on your current class
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="mediumInstruction">Preferred Medium of Instruction</label>
+                                    <select class="form-control" id="mediumInstruction" required>
+                                        <option value="english">English</option>
+                                        <option value="hindi">Hindi</option>
+                                        <option value="bengali" selected>Bengali</option>
+                                        <option value="urdu">Urdu</option>
+                                        <option value="odia">Odia</option>
+                                        <option value="sanskrit">Sanskrit</option>
+                                        <option value="multilingual">Multilingual / Bilingual</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <small id="mediumHelp" class="form-text text-muted">Choose the language of your board/exam council for learning and instruction</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="favouriteSubjects">Favourite Subjects</label>
+                                    <input type="text" class="form-control" id="favouriteSubjects" placeholder="e.g., Geography, English, Computer Science" required />
+                                    <small id="favouriteHelp" class="form-text text-muted">Write only one subjects you enjoy or excel in (only the first subject is acceptable in multi subject input)</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="difficultSubjects">Difficult Subjects</label>
+                                    <input type="text" class="form-control" id="difficultSubjects" placeholder="e.g., Mathematics, Chemistry, English" required />
+                                    <small id="difficultHelp" class="form-text text-muted">Mention the subjects you find challenging or need help with</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Time Availability for Study</label>
+                                    <table class="table time-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Day</th>
+                                            <th>7 AM - 9 AM</th>
+                                            <th>11 AM - 1 PM</th>
+                                            <th>3 PM - 5 PM</th>
+                                            <th>7 PM - 9 PM</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Monday</td>
+                                            <td data-day="monday" data-slot="morning"><input type="radio" name="mondaySlot" value="morning" />Morning</td>
+                                            <td data-day="monday" data-slot="noon" class="selected"><input type="radio" name="mondaySlot" value="noon" checked="true"/>Noon</td>
+                                            <td data-day="monday" data-slot="evening"><input type="radio" name="mondaySlot" value="evening" />Evening</td>
+                                            <td data-day="monday" data-slot="night"><input type="radio" name="mondaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tuesday</td>
+                                            <td data-day="tuesday" data-slot="morning"><input type="radio" name="tuesdaySlot" value="morning" />Morning</td>
+                                            <td data-day="tuesday" data-slot="noon"><input type="radio" name="tuesdaySlot" value="noon" />Noon</td>
+                                            <td data-day="tuesday" data-slot="evening" class="selected"><input type="radio" name="tuesdaySlot" value="evening" checked="true"/>Evening</td>
+                                            <td data-day="tuesday" data-slot="night"><input type="radio" name="tuesdaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Wednesday</td>
+                                            <td data-day="wednesday" data-slot="morning" class="selected"><input type="radio" name="wednesdaySlot" value="morning" checked="true"/>Morning</td>
+                                            <td data-day="wednesday" data-slot="noon"><input type="radio" name="wednesdaySlot" value="noon" />Noon</td>
+                                            <td data-day="wednesday" data-slot="evening"><input type="radio" name="wednesdaySlot" value="evening" />Evening</td>
+                                            <td data-day="wednesday" data-slot="night"><input type="radio" name="wednesdaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Thursday</td>
+                                            <td data-day="thursday" data-slot="morning"><input type="radio" name="thursdaySlot" value="morning" />Morning</td>
+                                            <td data-day="thursday" data-slot="noon" class="selected"><input type="radio" name="thursdaySlot" value="noon" checked="true"/>Noon</td>
+                                            <td data-day="thursday" data-slot="evening"><input type="radio" name="thursdaySlot" value="evening" />Evening</td>
+                                            <td data-day="thursday" data-slot="night"><input type="radio" name="thursdaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Friday</td>
+                                            <td data-day="friday" data-slot="morning"><input type="radio" name="fridaySlot" value="morning" />Morning</td>
+                                            <td data-day="friday" data-slot="noon"><input type="radio" name="fridaySlot" value="noon" />Noon</td>
+                                            <td data-day="friday" data-slot="evening"><input type="radio" name="fridaySlot" value="evening" />Evening</td>
+                                            <td data-day="friday" data-slot="night" class="selected"><input type="radio" name="fridaySlot" value="night" checked="true"/>Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Saturday</td>
+                                            <td data-day="saturday" data-slot="morning" class="selected"><input type="radio" name="saturdaySlot" value="morning" checked="true"/>Morning</td>
+                                            <td data-day="saturday" data-slot="noon"><input type="radio" name="saturdaySlot" value="noon" />Noon</td>
+                                            <td data-day="saturday" data-slot="evening"><input type="radio" name="saturdaySlot" value="evening" />Evening</td>
+                                            <td data-day="saturday" data-slot="night"><input type="radio" name="saturdaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sunday</td>
+                                            <td data-day="sunday" data-slot="morning"><input type="radio" name="sundaySlot" value="morning" />Morning</td>
+                                            <td data-day="sunday" data-slot="noon" class="selected"><input type="radio" name="sundaySlot" value="noon" checked="true"/>Noon</td>
+                                            <td data-day="sunday" data-slot="evening"><input type="radio" name="sundaySlot" value="evening" />Evening</td>
+                                            <td data-day="sunday" data-slot="night"><input type="radio" name="sundaySlot" value="night" />Night</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <small class="form-text text-muted">
+                                        Select your preferred study time slots for each day of the week, this time slot help you for connect with mentors and our ai
+                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -382,96 +567,103 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="propRole">Proposed Role for Me</label>
-                                    <select class="form-control" id="propRole" required>
-                                        <option value="Fullstack">Full-Stack Web Developer</option>
-                                        <option value="Frontend">Frontend Developer</option>
-                                        <option value="Backend" selected>Backend Developer</option>
-                                        <option value="API">API Developer</option>
-                                        <option value="ML">Machine Learning Engineer</option>
-                                        <option value="Data">Data Analytics</option>
-                                        <option value="Tester">Tester / QA</option>
-                                        <option value="Writter">Technical Writter </option>
-                                        <option value="Automator">DevOps Engineer</option>
-                                        <option value="Consultent">Project Consultant</option>
+                                    <label for="preferredClass">Preferred Class/Grade</label>
+                                    <select class="form-control" id="preferredClass" required>
+                                        <option value="current_class" selected>Current Class</option>
+                                        <option value="next_class">Next Class / Upcoming Grade</option>
+                                        <option value="grade_improvement">Grade Improvement / Repeat Year</option>
+                                        <option value="competitive_exam">Competitive Exam Preparation (e.g., NEET, JEE, UPSC)</option>
+                                        <option value="entrance_exam">Entrance Exam Target (e.g., CUET, CAT, GRE)</option>
+                                        <option value="bachelor_goal">Bachelor's Admission Goal</option>
+                                        <option value="master_goal">Master's Admission Goal</option>
+                                        <option value="phd_goal">PhD / Research Goal</option>
+                                        <option value="diploma_goal">Diploma / Certification Program</option>
+                                        <option value="professional_course">Professional Course (e.g., CA, CS, CMA)</option>
+                                        <option value="skill_development">Skill Development / Non-academic Learning</option>
                                         <option value="other">Other</option>
                                     </select>
-                                    <small id="typeHelp" class="form-text text-muted">Defines how I'll assist</small>
+                                    <small id="classHelp" class="form-text text-muted">Select the academic level or goal you're currently focused on</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="workMode">Working Mode</label>
-                                    <select class="form-control" id="workMode" required>
-                                        <option value="Offline">Offline</option>
-                                        <option value="Online" selected>Online</option>
-                                        <option value="Hybrid">Hybrid</option>
+                                    <label for="higherEdGoal">Intended Higher Education Goal</label>
+                                    <select class="form-control" id="higherEdGoal" required>
+                                        <option value="engineering">Engineering (e.g., B.Tech, BE)</option>
+                                        <option value="medicine">Medicine / Healthcare (e.g., MBBS, BDS, Nursing)</option>
+                                        <option value="management">Management / Business (e.g., BBA, MBA)</option>
+                                        <option value="law">Law / Legal Studies (e.g., LLB, BA-LLB)</option>
+                                        <option value="science">Pure Sciences (e.g., B.Sc, M.Sc)</option>
+                                        <option value="arts">Arts / Humanities (e.g., BA, MA)</option>
+                                        <option value="commerce">Commerce / Finance (e.g., B.Com, M.Com)</option>
+                                        <option value="computer_science">Computer Science / IT</option>
+                                        <option value="design">Design / Architecture (e.g., B.Des, B.Arch)</option>
+                                        <option value="education">Education / Teaching (e.g., B.Ed, M.Ed)</option>
+                                        <option value="data_science">Data Science / AI / Machine Learning</option>
+                                        <option value="media">Mass Communication / Journalism</option>
+                                        <option value="hospitality">Hotel Management / Hospitality</option>
+                                        <option value="fashion">Fashion / Interior Design</option>
+                                        <option value="agriculture">Agriculture / Environmental Studies</option>
+                                        <option value="sports">Sports / Physical Education</option>
+                                        <option value="undecided" selected>Undecided / Exploring Options</option>
+                                        <option value="other">Other</option>
                                     </select>
-                                    <small id="typeHelp" class="form-text text-muted">Helps coordinate work
-                                        style</small>
+                                    <small class="form-text text-muted">
+                                        Choose the field you're aiming to pursue in higher education
+                                    </small>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="collabTime">Expected Collaboration Time</label>
-                                    <select class="form-control" id="collabTime" required>
-                                        <option value="1 day per week">1 day / week</option>
-                                        <option value="2 day per week">2 day / week</option>
-                                        <option value="3 day per week" selected>3 day / week</option>
-                                        <option value="4 day per week">4 day / week </option>
-                                        <option value="5 day per week">5 day / week</option>
-                                        <option value="6 day per week">6 day / week</option>
-                                        <option value="7 day per week">All day in every week</option>
+                                    <label for="examPrep">Competitive Exams Preparing For</label>
+                                    <select class="form-control" id="examPrep" required>
+                                        <option value="board_exam">Board Exams (10th / 12th)</option>
+                                        <option value="cuet">CUET (Central University Entrance Test)</option>
+                                        <option value="jee">JEE (Joint Entrance Exam)</option>
+                                        <option value="neet">NEET (Medical Entrance)</option>
+                                        <option value="upsc">UPSC (Civil Services)</option>
+                                        <option value="ssc">SSC (Staff Selection Commission)</option>
+                                        <option value="railway">Railway Recruitment Exams</option>
+                                        <option value="banking">Banking Exams (IBPS, SBI PO, etc.)</option>
+                                        <option value="state_psc">State PSC Exams</option>
+                                        <option value="cat">CAT (MBA Entrance)</option>
+                                        <option value="gmat">GMAT</option>
+                                        <option value="gre">GRE</option>
+                                        <option value="toefl">TOEFL / IELTS</option>
+                                        <option value="none" selected>Not Preparing for Any Exam</option>
                                         <option value="other">Other</option>
                                     </select>
-                                    <small id="typeHelp" class="form-text text-muted">If applicable, share the work
-                                        hours of every week</small>
+                                    <small class="form-text text-muted">Select the exam(s) you're currently preparing for or planning to attempt</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="domHost">Domain & Hosting</label>
-                                    <select class="form-control" id="domHost" required>
-                                        <option value="Need but I don't have">Need but I don't have</option>
-                                        <option value="Need and I have" selected>Need and I have</option>
-                                        <option value="No need">No need</option>
-                                        <option value="others">Others</option>
+                                    <label for="careerGoal">Career Aspirations</label>
+                                    <select class="form-control" id="careerGoal" required>
+                                        <option value="software_engineer">Software Engineer / Developer</option>
+                                        <option value="data_scientist">Data Scientist / AI Specialist</option>
+                                        <option value="civil_engineer">Civil / Mechanical / Electrical Engineer</option>
+                                        <option value="doctor">Doctor / Surgeon</option>
+                                        <option value="nurse">Nurse / Paramedic</option>
+                                        <option value="pharmacist">Pharmacist</option>
+                                        <option value="civil_services">Civil Services (IAS, IPS, IFS)</option>
+                                        <option value="defense">Defense / Armed Forces</option>
+                                        <option value="police">Police / Law Enforcement</option>
+                                        <option value="entrepreneur">Entrepreneur / Startup Founder</option>
+                                        <option value="manager">Corporate Manager / Consultant</option>
+                                        <option value="accountant">Accountant / Financial Analyst</option>
+                                        <option value="researcher">Researcher / Scientist</option>
+                                        <option value="professor">Professor / Academic</option>
+                                        <option value="teacher">School Teacher / Educator</option>
+                                        <option value="designer">Designer / Architect</option>
+                                        <option value="journalist">Journalist / Media Professional</option>
+                                        <option value="artist">Artist / Performer</option>
+                                        <option value="not_decided" selected>Not Decided Yet</option>
+                                        <option value="other">Other</option>
                                     </select>
-                                    <small id="typeHelp" class="form-text text-muted">Helps me to understand project
-                                        feasibility</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="teamMember">Team Members</label>
-                                    <select class="form-control" id="teamMember" required>
-                                        <option value="0-1">Only Me</option>
-                                        <option value="2-5" selected>2 to 5</option>
-                                        <option value="5-10">5 to 10</option>
-                                        <option value="10-20">10 to 20</option>
-                                        <option value="20-0">More then 20</option>
-                                    </select>
-                                    <small id="typeHelp" class="form-text text-muted">If applicable, share the team
-                                        size</small>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="teamLead">Team Lead</label>
-                                    <select class="form-control" id="teamLead" required>
-                                        <option value="No team members under me" selected>No team members under me
-                                        </option>
-                                        <option value="All team members report to me">All team members report to me
-                                        </option>
-                                        <option value="Some team members report to me">Some team members report to me
-                                        </option>
-                                    </select>
-                                    <small id="typeHelp" class="form-text text-muted">If applicable, please mention the
-                                        team lead.</small>
+                                    <small class="form-text text-muted">Choose the career path you're aiming for or currently exploring</small>
                                 </div>
                             </div>
                         </div>

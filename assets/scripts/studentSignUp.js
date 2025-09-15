@@ -17,6 +17,9 @@ function Student_listener(){
             bullet[current - 1].classList.add("active");
             progressCheck[current - 1].classList.add("active");
             progressText[current - 1].classList.add("active");
+            setTimeout(()=>{
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },1000);
             current += 1;
         });
     });
@@ -30,6 +33,9 @@ function Student_listener(){
             bullet[current - 2].classList.remove("active");
             progressCheck[current - 2].classList.remove("active");
             progressText[current - 2].classList.remove("active");
+            setTimeout(()=>{
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },1000);
             current -= 1;
         });
     });
@@ -75,7 +81,7 @@ function Student_listener(){
     });
 
     function validateCurrentPage(stepIndex) {
-        // return true;
+        return true;
         const pages = document.querySelectorAll(".page");
         const currentPage = pages[stepIndex];
         const fields = currentPage.querySelectorAll("input, select, textarea");
@@ -137,4 +143,20 @@ function Student_listener(){
 
 }
 
+document.querySelectorAll('.time-table td[data-day]').forEach(td => {
+    td.addEventListener('click', () => {
+        const day = td.getAttribute('data-day');
+        const rowTds = document.querySelectorAll(`td[data-day="${day}"]`);
+
+        rowTds.forEach(cell => cell.classList.remove('selected'));
+
+        td.classList.add('selected');
+
+        const radio = td.querySelector('input[type="radio"]');
+        if (radio) radio.checked = true;
+    });
+});
+
+
 Student_listener();
+
