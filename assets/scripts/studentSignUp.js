@@ -81,7 +81,7 @@ function Student_listener(){
     });
 
     function validateCurrentPage(stepIndex) {
-        return true;
+        // return true;
         const pages = document.querySelectorAll(".page");
         const currentPage = pages[stepIndex];
         const fields = currentPage.querySelectorAll("input, select, textarea");
