@@ -1,230 +1,4 @@
-<style>
-    .hire-form{
-        width: 95%;
-        margin: 20px auto;
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
-    .form-container{
-        width: 100%;
-        box-shadow: 0px 0px 4px 1px grey;
-        text-align: center;
-        border-radius: 5px;
-    }
-    .form-container .form-outer{
-        width: 100%;
-        overflow: hidden;
-        form{
-            display: flex;
-            width: 500%;
-            .page{
-                width: 20%;
-                height: fit-content;
-                padding-bottom: 10px;
-                background: #fff;
-                transition: margin-left 0.3s ease-in-out;
-            }
-        }
-    }
-    .form-outer form .page .title{
-        text-align: left;
-        font-size: 20px;
-        font-weight: 500;
-        font-family: sans-serif;
-        color: #fff;
-        background: var(--rblue);
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        padding: 10px 20px;
-        span{
-            text-align: right;
-            font-size: 14px;
-            font-weight: 600;
-            color: palevioletred;
-            margin: 0px 0px 0px 50%;
-            animation: blink 2s linear infinite;
-        }
-    }
-    @keyframes blink{
-        0%{
-            color: palevioletred;
-        }50%{
-            color: white;
-        }100%{
-            color: yellowgreen;
-        }
-    }
-    .form-group{
-        text-align: left;
-        padding: 10px 20px;
-        label{
-            color: var(--reverse-white);
-            transition: 1s ease-in-out;
-        }
-        input, select, textarea{
-            background: transparent;
-            transition: 1s ease-in-out;
-        }
-        textarea{
-            min-height: 60px;
-            max-height: 60px;
-            overflow: hidden;
-        }
-        .table{
-            table-layout: fixed;
-            td, th{
-                word-wrap: break-word;
-                border: none;
-            }
-        }
-        .time-table input[type="radio"] {
-            display: none;
-        }
-        .time-table td.selected {
-            background: var(--lavender);
-            border-radius: 50px;
-            font-weight: bold;
-            border: 2px solid #fff;
-        }
-    }
-    .form-progress{
-        width: 500px;
-        display: flex;
-        margin: 40px auto;
-        user-select: none;
-    }
-    .form-progress .step{
-        text-align: center;
-        width: 100%;
-        position: relative;
-    }
-    .form-progress .step p{
-        font-weight: 500;
-        font-size: 16px;
-        color: lightgrey;
-        margin-bottom: 8px;
-    }
-    .form-progress .step .bullet{
-        height: 40px;
-        width: 40px;
-        border: 2px solid var(--rblue);
-        color: #1c6bac;
-        display: inline-block;
-        border-radius: 50%;
-        position: relative;
-        transition: 0.2s;
-        font-weight: 500;
-        font-size: 25px;
-        line-height: 32px;
-    }
-    .form-progress .step .bullet.active{
-        border-color: #0c8ff9;
-        background: var(--rblue);
-    }
-    .form-progress .step .bullet span{
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    .form-progress .step .bullet.active span{
-        display: none;
-    }
-    .form-progress .step .bullet:before,
-    .form-progress .step .bullet:after{
-        position: absolute;
-        content: '';
-        bottom: 16px;
-        right: -86px;
-        height: 3px;
-        width: 84px;
-        background: lightgray;
-    }
-    .form-progress .step .bullet.active:after{
-        background: slateblue;
-        transform: scaleX(0);
-        transform-origin: left;
-        animation: animate 0.3s linear forwards;
-    }
-    @keyframes animate{
-        100%{
-            transform: scaleX(1);
-        }
-    }
-    .form-progress .step:last-child .bullet:before,
-    .form-progress .step:last-child .bullet:after{
-        display: none;
-    }
-    .form-progress .step p.active{
-        color: #0c8ff9;
-        transition: 0.2s linear;
-    }
-    .form-progress .step .check{
-        position: absolute;
-        left: 50%;
-        top: 70%;
-        font-size: 15px;
-        transform: translate(-50%, -50%);
-        display: none;
-    }
-    .form-progress .step .check.active{
-        display: block;
-        color: #fff!important;
-    }
-    @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px){
-        body{
-            overflow: auto;
-            #hire{
-                margin-bottom: 80px;
-            }
-        }
-        .form-progress{
-            width: 100%;
-        }
-        .form-progress .step p{
-            font-size: 12px;
-            .m-hide{
-                display: none;
-            }
-        }
-        .form-progress .step .bullet{
-            width: 30px;
-            height: 30px;
-            font-size: 20px;
-            line-height: 24px;
-        }
-        .form-progress .step .bullet:before, .form-progress .step .bullet:after{
-            bottom: 12px;
-            right: -64px;
-            width: 62px;
-        }
-        .form-outer form .page .title span{
-            margin-left: 10%;
-        }
-        .form-outer form .page .row{
-            display: block;
-        }
-    }
-    /* Desktop view */
-    @media only screen and (min-width: 481px) and (max-width: 767px) {
-        .form-progress .step p {
-            font-size: 16px;
-        }
-        .form-progress .step .bullet:before, .form-progress .step .bullet:after {
-            bottom: 12px;
-            right: -106px;
-            width: 104px;
-        }
-    }
-    /* Tab view */
-    @media only screen and (min-width: 768px) and (max-width: 1024px) {
-        .form-progress{
-            width: 45%;
-        }
-    }
-</style>
+<style></style>
 <section id="hire" class="workspace">
     <div class="form-progress">
         <div class="step">
@@ -266,7 +40,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="userName">Full Name</label>
-                                    <input type="name" class="form-control" id="userName" aria-describedby="nameHelp" placeholder="Enter your full name" required />
+                                    <input type="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter your full name" required />
                                     <small id="nameHelp" class="form-text text-muted">Please enter your full name as it appears on official documents. This helps us verify your identity and keep your account secure.</small>
                                 </div>
                             </div>
@@ -289,7 +63,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="dob">Date of Birth</label>
-                                    <input type="date" class="form-control" max="60" min="8" id="dob" aria-describedby="dobHelp" placeholder="dd-mm-yyyy" required />
+                                    <input type="date" class="form-control" id="dob" max="60" min="8" id="dob" aria-describedby="dobHelp" placeholder="dd-mm-yyyy" required />
                                     <small id="dobHelp" class="form-text text-muted">Please enter your date of birth in the format dd-mm-yyyy. You must be between 8 and 60 years old to register.</small>
                                 </div>
                             </div>
@@ -298,7 +72,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="contact">Contact Number (WhatsApp Preferred)</label>
-                                    <input type="tel" class="form-control" maxlength="10" id="contact" aria-describedby="contactHelp" placeholder="Enter your contact number" required />
+                                    <input type="tel" class="form-control" id="contact" maxlength="10" id="contact" aria-describedby="contactHelp" placeholder="Enter your contact number" required />
                                     <small id="contactHelp" class="form-text text-muted">Enter a valid 10-digit mobile number. Preferably one linked to WhatsApp for faster communication and updates.</small>
                                 </div>
                             </div>
@@ -314,7 +88,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="address">Residential Address</label>
-                                    <input type="text" class="form-control" maxlength="30" id="address" aria-describedby="addressHelp" placeholder="Enter your current address" required />
+                                    <input type="text" class="form-control" id="address" maxlength="30" id="address" aria-describedby="addressHelp" placeholder="Enter your current address" required />
                                     <small id="addressHelp" class="form-text text-muted">Enter your current residential address. This helps us determine your eligibility and provide location-based support if needed.</small>
                                 </div>
                             </div>
@@ -323,7 +97,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="postoffice">Post Office</label>
-                                    <input type="postoffice" class="form-control" id="postoffice" aria-describedby="postofficeHelp" placeholder="Enter your nearest postoffice name" required />
+                                    <input type="postoffice" class="form-control" aria-describedby="postofficeHelp" placeholder="Enter your nearest postoffice name" required />
                                     <small id="postofficeHelp" class="form-text text-muted">Provide the name of your nearest post office. This is useful for connecting teachers and facilitating correspondence.</small>
                                 </div>
                             </div>
@@ -347,6 +121,47 @@
                                 
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="parentName">Parent's Full Name</label>
+                                    <input type="text" class="form-control" id="parent_name" placeholder="Enter your parent's full name" required />
+                                    <small id="parentNameHelp" class="form-text text-muted">Please enter the full name of your parent or guardian as listed on official documents.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="relationship">Relationship with Parent</label>
+                                    <select class="form-control" id="relationship" required>
+                                        <option value="father" selected>Father</option>
+                                        <option value="mother">Mother</option>
+                                        <option value="grandfather">Grandfather</option>
+                                        <option value="grandmother">Grandmother</option>
+                                        <option value="uncle">Uncle</option>
+                                        <option value="aunt">Aunt</option>
+                                        <option value="brother">Brother</option>
+                                        <option value="sister">Sister</option>
+                                        <option value="husband">Husband</option>
+                                        <option value="legal_guardian">Legal Guardian</option>
+                                        <option value="foster_parent">Foster Parent</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <small id="relationshipHelp" class="form-text text-muted">Choose the relationship that best describes your connection to the listed parent or guardian.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="parentContact">Parent's Contact Number (WhatsApp Preferred)</label>
+                                    <input type="tel" class="form-control" id="parent_contact" maxlength="10" placeholder="Enter parent's contact number" required />
+                                    <small id="parentContactHelp" class="form-text text-muted">Enter a valid 10-digit mobile number. Preferably one linked to WhatsApp for faster communication.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+
+                            </div>
+                        </div>
                         <div class="btn btn-outline-process" id="firstNext" tabindex="0" data-next-step="1">Save & Next</div>
                     </div>
                     <div class="page">
@@ -355,14 +170,14 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="institutionName">Current Institution (School/College Name)</label>
-                                    <input type="text" class="form-control" id="institutionName" aria-describedby="institutionHelp" placeholder="Enter the name of your school or college" required />
+                                    <input type="text" class="form-control" id="institute" aria-describedby="institutionHelp" placeholder="Enter the name of your school or college" required />
                                     <small id="institutionHelp" class="form-text text-muted">Please provide the full name of your current educational institution</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="educationLevel">Education Level</label>
-                                    <select class="form-control" id="educationLevel" required>
+                                    <select class="form-control" id="level" required>
                                         <option value="primary_school">Primary School</option>
                                         <option value="high_school">High School</option>
                                         <option value="undergraduate" selected>Undergraduate</option>
@@ -379,7 +194,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="currentClass">Current Class</label>
-                                    <select class="form-control" id="currentClass" required>
+                                    <select class="form-control" id="class" required>
                                         <option value="6">Class 6</option>
                                         <option value="7">Class 7</option>
                                         <option value="8">Class 8</option>
@@ -401,7 +216,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="academicStream">Academic Stream / Major</label>
-                                    <select class="form-control" id="academicStream" required>
+                                    <select class="form-control" id="stream" required>
                                         <option value="not_applicable">Not Applicable</option>
                                         <option value="science" selected>Science</option>
                                         <option value="commerce">Commerce</option>
@@ -448,7 +263,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="previousResults">Previous Academic Results</label>
-                                    <input type="number" class="form-control" id="previousResults" placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" required />
+                                    <input type="number" class="form-control" id="results" placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" required />
                                     <small id="resultsHelp" class="form-text text-muted">
                                         Enter your most recent academic scores or grades (e.g., board exam %, GPA, or class marks), We are consider previous class base on your current class
                                     </small>
@@ -457,7 +272,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="mediumInstruction">Preferred Medium of Instruction</label>
-                                    <select class="form-control" id="mediumInstruction" required>
+                                    <select class="form-control" id="medium" required>
                                         <option value="english">English</option>
                                         <option value="hindi">Hindi</option>
                                         <option value="bengali" selected>Bengali</option>
@@ -475,14 +290,14 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="favouriteSubjects">Favourite Subjects</label>
-                                    <input type="text" class="form-control" id="favouriteSubjects" placeholder="e.g., Geography, English, Computer Science" required />
+                                    <input type="text" class="form-control" id="fav_subject" placeholder="e.g., Geography, English, Computer Science" required />
                                     <small id="favouriteHelp" class="form-text text-muted">Write only one subjects you enjoy or excel in (only the first subject is acceptable in multi subject input)</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="difficultSubjects">Difficult Subjects</label>
-                                    <input type="text" class="form-control" id="difficultSubjects" placeholder="e.g., Mathematics, Chemistry, English" required />
+                                    <input type="text" class="form-control" id="diff_subjects" placeholder="e.g., Mathematics, Chemistry, English" required />
                                     <small id="difficultHelp" class="form-text text-muted">Mention the subjects you find challenging or need help with</small>
                                 </div>
                             </div>
@@ -568,7 +383,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="preferredClass">Preferred Class/Grade</label>
-                                    <select class="form-control" id="preferredClass" required>
+                                    <select class="form-control" id="pref_class" required>
                                         <option value="current_class" selected>Current Class</option>
                                         <option value="next_class">Next Class / Upcoming Grade</option>
                                         <option value="grade_improvement">Grade Improvement / Repeat Year</option>
@@ -588,7 +403,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="higherEdGoal">Intended Higher Education Goal</label>
-                                    <select class="form-control" id="higherEdGoal" required>
+                                    <select class="form-control" id="goal" required>
                                         <option value="engineering">Engineering (e.g., B.Tech, BE)</option>
                                         <option value="medicine">Medicine / Healthcare (e.g., MBBS, BDS, Nursing)</option>
                                         <option value="management">Management / Business (e.g., BBA, MBA)</option>
@@ -618,7 +433,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="examPrep">Competitive Exams Preparing For</label>
-                                    <select class="form-control" id="examPrep" required>
+                                    <select class="form-control" id="exam_prep" required>
                                         <option value="board_exam">Board Exams (10th / 12th)</option>
                                         <option value="cuet">CUET (Central University Entrance Test)</option>
                                         <option value="jee">JEE (Joint Entrance Exam)</option>
@@ -629,6 +444,7 @@
                                         <option value="banking">Banking Exams (IBPS, SBI PO, etc.)</option>
                                         <option value="state_psc">State PSC Exams</option>
                                         <option value="cat">CAT (MBA Entrance)</option>
+                                        <option value="gate">GATE</option>
                                         <option value="gmat">GMAT</option>
                                         <option value="gre">GRE</option>
                                         <option value="toefl">TOEFL / IELTS</option>
@@ -641,7 +457,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="careerGoal">Career Aspirations</label>
-                                    <select class="form-control" id="careerGoal" required>
+                                    <select class="form-control" id="career" required>
                                         <option value="software_engineer">Software Engineer / Developer</option>
                                         <option value="data_scientist">Data Scientist / AI Specialist</option>
                                         <option value="civil_engineer">Civil / Mechanical / Electrical Engineer</option>
@@ -676,7 +492,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="favouriteColor">What is your favourite color</label>
-                                    <input type="color" class="form-control" id="favouriteColor" value="#0c8ff9" placeholder="e.g., Blue, Red, #000" required />
+                                    <input type="color" class="form-control" id="fav_color" value="#0c8ff9" placeholder="e.g., Blue, Red, #000" required />
                                     <small class="form-text text-muted">
                                         Mention the color you like most, this information is use for your account security purpose.
                                     </small>
@@ -685,7 +501,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="favouriteBook">What is your favourite book</label>
-                                    <input type="text" class="form-control" id="favouriteBook" placeholder="e.g., The Alchemist, Harry Potter" required />
+                                    <input type="text" class="form-control" id="fav_book" maxlength="30" placeholder="e.g., The Alchemist, Harry Potter" required />
                                     <small class="form-text text-muted">
                                         Share the book that inspires or entertains you the most, this information is use for your account security purpose.
                                     </small>
@@ -696,7 +512,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="createPassword">Create Password</label>
-                                    <input type="password" class="form-control" id="createPassword" placeholder="Enter a secure password" required />
+                                    <input type="password" class="form-control" id="pass" placeholder="Enter a secure password" required />
                                     <small class="form-text text-muted">
                                         Use at least 8 characters with a mix of letters, numbers, and symbols. Remeber this password for your account access key.
                                     </small>

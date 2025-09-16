@@ -67,18 +67,40 @@ function Student_listener(){
         });
 
         if (!allValid) return;
-
-        bullet[current - 1].classList.add("active");
-        progressCheck[current - 1].classList.add("active");
-        progressText[current - 1].classList.add("active");
-        current += 1;
+        try{
+            bullet[current - 1].classList.add("active");
+            progressCheck[current - 1].classList.add("active");
+            progressText[current - 1].classList.add("active");
+            current += 1;
+        }catch{
+            console.log("Again fill");
+        }
 
         console.log("All pages validated successfully!");
-        
+        // console.log(formData);
         (async()=>{
-            await make_request_to_hire(formData);
+            delete formData.iagree;
+            delete formData.confirmPassword;
+            formData.accountType = "student";
+            await make_request_to_signup(formData);
         })();
     });
+
+    const regex = {
+        name: /^[a-zA-Z\s]{3,50}$/,
+        email: /^[\w.-]+@[\w.-]+\.\w{2,}$/,
+        url: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
+        textarea: /^(.{20,400})$/,
+        text: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/,
+        dob: /^\d{4}-\d{2}-\d{2}$/,
+        contact: /^[6-9]\d{9}$/,
+        address: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/,
+        pin: /^\d{6}$/,
+        gpa: /^(10(\.0{1,2})?|[0-9](\.\d{1,2})?)$/,
+        percentage: /^(100(\.0{1,2})?|[0-9]{1,2}(\.\d{1,2})?)$/,
+        subjectList: /^[A-Za-z\s]+(,\s*[A-Za-z\s]+)*$/,
+        password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^+=])[A-Za-z\d@$!%*#?&^+=]{8,}$/,
+    };
 
     function validateCurrentPage(stepIndex) {
         // return true;
@@ -89,50 +111,14 @@ function Student_listener(){
 
         currentPage.querySelector(".title").innerHTML = currentPage.querySelector(".title").innerHTML.replace("<span>Please ensure that all fields are completed accurately before proceeding</span>",'');
 
-        const regex = {
-            name: /^[a-zA-Z\s]{3,50}$/,
-            email: /^[\w.-]+@[\w.-]+\.\w{2,}$/,
-            url: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
-            textarea: /^(.{20,400})$/,
-            number: /^(?:[5-9][0-9]{2}|[1-9][0-9]{3,5}|10{5,6})$/,
-            text: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/
-        };
-
         fields.forEach(field => {
-            const value = field.value.trim();
-            const type = field.type || field.tagName.toLowerCase();
-            const id = field.id;
-
-            let pass = false;
-
-            if(type === "name"){
-                pass = regex.name.test(value);
-            }else if (type === "email"){
-                pass = regex.email.test(value);
-            }else if (type === "url" || type === "link"){
-                pass = regex.url.test(value);
-            }else if (type === "select-one"){
-                pass = value !== "";
-            }else if (type === "textarea"){
-                pass = regex.textarea.test(value);
-            }else if (type === "date"){
-                pass = value !== "";
-            }else if (type === "text"){
-                pass = regex.text.test(value);
-            }else if (type === "number"){
-                pass = regex.number.test(value);
-            }else{
-                pass = value.length > 0;
-            }
-
-            field.classList.toggle("is-valid", pass);
-            field.classList.toggle("is-invalid", !pass);
-
-            if(!pass){
-                console.warn(`Invalid field: #${id} (${type}) – value entered: "${value}"`);
+            const pass = validateField(field);
+            if (!pass) {
+                console.warn(`Invalid field: #${field.id} (${field.type}) - value entered: "${field.value.trim()}"`);
                 isValid = false;
-            }                                   
+            }
         });
+
         if(!isValid){
             currentPage.querySelector(".title").innerHTML += "<span>Please ensure that all fields are completed accurately before proceeding</span>";
             console.warn("Please ensure that all fields are completed accurately before proceeding.");
@@ -140,6 +126,53 @@ function Student_listener(){
         }
         return isValid;
     }
+    function validateField(field) {
+        const value = field.value.trim();
+        const type = field.type || field.tagName.toLowerCase();
+        const id = field.id;
+
+        let pass = false;
+
+        if (id === "name" || type === "name"){
+            pass = regex.name.test(value);
+        }else if (id === "dob"){
+            if (regex.dob.test(value)){
+                const birthYear = new Date(value).getFullYear();
+                const age = new Date().getFullYear() - birthYear;
+                pass = age >= 8 && age <= 60;
+            }
+        }else if (id === "contact" || type==="tel"){
+            pass = regex.contact.test(value);
+        }else if (id === "address"){
+            pass = regex.address.test(value);
+        }else if (type === "text"){
+            pass = regex.text.test(value);
+        }else if (id === "pin"){
+            pass = regex.pin.test(value);
+        }else if (id === "results"){
+            pass = regex.gpa.test(value) || regex.percentage.test(value);
+        }else if (id === "fav_subjects" || id === "diff_subjects"){
+            pass = regex.subjectList.test(value);
+        }else if (id === "pass"){
+            pass = regex.password.test(value);
+        }else if (id === "confirmPassword"){
+            const password = document.getElementById("pass")?.value.trim();
+            pass = value === password && regex.password.test(value);
+        }else if (type === "select-one" || type === "date"){
+            pass = value !== "";
+        }else{
+            pass = value.length > 0;
+        }
+
+        field.classList.toggle("is-valid", pass);
+        field.classList.toggle("is-invalid", !pass);
+        return pass;
+    }
+    document.querySelectorAll("input, select, textarea").forEach(field => {
+        field.addEventListener("input", () => {
+            validateField(field);
+        });
+    });
 
 }
 

@@ -171,9 +171,9 @@ module.exports = {
         const parentAsciiSum = parentFirst.charCodeAt(0) + parentLast.charCodeAt(0);
         const p = parentAsciiSum.toString().slice(-1);
 
-        const dd = String(this.getTodayDate()).split("-")[0];
+        const dd = String(module.exports.getTodayDate()).split("-")[0];
 
-        const signupYear = String(this.getTodayDate()).split("-")[2];
+        const signupYear = String(module.exports.getTodayDate()).split("-")[2];
         const yy = signupYear.split("").reduce((sum, digit) => sum + parseInt(digit), 0).toString().padStart(2, "0");
 
         const numericPart = `${x}${y}${zzz}${n}${p}${dd}${yy}`;
@@ -204,9 +204,9 @@ module.exports = {
 
         const s = (subject.trim()[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
 
-        const dd = String(this.getTodayDate()).split("-")[0];
+        const dd = String(module.exports.getTodayDate()).split("-")[0];
 
-        const signupYear = String(this.getTodayDate()).split("-")[2];
+        const signupYear = String(module.exports.getTodayDate()).split("-")[2];
         const yy = signupYear.split("").reduce((sum, digit) => sum + parseInt(digit), 0).toString().padStart(2, "0");
 
         const numericPart = `${ff}${ll}${zzz}${n}${s}${dd}${yy}`;

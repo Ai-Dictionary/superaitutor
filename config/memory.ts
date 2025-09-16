@@ -134,6 +134,10 @@ class MEMORY{
                 if(['rate', 'relationship'].includes(this.clusterName)){
                     return row._rawData[sheet.headerValues.indexOf('id')] === id;
                 }else{
+                    console.log(row._rawData[sheet.headerValues.indexOf('email')] === newData.email , 
+                            row._rawData[sheet.headerValues.indexOf('contact')] === newData.contact , 
+                            row._rawData[sheet.headerValues.indexOf('id')].replace("@", "") === id.replace("@", ""));
+
                     return row._rawData[sheet.headerValues.indexOf('email')] === newData.email || 
                             row._rawData[sheet.headerValues.indexOf('contact')] === newData.contact || 
                             row._rawData[sheet.headerValues.indexOf('id')].replace("@", "") === id.replace("@", "");
@@ -152,7 +156,7 @@ class MEMORY{
             }
             
             await sheet.addRow(newData);
-            return true;
+            return {"id": id};
         }catch(e){
             console.error("Error occure when try to writting on sheet:", e);
             return {"status": 2};

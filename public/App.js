@@ -55,3 +55,21 @@ function alertMessage(data){
         alert("Somthin went wrong! \n", e, String(data));
     }
 }
+
+function substitutionEncoder(plain_txt, key){
+        const vocabulary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
+        let cipher = "";
+        key = key.repeat(Math.ceil(plain_txt.length / key.length));
+
+        for(let i = 0; i < plain_txt.length; i++){
+            let plain_txtIndex = vocabulary.indexOf(plain_txt[i]);
+            let keyIndex = vocabulary.indexOf(key[i]);
+            if(plain_txtIndex !== -1 && keyIndex !== -1){
+                let newIndex = (plain_txtIndex + keyIndex) % vocabulary.length;
+                cipher += vocabulary[newIndex];
+            } else {
+                cipher += plain_txt[i];
+            }
+        }
+        return cipher;
+}

@@ -1,0 +1,276 @@
+.hire-form {
+    width: 95%;
+    margin: 20px auto;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.form-container {
+    width: 100%;
+    box-shadow: 0px 0px 4px 1px grey;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.form-container .form-outer {
+    width: 100%;
+    overflow: hidden;
+
+    form {
+        display: flex;
+        width: 500%;
+
+        .page {
+            width: 20%;
+            height: fit-content;
+            padding-bottom: 10px;
+            background: #fff;
+            transition: margin-left 0.3s ease-in-out;
+        }
+    }
+}
+
+.form-outer form .page .title {
+    text-align: left;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: sans-serif;
+    color: #fff;
+    background: var(--rblue);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 10px 20px;
+
+    span {
+        text-align: right;
+        font-size: 14px;
+        font-weight: 600;
+        color: palevioletred;
+        margin: 0px 0px 0px 50%;
+        animation: blink 2s linear infinite;
+    }
+}
+
+@keyframes blink {
+    0% {
+        color: palevioletred;
+    }
+
+    50% {
+        color: white;
+    }
+
+    100% {
+        color: yellowgreen;
+    }
+}
+
+.form-group {
+    text-align: left;
+    padding: 10px 20px;
+
+    label {
+        color: var(--reverse-white);
+        transition: 1s ease-in-out;
+    }
+
+    input,
+    select,
+    textarea {
+        background: transparent;
+        transition: 1s ease-in-out;
+    }
+
+    textarea {
+        min-height: 60px;
+        max-height: 60px;
+        overflow: hidden;
+    }
+
+    .table {
+        table-layout: fixed;
+
+        td,
+        th {
+            word-wrap: break-word;
+            border: none;
+        }
+    }
+
+    .time-table input[type="radio"] {
+        display: none;
+    }
+
+    .time-table td.selected {
+        background: var(--lavender);
+        border-radius: 50px;
+        font-weight: bold;
+        border: 2px solid #fff;
+    }
+}
+
+.form-progress {
+    width: 500px;
+    display: flex;
+    margin: 40px auto;
+    user-select: none;
+}
+
+.form-progress .step {
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+
+.form-progress .step p {
+    font-weight: 500;
+    font-size: 16px;
+    color: lightgrey;
+    margin-bottom: 8px;
+}
+
+.form-progress .step .bullet {
+    height: 40px;
+    width: 40px;
+    border: 2px solid var(--rblue);
+    color: #1c6bac;
+    display: inline-block;
+    border-radius: 50%;
+    position: relative;
+    transition: 0.2s;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 32px;
+}
+
+.form-progress .step .bullet.active {
+    border-color: #0c8ff9;
+    background: var(--rblue);
+}
+
+.form-progress .step .bullet span {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.form-progress .step .bullet.active span {
+    display: none;
+}
+
+.form-progress .step .bullet:before,
+.form-progress .step .bullet:after {
+    position: absolute;
+    content: '';
+    bottom: 16px;
+    right: -86px;
+    height: 3px;
+    width: 84px;
+    background: lightgray;
+}
+
+.form-progress .step .bullet.active:after {
+    background: slateblue;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: animate 0.3s linear forwards;
+}
+
+@keyframes animate {
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+.form-progress .step:last-child .bullet:before,
+.form-progress .step:last-child .bullet:after {
+    display: none;
+}
+
+.form-progress .step p.active {
+    color: #0c8ff9;
+    transition: 0.2s linear;
+}
+
+.form-progress .step .check {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.form-progress .step .check.active {
+    display: block;
+    color: #fff !important;
+}
+
+@media only screen and (max-width: 900px),
+only screen and (min-width: 900px) and (max-width: 1200px) {
+    body {
+        overflow: auto;
+
+        #hire {
+            margin-bottom: 80px;
+        }
+    }
+
+    .form-progress {
+        width: 100%;
+    }
+
+    .form-progress .step p {
+        font-size: 12px;
+
+        .m-hide {
+            display: none;
+        }
+    }
+
+    .form-progress .step .bullet {
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .form-progress .step .bullet:before,
+    .form-progress .step .bullet:after {
+        bottom: 12px;
+        right: -64px;
+        width: 62px;
+    }
+
+    .form-outer form .page .title span {
+        margin-left: 10%;
+    }
+
+    .form-outer form .page .row {
+        display: block;
+    }
+}
+
+/* Desktop view */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    .form-progress .step p {
+        font-size: 16px;
+    }
+
+    .form-progress .step .bullet:before,
+    .form-progress .step .bullet:after {
+        bottom: 12px;
+        right: -106px;
+        width: 104px;
+    }
+}
+
+/* Tab view */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .form-progress {
+        width: 45%;
+    }
+}

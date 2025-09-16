@@ -1,40 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Dynamic Script Loader</title>
-</head>
-<body>
-  <button onclick="loadScript(0)">Load A.js</button>
-  <button onclick="loadScript(1)">Load B.js</button>
-
-  <script>
-    function loadScript(choice) {
-      const oldScript = document.getElementById('dynamic-script');
-      if (oldScript) {
-        oldScript.remove();
-      }
-
-      const script = document.createElement('script');
-      script.id = 'dynamic-script';
-      script.type = 'text/javascript';
-
-      // Set the correct source
-      if (choice === 0) {
-        script.src = '/assets/a.js';
-      } else if (choice === 1) {
-        script.src = '/assets/b.js';
-      } else {
-        console.error('Invalid choice:', choice);
-        return;
-      }
-
-      // Optional: Add load/error handlers for debugging
-      script.onload = () => console.log('Script loaded:', script.src);
-      script.onerror = () => console.error('Failed to load script:', script.src);
-
-      // Append to document
-      document.body.appendChild(script);
-    }
-  </script>
-</body>
-</html>
+address: "Mitra Bishram"
+career: "not_decided"
+city: "North 24 Parganas"
+class: "10"
+confirmPassword: "@Mitra2003"
+contact: "9876543210"
+diff_subjects: "Mathemetics"
+dob: "2017-09-16"
+email: "krishnendumitra24@gmail.com"
+exam_prep: "none"
+fav_book: "Harry Poter"
+fav_color: "#0c8ff9"
+fav_subject: "Comic, and manga"
+gender: "male"
+goal: "undecided"
+iagree: "i agree"
+institute: "Camellia Inst"
+level: "undergraduate"
+medium: "bengali"
+name: "Krish"
+parent_contact: "9876543210"
+parent_name: "Dibyendu Mitra"
+pass: "@Mitra2003"
+pin: "700159"
+pref_class: "current_class"
+relationship: "father"
+results: "8.2"
+stream: "science"

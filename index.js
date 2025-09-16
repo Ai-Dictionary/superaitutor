@@ -127,7 +127,7 @@ app.use([
         const cookieBlock = hex.isClientBlockedByCookie(req);
         
         if(req.url == '/'+varchar.revive) next();
-        
+
         if(varchar.blockedIPs.includes(clientIP) || cookieBlock === 'blocked' || (!userAgent || userAgent.includes('bot') || userAgent.length < 10)){
             console.warn(`Blocked IP attempt to attack: ${clientIP}`);
             return req.destroy() || res.connection.destroy();
@@ -140,6 +140,8 @@ app.use([
             }else{
                 varchar.tempBlockedIPs.delete(clientIP);
                 varchar.ipHits[clientIP] = 0;
+                hex.setBlockCookie(res, 'normal');
+                // next();
             }
         }
         if(Object.keys(varchar.ipHits).length >= 10000 && !varchar.ipHits[clientIP]){
@@ -158,7 +160,7 @@ app.use([
             varchar.tempBlockedIPs.delete(clientIP);
             delete varchar.ipHits[clientIP];
             hex.setBlockCookie(res, 'blocked');
-            return res.status(403).send('Access denied, client ip is blocked due to past history of mal-practices!');
+            return res.status(403).send('Access denied, client ip is permanent blocked due to past history of mal-practices! , don\'t try again other wise you even not hit our site also, So wait for a day.');
         }
         next();
     }
@@ -246,6 +248,10 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/varchar', (req, res) => {
+    res.status(200).json(varchar);
+})
+
 app.get('/login', async (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
@@ -296,24 +302,41 @@ app.post('/create_account', async (req, res) => {
         let memory = new Memory();
         if(profile_info.type == 'student'){
             memory.clusterName = 'student';
-            id = security.generateStudentId(profile_info.details);
+            // id = security.generateStudentId(profile_info.details);
         }else if(profile_info.type == 'teacher'){
             memory.clusterName = 'teacher';
-            id = security.generateTeacherId(profile_info.details);
+            // id = security.generateTeacherId(profile_info.details);
         }else{
             return null;
         }
-        profile_info.details.id = id;
+        // profile_info.details.id = id;
+        console.log(profile_info.details);
         let work = await memory.write(profile_info.details);
-        if(work==true){
-            res.status(200).json({'id': id});
+        if(work?.id){
+            res.status(200).json({'id': work.id});
+        }else if(work?.status){
+            res.status(200).json({'message': jsonfile.readFileSync('./config/error_log.json')[work.status]});
         }else{
             res.status(200).json({'message': 'Profile is not create due to some error, please try again later'});
         }
-    }catch{
-        console.log("Oops! you make some mistake to create a profile");
+    }catch(e){
+        console.log("Oops! you make some mistake to create a profile\n\n", e);
         return null;
     }
+});
+
+app.get('/accountCreated', async (req, res) => {
+    const nonce = res.locals.nonce;
+    
+    const queryParams = new URLSearchParams(req.url.split('?')[1]);
+    const name = queryParams.get('name') || '';
+    const id = queryParams.get('id') || '';
+    const email = queryParams.get('email') || '';
+    const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
+        link: 'https://youtube.com/@AiDictionary-e2x',
+    });
+    const header = await ejs.renderFile('./views/header.ejs');
+    res.status(200).render('accountCreated',{nonce: nonce, header, tutorial, id, email, name});
 });
 
 app.get('/deshboard', (req, res) => {
@@ -390,6 +413,7 @@ app.get('/medikit', (req, res)=>{
     try{
         const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;
         hex.unblockTempUser(varchar, clientIP, res);
+        hex.unblockBlockUser(varchar, clientIP, res);
         res.status(200).send("Serum injected!");
     }catch(e){
         res.status(500).send(e);
