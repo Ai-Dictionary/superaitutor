@@ -44,7 +44,7 @@ function login(){
             }).then(response => response.json()).then(data => {
                 if(data?.success){
                     passwordField.value = "";
-                    window.location.href = '/deshboard';
+                    window.location.href = '/dashboard';
                 }else{
                     alertMessage(data);
                     // window.location.href = '/login';

@@ -114,9 +114,9 @@ module.exports = {
         try{
             let props;
             if(profile_info.id.startsWith('UID')){
-                props = ['emergency_contact', 'relevent_certificate', 'job_status', 'previous_institute', 'familiar', 'fav_color', 'fav_book', 'amount', 'as_stud'];
+                props = ['emergency_contact', 'relevent_certificate', 'job_status', 'previous_institute', 'familiar', 'fav_color', 'fav_book', 'amount', 'as_stud', 'status'];
             }else if(profile_info.id.startsWith('AID')){
-                props = ['contact', 'address', 'parent_contact', 'previous_institute', 'fav_color', 'fav_book', 'amount', 'as_tech'];
+                props = ['contact', 'address', 'parent_contact', 'previous_institute', 'fav_color', 'fav_book', 'amount', 'as_tech', 'status'];
             }else{
                 return null;
             }

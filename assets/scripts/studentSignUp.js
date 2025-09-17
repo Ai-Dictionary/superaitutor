@@ -82,6 +82,8 @@ function Student_listener(){
             delete formData.iagree;
             delete formData.confirmPassword;
             formData.accountType = "student";
+            formData.time = JSON.stringify(getSelectedTimeSlotsCompact());
+            formData.status = "active";
             await make_request_to_signup(formData);
         })();
     });
@@ -189,6 +191,27 @@ document.querySelectorAll('.time-table td[data-day]').forEach(td => {
         if (radio) radio.checked = true;
     });
 });
+
+function getSelectedTimeSlotsCompact(){
+    const dayMap = [
+        "monday", "tuesday", "wednesday", "thursday",
+        "friday", "saturday", "sunday"
+    ];
+    const slotMap = {
+        morning: 0,
+        noon: 1,
+        evening: 2,
+        night: 3
+    };
+    const selectedSlots = {};
+    dayMap.forEach((day, index) => {
+        const selected = document.querySelector(`td[data-day="${day}"].selected input[type="radio"]`);
+        if (selected) {
+        selectedSlots[index] = slotMap[selected.value];
+        }
+    });
+    return selectedSlots;
+}
 
 
 Student_listener();

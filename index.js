@@ -339,30 +339,34 @@ app.get('/accountCreated', async (req, res) => {
     res.status(200).render('accountCreated',{nonce: nonce, header, tutorial, id, email, name, isHosted});
 });
 
-app.get('/deshboard', async (req, res) => {
-    const token = req.cookies.auth_token;
-    if(token){
-        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
-        let [id, expiry] = encripted_info.split("-");
-        if(Date.now() < expiry){
-            let memory = new Memory();
-            if(String(id).startsWith('AID')){
-                memory.clusterName = 'student';
-            }else if(String(id).startsWith('UID')){
-                memory.clusterName = 'teacher';
-            }else{
-                return null;
-            }
-            let profile_info = await memory.find_profile(id);
-            profile_info.bg = hex.generateBGColor(profile_info.name);
-            profile_info = hex.profile_setup(profile_info);
+app.get('/dashboard', async (req, res) => {
+    try{
+        const token = req.cookies.auth_token;
+        if(token){
+            const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+            let [id, expiry] = encripted_info.split("-");
+            if(Date.now() < expiry){
+                let memory = new Memory();
+                if(String(id).startsWith('AID')){
+                    memory.clusterName = 'student';
+                }else if(String(id).startsWith('UID')){
+                    memory.clusterName = 'teacher';
+                }else{
+                    return null;
+                }
+                let profile_info = await memory.find_profile(id);
+                profile_info.bg = hex.generateBGColor(profile_info.name);
+                profile_info = hex.profile_setup(profile_info);
 
-            res.status(200).send(`<section style="text-align: center; margin: 10% auto; font-family: sans-serif;"><h1>Welcome User (${id}) nice to meet you!</h1><p>Currently we can\'t provide you a web interface, because SAIT is under develoment, hope you understand.</p><pre style="text-align: left;">${JSON.stringify(profile_info, null, 2)}</pre></section>`);
+                res.status(200).send(`<section style="text-align: center; margin: 10% auto; font-family: sans-serif;"><h1>Welcome User (${id}) nice to meet you!</h1><p>Currently we can\'t provide you a web interface, because SAIT is under develoment, hope you understand.</p><pre style="text-align: left;">${JSON.stringify(profile_info, null, 2)}</pre></section>`);
+            }else{
+                res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>Session Expired!</h2><p>Please login again, because your Identity card is now expired when check it.<a href="/login">Login</a></p></div>');
+            }
         }else{
-            res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>Session Expired!</h2><p>Please login again, because your Identity card is now expired when check it.<a href="/login">Login</a></p></div>');
+            res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>We are not get your Identity Card</h2><p>Please login on SAIT at first then use this feature.<br>But if you are already login and still show this error then please contact us.<br><a href="/login">Login</a></p></div>');
         }
-    }else{
-        res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>We are not get your Identity Card</h2><p>Please login on SAIT at first then use this feature.<br>But if you are already login and still show this error then please contact us.<br><a href="/login">Login</a></p></div>');
+    }catch(e){
+        res.status(400).redirect('/notfound',{error: 500, message: "Unauthorize entry not allow, check the source or report it", statement: e});
     }
 });
 
