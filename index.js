@@ -221,7 +221,7 @@ app.post('/auth', async (req, res) => {
     if(profile_info?.status!=3 && profile_info && Object.keys(profile_info).length > 0){
         if((profile_info.id === email || profile_info.email === email) && profile_info.pass === password){
             const expiryTime = Date.now() + 30 * 60 * 1000;
-            const tokenPayload = JSON.stringify({ token: security.substitutionEncoder(String(email+'-'+expiryTime), 'security') });
+            const tokenPayload = JSON.stringify({ token: security.substitutionEncoder(String(profile_info.id+'-'+expiryTime), 'security') });
 
             res.cookie('auth_token', tokenPayload, {
                 maxAge: 30 * 60 * 1000,
@@ -302,15 +302,11 @@ app.post('/create_account', async (req, res) => {
         let memory = new Memory();
         if(profile_info.type == 'student'){
             memory.clusterName = 'student';
-            // id = security.generateStudentId(profile_info.details);
         }else if(profile_info.type == 'teacher'){
             memory.clusterName = 'teacher';
-            // id = security.generateTeacherId(profile_info.details);
         }else{
             return null;
         }
-        // profile_info.details.id = id;
-        console.log(profile_info.details);
         let work = await memory.write(profile_info.details);
         if(work?.id){
             res.status(200).json({'id': work.id});
@@ -327,25 +323,41 @@ app.post('/create_account', async (req, res) => {
 
 app.get('/accountCreated', async (req, res) => {
     const nonce = res.locals.nonce;
-    
-    const queryParams = new URLSearchParams(req.url.split('?')[1]);
-    const name = queryParams.get('name') || '';
-    const id = queryParams.get('id') || '';
-    const email = queryParams.get('email') || '';
+    const isHosted = hex.isHosted(req);
+    let queryParams = new URLSearchParams(decodeURIComponent(req.originalUrl).split('?')[1]);
+    if(queryParams.has('encode')){
+        let decoded_url = security.substitutionDecoder(decodeURIComponent(req.originalUrl).split('?encode=')[1], String(varchar.public_key));
+        queryParams = new URLSearchParams(decoded_url);
+    }
+    const name = queryParams.get('name') || 'user';
+    const id = queryParams.get('id') || 'Private ID';
+    const email = queryParams.get('email') || 'Private Email';
     const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
         link: 'https://youtube.com/@AiDictionary-e2x',
     });
     const header = await ejs.renderFile('./views/header.ejs');
-    res.status(200).render('accountCreated',{nonce: nonce, header, tutorial, id, email, name});
+    res.status(200).render('accountCreated',{nonce: nonce, header, tutorial, id, email, name, isHosted});
 });
 
-app.get('/deshboard', (req, res) => {
+app.get('/deshboard', async (req, res) => {
     const token = req.cookies.auth_token;
     if(token){
         const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
-        let expiry = encripted_info.split("-")[1];
+        let [id, expiry] = encripted_info.split("-");
         if(Date.now() < expiry){
-            res.status(200).send('<section style="text-align: center; margin: 10% auto; font-family: sans-serif;"><h1>Welcome Krish nice to meet you!</h1><p>Currently we can\'t provide you a web interface, because SAIT is under develoment, hope you understand.</p></section>');
+            let memory = new Memory();
+            if(String(id).startsWith('AID')){
+                memory.clusterName = 'student';
+            }else if(String(id).startsWith('UID')){
+                memory.clusterName = 'teacher';
+            }else{
+                return null;
+            }
+            let profile_info = await memory.find_profile(id);
+            profile_info.bg = hex.generateBGColor(profile_info.name);
+            profile_info = hex.profile_setup(profile_info);
+
+            res.status(200).send(`<section style="text-align: center; margin: 10% auto; font-family: sans-serif;"><h1>Welcome User (${id}) nice to meet you!</h1><p>Currently we can\'t provide you a web interface, because SAIT is under develoment, hope you understand.</p><pre style="text-align: left;">${JSON.stringify(profile_info, null, 2)}</pre></section>`);
         }else{
             res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>Session Expired!</h2><p>Please login again, because your Identity card is now expired when check it.<a href="/login">Login</a></p></div>');
         }
@@ -365,7 +377,7 @@ app.get('/my_profile_info', async (req, res) => {
     }
     let profile_info = await memory.find_profile(req.body.id);
     profile_info.bg = hex.generateBGColor(profile_info.name);
-    return profile_info;
+    res.status(200).json(profile_info);
 });
 
 app.get('/other_profile_info', async (req, res) => {
@@ -378,7 +390,7 @@ app.get('/other_profile_info', async (req, res) => {
         return null;
     }
     let basic_info = await memory.find_profile(req.body.id);
-    return hex.profile_setup(basic_info);
+    res.status(200).json({profile_info: hex.profile_setup(basic_info)});
 });
 
 app.get('/relation_profile_info', async (req, res) => {

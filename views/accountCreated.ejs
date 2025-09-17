@@ -49,6 +49,15 @@
             margin-right: 10px;
         }
     }
+    canvas{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 90;
+    }
     /* Mobile view */
     @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
         .account{
@@ -63,15 +72,59 @@
     <%- header %>
     <main class="workspace" id="main">
         <section class="account">
-            <h3>Congratulation, <%= name %></h3>
+            <h3>Congratulation, <span id="name"><%= name %></span></h3>
             <small class="text-muted">Your account on SAIT is created successfully with your given data</small>
-            <div class="flx"><p>Your User Id: </p><p><%= id %></p></div>
-            <div class="flx"><p>Your Email Id: </p><p><%= email %></p></div>
+            <div class="flx"><p>Your User Id: </p><p id="id"><%= id %></p></div>
+            <div class="flx"><p>Your Email Id: </p><p id="email"><%= email %></p></div>
             <small>Don't share your creadintials information with any one on any condition, your user id and password is use to unlock your account.</small>
-            <div class="btn-holder"><div class="btn btn-process">Continue with Login</div><div class="btn btn-outline-process">Learn about User id</div></div>
+            <div class="btn-holder"><div class="btn btn-process" onclick="route('/login');">Continue with Login</div><div class="btn btn-outline-process" onclick="route('/docs?search=userid');">Learn about User ID</div></div>
         </section>
     </main>
+    <canvas id="vanillaConfettiCanvas"></canvas>
     <%- tutorial %>
 </body>
 <script src="../static/App.js" nonce="<%= nonce %>"></script>
+<% if (isHosted) { %>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/accountCreated.js" nonce="<%= nonce %>"></script>
+<% } else { %>
+    <script src="../assets/scripts/accountCreated.js" nonce="<%= nonce %>"></script>
+<% } %>
+<script nonce="<%= nonce %>">
+setTimeout(() => {
+    generateConfetti({
+        colorsArray: ["#D1FFA3", "#FFE161", "#CF86FF", "#DD1300", "#61DCC5", "rgba(215, 185, 255, 1)"],
+        velocity: 0.025,
+        quantity: 750,
+        minSize: 4,
+        maxSize: 12,
+        minOpacity: 0.75,
+        maxOpacity: 1,
+        infiniteLoop: false
+    }, "vanillaConfettiCanvas");
+    downloadCredentials(document.getElementById('id').textContent, document.getElementById('name').textContent, document.getElementById('email').textContent);
+}, 2500);
+function downloadCredentials(id, name, email) {
+    const data = {
+        company: "SAIT",
+        site: window.location.origin,
+        user: {
+            name,
+            email,
+            id,
+            type: id.startsWith('AID')?'Student':id.startsWith('UID')?'Teacher':'Undefine'
+        },
+        time: new Date().getTime()
+    };
+    const jsonString = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "SAIT_Credentials.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+</script>
 </html>

@@ -28,18 +28,21 @@ class SIGNUP{
 
                 if(response.ok){
                     if(result.id){
-                        console.log('Account created successfully. ID:', result.id);
-                        route('/accountCreated?encode='+substitutionEncoder(`name=${formData.name}&email=${formData.email}&id=${result.id}`,'1441'))
+                        console.log('Account created successfully. Your ID:', result.id);
+                        route('/accountCreated?encode='+encodeURIComponent(substitutionEncoder(`name=${formData.name.replaceAll(' ','%20')}&email=${formData.email}&id=${result.id}`,'1441')));
                     }else if(result.message){
                         console.warn('Server responded with a message:', result.message);
+                        document.getElementById("waitpopup").style.display = "none";
                         alertMessage({'error': 400, 'message': result.message.message, 'mute': true});
                     }else{
                         console.warn('Unexpected response format:', result);
-                        alertMessage({'error': 500, 'message': 'Unexpected response. Please try again later.', 'mute': true});
+                        document.getElementById("waitpopup").style.display = "none";
+                        alertMessage({'error': 500, 'message': 'We encountered an unexpected issue while processing your signup request. This may be due to a temporary server error or an incomplete response. Please wait a few moments and try again. If your user ID does not appear within 60 seconds, refresh the page and resubmit the form. Your data has not been saved yet.', 'mute': true});
                     }
                 }else{
                     console.error('Server returned an error status:', response.status, response?.message);
-                    alert('Server error occurred. Please try again later.');
+                    document.getElementById("waitpopup").style.display = "none";
+                    alertMessage({'error': 500, 'message':"Our servers are currently experiencing an issue and couldn't complete your signup request. This may be due to high traffic or a temporary outage. Please wait a moment and try again. If the problem continues, your account has not been created—refresh the page and resubmit the form.", 'mute': true});
                 }
             }
         }catch{
@@ -79,6 +82,7 @@ async function accountType(value){
 
 async function make_request_to_signup(formData){
     try{
+        document.getElementById("waitpopup").style.display = "block";
         let signup = new SIGNUP(formData.accountType);
         await signup.make_request(formData);
     }catch(e){

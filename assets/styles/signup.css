@@ -63,6 +63,23 @@
     transform: translateY(-10px);
     box-shadow: 0 0 8px 1px var(--rblue);
 }
+.waitpopup{
+    display: none;
+    background: #00000070;
+    position: fixed;
+    .popup{
+        width: 50%;
+        margin: 20% auto;
+        background: var(--lavender);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        svg{
+            width: 30px;
+            color: var(--rblue);
+        }
+    }
+}
 
 /* Mobile view */
 @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
@@ -86,6 +103,12 @@
             .btn{
                 margin: 0px 0px 20px 0px;
             }
+        }
+    }
+    .waitpopup{
+        .popup{
+            width: 95%;
+            margin: 40% auto;
         }
     }
 }
