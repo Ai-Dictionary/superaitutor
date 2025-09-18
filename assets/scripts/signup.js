@@ -75,6 +75,10 @@ async function accountType(value){
         link.onerror = () => console.error('Failed to load stylesheet:', link.href);
 
         document.head.appendChild(link);
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('type', value);
+        window.history.replaceState(null, '', url.toString());
     }else{
         route('/signup');
     }

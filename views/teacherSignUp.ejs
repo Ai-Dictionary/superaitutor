@@ -1,1 +1,499 @@
-<h2>This is the teacher signup form</h2>
+<section id="hire" class="workspace">
+    <div class="form-progress">
+        <div class="step">
+            <p>Basic</p>
+            <div class="bullet">
+                <span>1</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Educational</p>
+            <div class="bullet">
+                <span>2</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Experience</p>
+            <div class="bullet">
+                <span>3</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Submition</p>
+            <div class="bullet">
+                <span>4</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+    </div>
+    <div class="hire-form">
+        <div class="form-container">
+            <div class="form-outer">
+                <form>
+                    <div class="page slide-page" id="slidePage">
+                        <div class="title">Basic Information:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="userName">Full Name</label>
+                                    <input type="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter your full name" required />
+                                    <small id="nameHelp" class="form-text text-muted">Please enter your full name as it appears on official documents. This helps us verify your identity and keep your account secure.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select class="form-control" id="gender" required>
+                                        <option value="Male">Male</option>
+                                        <option value="Female" selected>Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="nameHelp" class="form-text text-muted">Select the gender you identify with. This information helps us personalize your experience and maintain accurate records.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" class="form-control" id="dob" max="60" min="8" id="dob" aria-describedby="dobHelp" placeholder="dd-mm-yyyy" required />
+                                    <small id="dobHelp" class="form-text text-muted">Please enter your date of birth in the format dd-mm-yyyy. You must be between 8 and 60 years old to register.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="contact">Contact Number (WhatsApp Preferred)</label>
+                                    <input type="tel" class="form-control" id="contact" maxlength="10" id="contact" aria-describedby="contactHelp" placeholder="Enter your contact number" required />
+                                    <small id="contactHelp" class="form-text text-muted">Enter a valid 10-digit mobile number. Preferably one linked to WhatsApp for faster communication and updates.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter your email id" required />
+                                    <small id="emailHelp" class="form-text text-muted">Provide an active email address you check regularly. We'll use it to send important updates and account-related information.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="address">Residential Address</label>
+                                    <input type="text" class="form-control" id="address" maxlength="30" id="address" aria-describedby="addressHelp" placeholder="Enter your current address" required />
+                                    <small id="addressHelp" class="form-text text-muted">Enter your current residential address. This helps us determine your eligibility and provide location-based support if needed.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="postoffice">Post Office</label>
+                                    <input type="postoffice" class="form-control" aria-describedby="postofficeHelp" placeholder="Enter your nearest postoffice name" required />
+                                    <small id="postofficeHelp" class="form-text text-muted">Provide the name of your nearest post office. This is useful for connecting teachers and facilitating correspondence.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" maxlength="30" id="city" aria-describedby="cityHelp" placeholder="Enter your current city" required />
+                                    <small id="cityHelp" class="form-text text-muted">Enter the name of the city where you currently reside. Make sure it matches your official address details.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="pin">PIN Code</label>
+                                    <input type="number" class="form-control" id="pin" maxlength="6" aria-describedby="pinHelp" placeholder="Enter your pin code" required />
+                                    <small id="pinHelp" class="form-text text-muted">Enter your 6-digit area PIN code to help us verify your location and ensure accurate regional support.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="parentContact">Emergency Contact Number (WhatsApp Preferred)</label>
+                                    <input type="tel" class="form-control" id="parent_contact" maxlength="10" placeholder="Enter alternative contact number" required />
+                                    <small id="parentContactHelp" class="form-text text-muted">Enter a valid 10-digit WhatsApp number. Preferably one linked to WhatsApp for emergency communication but different with Contact number.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-process" id="firstNext" tabindex="0" data-next-step="1">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Educational Qualifications:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="highestDegree">Highest Degree Completed</label>
+                                    <select class="form-control" id="highestDegree" required>
+                                        <option value="12">Class 12</option>
+                                        <option value="BA">Bachelor of Arts (BA)</option>
+                                        <option value="BSc">Bachelor of Science (BSc)</option>
+                                        <option value="BCom">Bachelor of Commerce (BCom)</option>
+                                        <option value="BBA">Bachelor of Business Administration (BBA)</option>
+                                        <option value="B.Ed" selected>Bachelor of Education (B.Ed)</option>
+                                        <option value="B.Tech">Bachelor of Technology (B.Tech)</option>
+                                        <option value="LLB">Bachelor of Laws (LLB)</option>
+                                        <option value="MBBS">Bachelor of Medicine, Bachelor of Surgery (MBBS)</option>
+                                        <option value="MA">Master of Arts (MA)</option>
+                                        <option value="MSc">Master of Science (MSc)</option>
+                                        <option value="MCom">Master of Commerce (MCom)</option>
+                                        <option value="MBA">Master of Business Administration (MBA)</option>
+                                        <option value="M.Ed">Master of Education (M.Ed)</option>
+                                        <option value="M.Tech">Master of Technology (M.Tech)</option>
+                                        <option value="LLM">Master of Laws (LLM)</option>
+                                        <option value="MD">Doctor of Medicine (MD)</option>
+                                        <option value="MS">Master of Surgery (MS)</option>
+                                        <option value="PhD">Doctor of Philosophy (Ph.D)</option>
+                                        <option value="EdD">Doctor of Education (Ed.D)</option>
+                                        <option value="D.Sc">Doctor of Science (D.Sc)</option>
+                                        <option value="Post Doctoral">Postdoctoral Research</option>
+                                        <option value="Diploma">Diploma / Advanced Diploma</option>
+                                        <option value="PG Diploma">Postgraduate Diploma</option>
+                                        <option value="Professional Certification">Professional Certification (e.g., TEFL, CA, CS, CFA)</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="degreeHelp" class="form-text text-muted">Select the highest academic or professional qualification you've completed</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="institutionName">University / College Name</label>
+                                    <input type="text" class="form-control" id="institute" min="8" aria-describedby="institutionHelp" placeholder="Enter the name of your University or college" required />
+                                    <small id="institutionHelp" class="form-text text-muted">Please provide the full name of your latest educational institution</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="degreeCompletionDate">Degree Completion Date</label>
+                                    <input type="date" class="form-control" id="degreeCompletionDate" max="2025-09-18" aria-describedby="degreeDateHelp" required />
+                                    <small id="degreeDateHelp" class="form-text text-muted">Please enter the date you officially completed or were awarded your highest degree</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="certifications">Other Relevant Certifications</label>
+                                    <select class="form-control" id="certifications" multiple required>
+                                        <option value="CTET">CTET (Central Teacher Eligibility Test)</option>
+                                        <option value="TET">State TET (Teacher Eligibility Test)</option>
+                                        <option value="NET">UGC NET (National Eligibility Test)</option>
+                                        <option value="SET">State Eligibility Test (SET)</option>
+                                        <option value="PGT">Post Graduate Teacher (PGT)</option>
+                                        <option value="TGT">Trained Graduate Teacher (TGT)</option>
+                                        <option value="PRT">Primary Teacher (PRT)</option>
+                                        <option value="B.Ed">Bachelor of Education (B.Ed)</option>
+                                        <option value="M.Ed">Master of Education (M.Ed)</option>
+                                        <option value="Diploma in Education">Diploma in Education</option>
+                                        <option value="Montessori Training">Montessori Training</option>
+                                        <option value="Special Education">Special Education Certification</option>
+                                        <option value="TESOL">TESOL / TEFL (English Language Teaching)</option>
+                                        <option value="Computer Certification">Computer Literacy / IT Certification</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="certificationHelp" class="form-text text-muted">Hold down Ctrl (Windows) or Command (Mac) to select multiple certifications you achive.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="specializedSubject">Specialized Subject</label>
+                                    <select class="form-control" id="specializedSubject" required>
+                                        <option value="Mathematics" selected>Mathematics</option>
+                                        <option value="Physics">Physics</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="English">English</option>
+                                        <option value="History">History</option>
+                                        <option value="Geography">Geography</option>
+                                        <option value="Political Science">Political Science</option>
+                                        <option value="Economics">Economics</option>
+                                        <option value="Sociology">Sociology</option>
+                                        <option value="Psychology">Psychology</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Bengali">Bengali</option>
+                                        <option value="Fine Arts">Fine Arts</option>
+                                        <option value="Music">Music</option>
+                                        <option value="Drama">Drama / Theatre Studies</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Data Science/AI/ML">Data Science/AI/ML</option>
+                                        <option value="Information Technology">Information Technology</option>
+                                        <option value="Commerce">Commerce</option>
+                                        <option value="Business Studies">Business Studies</option>
+                                        <option value="Accountancy">Accountancy</option>
+                                        <option value="Physical Education">Physical Education</option>
+                                        <option value="Environmental Science">Environmental Science</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="subjectHelp" class="form-text text-muted">Choose the subject you specialize in for teaching or academic work.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="mediumInstruction">Preferred Medium of Instruction</label>
+                                    <select class="form-control" id="medium" required>
+                                        <option value="English">English</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Bengali" selected>Bengali</option>
+                                        <option value="Urdu">Urdu</option>
+                                        <option value="Odia">Odia</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Multilingual">Multilingual / Bilingual</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="mediumHelp" class="form-text text-muted">Choose the language of your preference for teaching and instruction</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-1 prev" data-prev-step="0">Previous</div>
+                        <div class="btn btn-outline-process next-1 next" data-next-step="2">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Teaching Experience & Preferences:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="teachingExperience">Total Years of Teaching Experience</label>
+                                    <input type="number" class="form-control" id="teachingExperience" name="teachingExperience" min="0" max="40" placeholder="Enter the years of Experience time" required />
+                                    <small id="experienceHelp" class="form-text text-muted">Enter the total number of years you've spent teaching. You can enter 0 if you're just starting out.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="jobStatus">Current Job Status</label>
+                                    <select class="form-control" id="jobStatus" required>
+                                        <option value="Full-Time">Working Full-Time</option>
+                                        <option value="Part-Time">Working Part-Time</option>
+                                        <option value="Contractual">Contractual / Temporary Position</option>
+                                        <option value="Freelance">Freelance Tutor / Educator</option>
+                                        <option value="Private Coaching">Running Private Coaching / Tuition</option>
+                                        <option value="Online Teaching">Online Teaching / EdTech Platform</option>
+                                        <option value="School Teacher">School Teacher (Primary / Secondary)</option>
+                                        <option value="College Faculty">College / University Faculty</option>
+                                        <option value="Researcher">Academic Researcher</option>
+                                        <option value="Administrative">Educational Administrator / Coordinator</option>
+                                        <option value="Curriculum Developer">Curriculum Developer / Instructional Designer</option>
+                                        <option value="Trainer">Corporate Trainer / Skill Development</option>
+                                        <option value="Consultant">Education Consultant</option>
+                                        <option value="On Sabbatical">On Sabbatical / Career Break</option>
+                                        <option value="Retired">Retired</option>
+                                        <option value="Seeking Opportunities" selected>Actively Seeking Teaching Opportunities</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="jobStatusHelp" class="form-text text-muted">Select the option that best describes your current professional engagement.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="previousInstitution">Previous Institution Taught At</label>
+                                    <input type="text" class="form-control" id="previousInstitution" name="previousInstitution" placeholder="Enter recent Institution name or type N/A" minlength="2" maxlength="50" required />
+                                    <small id="institutionHelp" class="form-text text-muted">Enter the name of the most recent institution you've taught at. If none, type "N/A".</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="teachingRange">Grade/Class Levels Comfortable Teaching</label>
+                                    <select class="form-control" id="teachingRange" required>
+                                        <option value="6-9">Class 6 to 9 (Middle School)</option>
+                                        <option value="8-10">Class 8 to 10 (Upper Middle / Secondary)</option>
+                                        <option value="9-12">Class 9 to 12 (Secondary)</option>
+                                        <option value="11-12">Class 11 to 12 (Higher Secondary)</option>
+                                        <option value="6-12">Class 6 to 12 (School Level)</option>
+                                        <option value="Bachelor">Bachelor's Degree Level</option>
+                                        <option value="Diploma">Diploma / Certification Level</option>
+                                        <option value="Master">Master's Degree Level</option>
+                                        <option value="PhD">PhD / Doctorate Level</option>
+                                        <option value="Post Doctoral">Postdoctoral Research Level</option>
+                                        <option value="Gap Year">Gap Year / Transitional Learners</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="teachingRangeHelp" class="form-text text-muted">Choose the academic range or level you are most confident teaching.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Time Availability for Study</label>
+                                    <table class="table time-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Day</th>
+                                            <th>7 AM - 9 AM</th>
+                                            <th>11 AM - 1 PM</th>
+                                            <th>3 PM - 5 PM</th>
+                                            <th>7 PM - 9 PM</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Monday</td>
+                                            <td data-day="monday" data-slot="morning"><input type="radio" name="mondaySlot" value="morning" />Morning</td>
+                                            <td data-day="monday" data-slot="noon" class="selected"><input type="radio" name="mondaySlot" value="noon" checked="true"/>Noon</td>
+                                            <td data-day="monday" data-slot="evening"><input type="radio" name="mondaySlot" value="evening" />Evening</td>
+                                            <td data-day="monday" data-slot="night"><input type="radio" name="mondaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tuesday</td>
+                                            <td data-day="tuesday" data-slot="morning"><input type="radio" name="tuesdaySlot" value="morning" />Morning</td>
+                                            <td data-day="tuesday" data-slot="noon"><input type="radio" name="tuesdaySlot" value="noon" />Noon</td>
+                                            <td data-day="tuesday" data-slot="evening" class="selected"><input type="radio" name="tuesdaySlot" value="evening" checked="true"/>Evening</td>
+                                            <td data-day="tuesday" data-slot="night"><input type="radio" name="tuesdaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Wednesday</td>
+                                            <td data-day="wednesday" data-slot="morning" class="selected"><input type="radio" name="wednesdaySlot" value="morning" checked="true"/>Morning</td>
+                                            <td data-day="wednesday" data-slot="noon"><input type="radio" name="wednesdaySlot" value="noon" />Noon</td>
+                                            <td data-day="wednesday" data-slot="evening"><input type="radio" name="wednesdaySlot" value="evening" />Evening</td>
+                                            <td data-day="wednesday" data-slot="night"><input type="radio" name="wednesdaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Thursday</td>
+                                            <td data-day="thursday" data-slot="morning"><input type="radio" name="thursdaySlot" value="morning" />Morning</td>
+                                            <td data-day="thursday" data-slot="noon" class="selected"><input type="radio" name="thursdaySlot" value="noon" checked="true"/>Noon</td>
+                                            <td data-day="thursday" data-slot="evening"><input type="radio" name="thursdaySlot" value="evening" />Evening</td>
+                                            <td data-day="thursday" data-slot="night"><input type="radio" name="thursdaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Friday</td>
+                                            <td data-day="friday" data-slot="morning"><input type="radio" name="fridaySlot" value="morning" />Morning</td>
+                                            <td data-day="friday" data-slot="noon"><input type="radio" name="fridaySlot" value="noon" />Noon</td>
+                                            <td data-day="friday" data-slot="evening"><input type="radio" name="fridaySlot" value="evening" />Evening</td>
+                                            <td data-day="friday" data-slot="night" class="selected"><input type="radio" name="fridaySlot" value="night" checked="true"/>Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Saturday</td>
+                                            <td data-day="saturday" data-slot="morning" class="selected"><input type="radio" name="saturdaySlot" value="morning" checked="true"/>Morning</td>
+                                            <td data-day="saturday" data-slot="noon"><input type="radio" name="saturdaySlot" value="noon" />Noon</td>
+                                            <td data-day="saturday" data-slot="evening"><input type="radio" name="saturdaySlot" value="evening" />Evening</td>
+                                            <td data-day="saturday" data-slot="night"><input type="radio" name="saturdaySlot" value="night" />Night</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sunday</td>
+                                            <td data-day="sunday" data-slot="morning"><input type="radio" name="sundaySlot" value="morning" />Morning</td>
+                                            <td data-day="sunday" data-slot="noon" class="selected"><input type="radio" name="sundaySlot" value="noon" checked="true"/>Noon</td>
+                                            <td data-day="sunday" data-slot="evening"><input type="radio" name="sundaySlot" value="evening" />Evening</td>
+                                            <td data-day="sunday" data-slot="night"><input type="radio" name="sundaySlot" value="night" />Night</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <small class="form-text text-muted">
+                                        Select your preferred teaching time slots for each day of the week, this time slot help you for connect with students and our ai
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="examMentorship">Interest in Exam Mentorship</label>
+                                    <select class="form-control" id="examMentorship" required>
+                                        <option value="Board Exam">Board Exams (10th / 12th)</option>
+                                        <option value="CUET">CUET (Central University Entrance Test)</option>
+                                        <option value="JEE" selected>JEE (Joint Entrance Exam)</option>
+                                        <option value="NEET">NEET (Medical Entrance)</option>
+                                        <option value="UPSC">UPSC (Civil Services)</option>
+                                        <option value="SSC">SSC (Staff Selection Commission)</option>
+                                        <option value="Railway">Railway Recruitment Exams</option>
+                                        <option value="Banking">Banking Exams (IBPS, SBI PO, etc.)</option>
+                                        <option value="State PSC">State PSC Exams</option>
+                                        <option value="CAT">CAT (MBA Entrance)</option>
+                                        <option value="GATE">GATE</option>
+                                        <option value="GMAT">GMAT</option>
+                                        <option value="GRE">GRE</option>
+                                        <option value="TOEFL">TOEFL / IELTS</option>
+                                        <option value="Not Interested">Not Interested in Exam Mentorship</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small class="form-text text-muted">Select the exam category you are interested in mentoring students for. This helps match you with relevant learners.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-2 prev" data-prev-step="1">Previous</div>
+                        <div class="btn btn-outline-process next-2 next" data-next-step="3">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Final Submission:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="favouriteColor">What is your favourite color</label>
+                                    <input type="color" class="form-control" id="fav_color" value="#0c8ff9" placeholder="e.g., Blue, Red, #000" required />
+                                    <small class="form-text text-muted">
+                                        Mention the color you like most, this information is use for your account security purpose.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="favouriteBook">What is your favourite book</label>
+                                    <input type="text" class="form-control" id="fav_book" maxlength="30" placeholder="e.g., The Alchemist, Harry Potter" required />
+                                    <small class="form-text text-muted">
+                                        Share the book that inspires or entertains you the most, this information is use for your account security purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="createPassword">Create Password</label>
+                                    <input type="password" class="form-control" id="pass" placeholder="Enter a secure password" required />
+                                    <small class="form-text text-muted">
+                                        Use at least 8 characters with a mix of letters, numbers, and symbols. Remeber this password for your account access key.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Re-enter your password" required />
+                                    <small class="form-text text-muted">
+                                        Make sure this matches the password you entered above
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group" style="color: var(--reverse-white); text-align: left;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="iagree"
+                                    value="i agree" checked>
+                                <label class="form-check-label" for="iagree">I agree to the SAIT's Terms and
+                                    Service</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <small class="text-muted" style="font-weight: 600; margin-top: 15px;color: #343a40;">
+                                    By checking this box, I acknowledge that I have carefully read and understood 
+                                    the Terms of Service and Privacy Policy of SAIT (Super AI Tutor). 
+                                    I affirm that the information provided in this registration form is accurate, 
+                                    complete, and submitted in good faith to the best of my knowledge. I hereby 
+                                    consent to all stated terms and conditions, and confirm that this submission 
+                                    is made voluntarily, with full awareness and without any form of coercion or 
+                                    misrepresentation.</small>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-3 prev" data-prev-step="2">Previous</div>
+                        <div class="btn btn-outline-success next-3 submit">Save & Submit</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
