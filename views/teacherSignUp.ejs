@@ -62,8 +62,8 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="dob">Date of Birth</label>
-                                    <input type="date" class="form-control" id="dob" max="60" min="8" id="dob" aria-describedby="dobHelp" placeholder="dd-mm-yyyy" required />
-                                    <small id="dobHelp" class="form-text text-muted">Please enter your date of birth in the format dd-mm-yyyy. You must be between 8 and 60 years old to register.</small>
+                                    <input type="date" class="form-control" id="dob" max="60" min="18" id="dob" aria-describedby="dobHelp" placeholder="dd-mm-yyyy" required />
+                                    <small id="dobHelp" class="form-text text-muted">Please enter your date of birth in the format dd-mm-yyyy. You must be between 18 and 60 years old to register.</small>
                                 </div>
                             </div>
                         </div>
@@ -118,9 +118,9 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="parentContact">Emergency Contact Number (WhatsApp Preferred)</label>
-                                    <input type="tel" class="form-control" id="parent_contact" maxlength="10" placeholder="Enter alternative contact number" required />
-                                    <small id="parentContactHelp" class="form-text text-muted">Enter a valid 10-digit WhatsApp number. Preferably one linked to WhatsApp for emergency communication but different with Contact number.</small>
+                                    <label for="emergency_contact">Emergency Contact Number (WhatsApp Preferred)</label>
+                                    <input type="tel" class="form-control" id="emergency_contact" maxlength="10" placeholder="Enter alternative contact number" aria-describedby="emergency_contactHelp" required />
+                                    <small id="emergency_contactHelp" class="form-text text-muted">Enter a valid 10-digit WhatsApp number. Preferably one linked to WhatsApp for emergency communication but different with Contact number.</small>
                                 </div>
                             </div>
                         </div>
@@ -131,8 +131,8 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="highestDegree">Highest Degree Completed</label>
-                                    <select class="form-control" id="highestDegree" required>
+                                    <label for="high_degree">Highest Degree Completed</label>
+                                    <select class="form-control" id="high_degree" aria-describedby="high_degreeHelp" required>
                                         <option value="12">Class 12</option>
                                         <option value="BA">Bachelor of Arts (BA)</option>
                                         <option value="BSc">Bachelor of Science (BSc)</option>
@@ -160,7 +160,7 @@
                                         <option value="Professional Certification">Professional Certification (e.g., TEFL, CA, CS, CFA)</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                    <small id="degreeHelp" class="form-text text-muted">Select the highest academic or professional qualification you've completed</small>
+                                    <small id="high_degreeHelp" class="form-text text-muted">Select the highest academic or professional qualification you've completed</small>
                                 </div>
                             </div>
                             <div class="col">
@@ -174,15 +174,15 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="degreeCompletionDate">Degree Completion Date</label>
-                                    <input type="date" class="form-control" id="degreeCompletionDate" max="2025-09-18" aria-describedby="degreeDateHelp" required />
-                                    <small id="degreeDateHelp" class="form-text text-muted">Please enter the date you officially completed or were awarded your highest degree</small>
+                                    <label for="year_graduation">Degree Completion Date</label>
+                                    <input type="date" class="form-control" id="year_graduation" max="2025-09-18" aria-describedby="year_graduationHelp" required />
+                                    <small id="year_graduationHelp" class="form-text text-muted">Please enter the date you officially completed or were awarded your highest degree</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="certifications">Other Relevant Certifications</label>
-                                    <select class="form-control" id="certifications" multiple required>
+                                    <label for="relevent_certificate">Other Relevant Certifications</label>
+                                    <select class="form-control" id="relevent_certificate" aria-describedby="relevent_certificateHelp" multiple required>
                                         <option value="CTET">CTET (Central Teacher Eligibility Test)</option>
                                         <option value="TET">State TET (Teacher Eligibility Test)</option>
                                         <option value="NET">UGC NET (National Eligibility Test)</option>
@@ -199,15 +199,15 @@
                                         <option value="Computer Certification">Computer Literacy / IT Certification</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                    <small id="certificationHelp" class="form-text text-muted">Hold down Ctrl (Windows) or Command (Mac) to select multiple certifications you achive.</small>
+                                    <small id="relevent_certificateHelp" class="form-text text-muted">Hold down Ctrl (Windows) or Command (Mac) to select multiple certifications you achive.</small>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="specializedSubject">Specialized Subject</label>
-                                    <select class="form-control" id="specializedSubject" required>
+                                    <label for="subject">Specialized Subject</label>
+                                    <select class="form-control" id="subject" aria-describedby="subjectHelp" required>
                                         <option value="Mathematics" selected>Mathematics</option>
                                         <option value="Physics">Physics</option>
                                         <option value="Chemistry">Chemistry</option>
@@ -241,7 +241,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="mediumInstruction">Preferred Medium of Instruction</label>
-                                    <select class="form-control" id="medium" required>
+                                    <select class="form-control" id="medium" aria-describedby="mediumHelp" required>
                                         <option value="English">English</option>
                                         <option value="Hindi">Hindi</option>
                                         <option value="Bengali" selected>Bengali</option>
@@ -263,15 +263,15 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="teachingExperience">Total Years of Teaching Experience</label>
-                                    <input type="number" class="form-control" id="teachingExperience" name="teachingExperience" min="0" max="40" placeholder="Enter the years of Experience time" required />
+                                    <label for="experience">Total Years of Teaching Experience</label>
+                                    <input type="number" class="form-control" id="experience" name="experience" min="0" max="40" placeholder="Enter the years of Experience time" aria-describedby="experienceHelp" required />
                                     <small id="experienceHelp" class="form-text text-muted">Enter the total number of years you've spent teaching. You can enter 0 if you're just starting out.</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="jobStatus">Current Job Status</label>
-                                    <select class="form-control" id="jobStatus" required>
+                                    <label for="job_status">Current Job Status</label>
+                                    <select class="form-control" id="job_status" aria-describedby="job_statusHelp" required>
                                         <option value="Full-Time">Working Full-Time</option>
                                         <option value="Part-Time">Working Part-Time</option>
                                         <option value="Contractual">Contractual / Temporary Position</option>
@@ -290,22 +290,22 @@
                                         <option value="Seeking Opportunities" selected>Actively Seeking Teaching Opportunities</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                    <small id="jobStatusHelp" class="form-text text-muted">Select the option that best describes your current professional engagement.</small>
+                                    <small id="job_statusHelp" class="form-text text-muted">Select the option that best describes your current professional engagement.</small>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="previousInstitution">Previous Institution Taught At</label>
-                                    <input type="text" class="form-control" id="previousInstitution" name="previousInstitution" placeholder="Enter recent Institution name or type N/A" minlength="2" maxlength="50" required />
-                                    <small id="institutionHelp" class="form-text text-muted">Enter the name of the most recent institution you've taught at. If none, type "N/A".</small>
+                                    <label for="previous_institute">Previous Institution Taught At</label>
+                                    <input type="text" class="form-control" id="previous_institute" name="previous_institute" placeholder="Enter recent Institution name or type N/A" minlength="2" maxlength="50" aria-describedby="previous_instituteHelp" required />
+                                    <small id="previous_instituteHelp" class="form-text text-muted">Enter the name of the most recent institution you've taught at. If none, type "N/A".</small>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="teachingRange">Grade/Class Levels Comfortable Teaching</label>
-                                    <select class="form-control" id="teachingRange" required>
+                                    <label for="class_level">Grade/Class Levels Comfortable Teaching/Mentoring</label>
+                                    <select class="form-control" id="class_level" aria-describedby="class_levelHelp" required>
                                         <option value="6-9">Class 6 to 9 (Middle School)</option>
                                         <option value="8-10">Class 8 to 10 (Upper Middle / Secondary)</option>
                                         <option value="9-12">Class 9 to 12 (Secondary)</option>
@@ -319,14 +319,14 @@
                                         <option value="Gap Year">Gap Year / Transitional Learners</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                    <small id="teachingRangeHelp" class="form-text text-muted">Choose the academic range or level you are most confident teaching.</small>
+                                    <small id="class_levelHelp" class="form-text text-muted">Choose the academic range or level you are most confident teaching.</small>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Time Availability for Study</label>
+                                    <label>Time Availability for Teaching/Mentoring</label>
                                     <table class="table time-table">
                                         <thead>
                                         <tr>
@@ -398,8 +398,8 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="examMentorship">Interest in Exam Mentorship</label>
-                                    <select class="form-control" id="examMentorship" required>
+                                    <label for="mentorship">Interest in Exam Mentorship</label>
+                                    <select class="form-control" id="mentorship" aria-describedby="mentorshipHelp" required>
                                         <option value="Board Exam">Board Exams (10th / 12th)</option>
                                         <option value="CUET">CUET (Central University Entrance Test)</option>
                                         <option value="JEE" selected>JEE (Joint Entrance Exam)</option>
@@ -417,11 +417,53 @@
                                         <option value="Not Interested">Not Interested in Exam Mentorship</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                    <small class="form-text text-muted">Select the exam category you are interested in mentoring students for. This helps match you with relevant learners.</small>
+                                    <small class="form-text text-muted" id="mentorshipHelp">Select the exam category you are interested in mentoring students for. This helps match you with relevant learners.</small>
                                 </div>
                             </div>
                             <div class="col">
-                                
+                                <!-- <div class="form-group">
+                                    <label for="teachingPlatforms">Familiar Teaching Platforms/Tools</label>
+                                    <div id="teachingPlatforms" class="form-check">
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Zoom"> Zoom</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Google Meet"> Google Meet</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Microsoft Teams"> Microsoft Teams</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Skype"> Skype</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Webex"> Cisco Webex</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Moodle"> Moodle (LMS)</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Canvas"> Canvas (LMS)</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Blackboard"> Blackboard (LMS)</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Kahoot"> Kahoot</label><br>
+                                    <label class="form-check-label"><input type="checkbox" class="form-check-input platform-option" value="Other"> Other</label>
+                                    </div>
+                                    <small class="form-text text-muted">Select up to 4 platforms/tools you're comfortable teaching with.</small>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="record_video">Willingness to Record Video Lectures</label>
+                                    <select class="form-control" id="record_video" aria-describedby="record_videoHelp" required>
+                                        <option value="Yes" selected>Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <small class="form-text text-muted" id="record_videoHelp">Let us know if you're open to recording video lectures or course video list for students.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="mode">Preferred Mode of Engagement</label>
+                                    <select class="form-control" id="mode" aria-describedby="mode" required>
+                                        <option value="Mentorship">Mentorship (guidance and counselling)</option>
+                                        <option value="Live Teaching">Live Teaching (Zoom, Google Meet, etc.)</option>
+                                        <option value="Recorded Lectures">Recorded Lectures (Pre-recorded video sessions)</option>
+                                        <option value="Content Creation">Content Creation (Articles, quizzes, study material, mind maps)</option>
+                                        <option value="Doubt Solving" selected>Doubt Solving and Discussion</option>
+                                        <option value="Live & Recorded">Live & Recorded Teaching</option>
+                                        <option value="Mentor & Teacher">Mentoring with Teaching</option>
+                                    </select>
+                                    <small class="form-text text-muted" id="mode">Choose how you'd prefer to contribute to the learning ecosystem.</small>
+                                </div>
                             </div>
                         </div>
                         <div class="btn btn-outline-secondary prev-2 prev" data-prev-step="1">Previous</div>

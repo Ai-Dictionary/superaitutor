@@ -188,12 +188,14 @@ module.exports = {
 
         const prefix = "UID";
 
-        const [firstName, lastName] = name.trim().split(" ");
+        const [firstName, lastNameRaw] = name.trim().split(" ");
+
+        const lastName = lastNameRaw ? lastNameRaw : firstName.split("").reverse().join("");
 
         const ff = (firstName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
 
         const ll = (lastName[0].toUpperCase().charCodeAt(0) - 64).toString().padStart(2, "0");
-
+        
         const emailPrefix = email.trim().toLowerCase()[0] + email.trim().toLowerCase()[1];
         const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
         const lastThreePin = parseInt(pin.toString().slice(-3), 10);

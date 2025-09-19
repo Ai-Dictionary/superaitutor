@@ -59,7 +59,12 @@ function Teacher_listener(){
                 fields.forEach(field => {
                     const id = field.id;
                     const value = field.value.trim();
-                    if(id){
+                    if (!id) return;
+
+                    if (field.tagName === "SELECT" && field.multiple) {
+                        const selectedValues = Array.from(field.selectedOptions).map(opt => opt.value.trim()).join(",");
+                        formData[id] = selectedValues;
+                    } else {
                         formData[id] = value;
                     }
                 });
@@ -82,7 +87,7 @@ function Teacher_listener(){
             delete formData.iagree;
             delete formData.confirmPassword;
             formData.accountType = "teacher";
-            formData.time = JSON.stringify(getSelectedTimeSlotsCompact());
+            formData.time_slots = JSON.stringify(getSelectedTimeSlotsCompact());
             formData.status = "active";
             await make_request_to_signup(formData);
         })();
@@ -95,6 +100,7 @@ function Teacher_listener(){
         textarea: /^(.{20,400})$/,
         text: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/,
         dob: /^\d{4}-\d{2}-\d{2}$/,
+        graduation: /^\d{4}-\d{2}-\d{2}$/,
         contact: /^[6-9]\d{9}$/,
         address: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/,
         pin: /^\d{6}$/,
@@ -105,7 +111,7 @@ function Teacher_listener(){
     };
 
     function validateCurrentPage(stepIndex) {
-        return true;
+        // return true;
         const pages = document.querySelectorAll(".page");
         const currentPage = pages[stepIndex];
         const fields = currentPage.querySelectorAll("input, select, textarea");
@@ -141,16 +147,30 @@ function Teacher_listener(){
             if (regex.dob.test(value)){
                 const birthYear = new Date(value).getFullYear();
                 const age = new Date().getFullYear() - birthYear;
-                pass = age >= 8 && age <= 60;
+                pass = age >= 18 && age <= 60;
             }
         }else if (id === "contact" || type==="tel"){
             pass = regex.contact.test(value);
+            if(id == "emergency_contact"){
+                const contact = document.getElementById("contact")?.value.trim();
+                pass = ((value != contact)&&(value!=''));
+            }
         }else if (id === "address"){
             pass = regex.address.test(value);
         }else if (type === "text"){
             pass = regex.text.test(value);
+            if(!pass && id=="previous_institute"){
+                pass = value == 'N/A';
+            }
         }else if (id === "pin"){
             pass = regex.pin.test(value);
+        }else if (id === "year_graduation"){
+            pass = regex.graduation.test(value);
+            if (regex.graduation.test(value)){
+                const graduationYear = new Date(value).getFullYear();
+                const year = new Date().getFullYear() - graduationYear;
+                pass = year >= 1 && year <= 40;
+            }
         }else if (id === "results"){
             pass = regex.gpa.test(value) || regex.percentage.test(value);
         }else if (id === "fav_subjects" || id === "diff_subjects"){

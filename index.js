@@ -297,7 +297,6 @@ app.get('/signup/admin', async (req, res) => {
 
 app.post('/create_account', async (req, res) => {
     const profile_info = req.body.info;
-    let id='';
     try{
         let memory = new Memory();
         if(profile_info.type == 'student'){

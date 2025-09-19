@@ -15,7 +15,7 @@ class SIGNUP{
     }
     async make_request(formData){
         try{
-            if(this.account_type=='student'){
+            if(this.account_type=='student' || this.account_type=='teacher'){
                 const response = await fetch('/create_account', {
                     method: 'POST',
                     headers: {
@@ -90,7 +90,7 @@ async function make_request_to_signup(formData){
         let signup = new SIGNUP(formData.accountType);
         await signup.make_request(formData);
     }catch(e){
-        console.log("lol");
+        console.log("faild to make request for this account creation");
     }
 }
 
