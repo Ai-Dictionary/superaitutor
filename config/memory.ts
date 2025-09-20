@@ -21,6 +21,7 @@ class MEMORY{
     */
     student_id;
     teacher_id;
+    master_id;
     feedback_id;
     relationship_id;
     public_key;
@@ -44,6 +45,7 @@ class MEMORY{
     constructor (){
         this.student_id = process.env.STUDENT_ID || '';
         this.teacher_id = process.env.TEACHER_ID || '';
+        this.master_id = process.env.MASTER_ID || '';
         this.feedback_id = process.env.FEEDBACK_ID || '';
         this.relationship_id = process.env.RELATIONSHIP_ID || '';
         this.public_key = String(process.env.PUBLIC_KEY) || '';
@@ -60,6 +62,9 @@ class MEMORY{
         }else if(this.clusterName=='teacher'){
             this.isUpdatable = true;
             return this.teacher_id;
+        }else if(this.clusterName=='master' || this.clusterName=='admin'){
+            this.isUpdatable = true;
+            return this.master_id;
         }else if(this.clusterName=='feedback'){
             this.isUpdatable = false;
             return this.feedback_id;
@@ -75,6 +80,8 @@ class MEMORY{
             return security.generateStudentId(data);
         }else if(this.clusterName=='teacher'){
             return security.generateTeacherId(data);
+        }else if(this.clusterName=='master' || this.clusterName=='admin'){
+            return security.generateAdminId(data);
         }else if(this.clusterName=='feedback'){
             return security.generateFeedbackId(data);
         }else if(this.clusterName=='relationship' || this.clusterName=='rate'){

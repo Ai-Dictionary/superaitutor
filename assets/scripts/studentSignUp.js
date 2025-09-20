@@ -145,6 +145,8 @@ function Student_listener(){
             }
         }else if (id === "contact" || type==="tel"){
             pass = regex.contact.test(value);
+        }else if (type === "email"){
+            pass = regex.email.test(value);
         }else if (id === "address"){
             pass = regex.address.test(value);
         }else if (type === "text"){

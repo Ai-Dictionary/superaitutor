@@ -1,4 +1,4 @@
-const emailOrUserIdRegex = /^(?:[\w.-]+@[\w.-]+\.\w{2,}|(?:AID|UID)[A-Za-z](?=(?:\d*@\d*|\d*@\d*)$)[\d@]{11,15})$/;
+const emailOrUserIdRegex = /^(?:[\w.-]+@[\w.-]+\.\w{2,}|(?:AID|UID|MID)[A-Za-z](?=(?:\d*@\d*|\d*@\d*)$)[\d@]{11,15})$/;
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 

@@ -1,4 +1,4 @@
-function Teacher_listener(){
+function Admin_listener(){
     const slidePage = document.querySelector(".slide-page");
     const progressText = document.querySelectorAll(".step p");
     const progressCheck = document.querySelectorAll(".step .check");
@@ -59,12 +59,7 @@ function Teacher_listener(){
                 fields.forEach(field => {
                     const id = field.id;
                     const value = field.value.trim();
-                    if (!id) return;
-
-                    if (field.tagName === "SELECT" && field.multiple) {
-                        const selectedValues = Array.from(field.selectedOptions).map(opt => opt.value.trim()).join(",");
-                        formData[id] = selectedValues;
-                    } else {
+                    if(id){
                         formData[id] = value;
                     }
                 });
@@ -86,8 +81,7 @@ function Teacher_listener(){
         (async()=>{
             delete formData.iagree;
             delete formData.confirmPassword;
-            formData.accountType = "teacher";
-            formData.time_slots = JSON.stringify(getSelectedTimeSlotsCompact());
+            formData.accountType = "admin";
             formData.status = "active";
             await make_request_to_signup(formData);
         })();
@@ -96,17 +90,14 @@ function Teacher_listener(){
     const regex = {
         name: /^[a-zA-Z\s]{3,50}$/,
         email: /^[\w.-]+@[\w.-]+\.\w{2,}$/,
+        admin: /^(N\/A|MID(?=[\d]*@[\d]*$)[\d@]+)$/,
         url: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
         textarea: /^(.{20,400})$/,
         text: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/,
         dob: /^\d{4}-\d{2}-\d{2}$/,
-        graduation: /^\d{4}-\d{2}-\d{2}$/,
         contact: /^[6-9]\d{9}$/,
         address: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/,
         pin: /^\d{6}$/,
-        gpa: /^(10(\.0{1,2})?|[0-9](\.\d{1,2})?)$/,
-        percentage: /^(100(\.0{1,2})?|[0-9]{1,2}(\.\d{1,2})?)$/,
-        subjectList: /^[A-Za-z\s]+(,\s*[A-Za-z\s]+)*$/,
         password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^+=])[A-Za-z\d@$!%*#?&^+=]{8,}$/,
     };
 
@@ -141,8 +132,11 @@ function Teacher_listener(){
 
         let pass = false;
 
-        if (id === "name" || type === "name"){
+        if (id === "name" || id=='referringAdmin' || type === "name"){
             pass = regex.name.test(value);
+            if(!pass && id=='referringAdmin'){
+                pass = value=='N/A';
+            }
         }else if (id === "dob"){
             if (regex.dob.test(value)){
                 const birthYear = new Date(value).getFullYear();
@@ -151,33 +145,23 @@ function Teacher_listener(){
             }
         }else if (id === "contact" || type==="tel"){
             pass = regex.contact.test(value);
-            if(id == "emergency_contact"){
-                const contact = document.getElementById("contact")?.value.trim();
-                pass = ((value != contact)&&(value!=''));
-            }
-        }else if (type === "email"){
+        }else if (id==="referringAdminContact" || type === "email"){
             pass = regex.email.test(value);
+            if(!pass && id=="referringAdminContact"){
+                pass = regex.admin.test(value);
+            }
         }else if (id === "address"){
             pass = regex.address.test(value);
         }else if (type === "text"){
             pass = regex.text.test(value);
-            if(!pass && id=="previous_institute"){
-                pass = value == 'N/A';
+        }else if (type === "url"){
+            pass = regex.url.test(value);
+            if(!pass){
+                pass = value=='N/A';
             }
         }else if (id === "pin"){
             pass = regex.pin.test(value);
-        }else if (id === "year_graduation"){
-            pass = regex.graduation.test(value);
-            if (regex.graduation.test(value)){
-                const graduationYear = new Date(value).getFullYear();
-                const year = new Date().getFullYear() - graduationYear;
-                pass = year >= 1 && year <= 40;
-            }
-        }else if (id === "results"){
-            pass = regex.gpa.test(value) || regex.percentage.test(value);
-        }else if (id === "fav_subjects" || id === "diff_subjects"){
-            pass = regex.subjectList.test(value);
-        }else if (id === "pass"){
+        }else if (id === "pass" || type=="password"){
             pass = regex.password.test(value);
         }else if (id === "confirmPassword"){
             const password = document.getElementById("pass")?.value.trim();
@@ -200,41 +184,5 @@ function Teacher_listener(){
 
 }
 
-document.querySelectorAll('.time-table td[data-day]').forEach(td => {
-    td.addEventListener('click', () => {
-        const day = td.getAttribute('data-day');
-        const rowTds = document.querySelectorAll(`td[data-day="${day}"]`);
-
-        rowTds.forEach(cell => cell.classList.remove('selected'));
-
-        td.classList.add('selected');
-
-        const radio = td.querySelector('input[type="radio"]');
-        if (radio) radio.checked = true;
-    });
-});
-
-function getSelectedTimeSlotsCompact(){
-    const dayMap = [
-        "monday", "tuesday", "wednesday", "thursday",
-        "friday", "saturday", "sunday"
-    ];
-    const slotMap = {
-        morning: 0,
-        noon: 1,
-        evening: 2,
-        night: 3
-    };
-    const selectedSlots = {};
-    dayMap.forEach((day, index) => {
-        const selected = document.querySelector(`td[data-day="${day}"].selected input[type="radio"]`);
-        if (selected) {
-        selectedSlots[index] = slotMap[selected.value];
-        }
-    });
-    return selectedSlots;
-}
-
-
-Teacher_listener();
+Admin_listener();
 

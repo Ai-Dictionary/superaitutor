@@ -1,1 +1,267 @@
-<h2>This is the admin signup form</h2>
+<section id="hire" class="workspace">
+    <div class="form-progress">
+        <div class="step">
+            <p>Basic</p>
+            <div class="bullet">
+                <span>1</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Role</p>
+            <div class="bullet">
+                <span>2</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Reference</p>
+            <div class="bullet">
+                <span>3</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+        <div class="step">
+            <p>Submition</p>
+            <div class="bullet">
+                <span>4</span>
+            </div>
+            <i class="fa fa-check check"></i>
+        </div>
+    </div>
+    <div class="hire-form">
+        <div class="form-container">
+            <div class="form-outer">
+                <form>
+                    <div class="page slide-page" id="slidePage">
+                        <div class="title">Basic Information:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="userName">Full Name</label>
+                                    <input type="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter your display name" required />
+                                    <small id="nameHelp" class="form-text text-muted">Please enter your full name as it appears on official documents. This helps us verify your identity and keep your account secure.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select class="form-control" id="gender" aria-describedby="genderHelp" required>
+                                        <option value="Male" selected>Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="genderHelp" class="form-text text-muted">Select the gender you identify with. This information helps us personalize your experience and maintain accurate records.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" class="form-control" id="dob" max="60" min="18" id="dob" aria-describedby="dobHelp" placeholder="dd-mm-yyyy" required />
+                                    <small id="dobHelp" class="form-text text-muted">Please enter your date of birth in the format dd-mm-yyyy. You must be between 18 and 60 years old to register.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="contact">Contact Number (WhatsApp Preferred)</label>
+                                    <input type="tel" class="form-control" id="contact" maxlength="10" id="contact" aria-describedby="contactHelp" placeholder="Enter your contact number" required />
+                                    <small id="contactHelp" class="form-text text-muted">Enter a valid 10-digit mobile number. Preferably one linked to WhatsApp for faster communication and updates.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter your email id" required />
+                                    <small id="emailHelp" class="form-text text-muted">Provide an active email address you check regularly. We'll use it to send important updates and account-related information.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" maxlength="30" id="city" aria-describedby="cityHelp" placeholder="Enter your current city" required />
+                                    <small id="cityHelp" class="form-text text-muted">Enter the name of the city where you currently reside. Make sure it matches your official address details.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="pin">PIN Code</label>
+                                    <input type="number" class="form-control" id="pin" maxlength="6" aria-describedby="pinHelp" placeholder="Enter your pin code" required />
+                                    <small id="pinHelp" class="form-text text-muted">Enter your 6-digit area PIN code to help us verify your location and ensure accurate regional support.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-process" id="firstNext" tabindex="0" data-next-step="1">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Admin Role & Operational Context:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="type">Admin Role Type</label>
+                                    <select class="form-control" id="type" aria-describedby="typeHelp" required>
+                                        <option value="Super">Super Administrator</option>
+                                        <option value="Sub" selected>Sub Administrator</option>
+                                        <option value="Tech">Technical Support</option>
+                                    </select>
+                                    <small id="typeHelp" class="form-text text-muted">Choose the role that best matches your responsibilities within the system. This helps us assign appropriate permissions.</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="medium">Preferred Language for Communication</label>
+                                    <select class="form-control" id="medium" aria-describedby="mediumHelp" required>
+                                        <option value="English">English</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Bengali" selected>Bengali</option>
+                                        <option value="Urdu">Urdu</option>
+                                        <option value="Odia">Odia</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Multilingual">Multilingual / Bilingual</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <small id="mediumHelp" class="form-text text-muted">Choose the language you'd prefer for communicate with others and operational region.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="web_link">LinkedIn Profile or Personal Website</label>
+                                    <input type="url" class="form-control" id="web_link" aria-describedby="web_linkHelp" placeholder="https://yourprofile.com" required/>
+                                    <small id="web_linkHelp" class="form-text text-muted">Share a link to your LinkedIn profile or personal website to help us better understand your professional background. But if you don't have any profile then write N/A</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="time">Availability for Admin Duties</label>
+                                    <select class="form-control" id="time" aria-describedby="timeHelp" required>
+                                        <option value="Fulltime">Fulltime</option>
+                                        <option value="Parttime" selected>Parttime</option>
+                                        <option value="Occasional">Occasional</option>
+                                    </select>
+                                    <small id="timeHelp" class="form-text text-muted">Let us know how frequently you'll be available to perform admin tasks. This helps us assign responsibilities appropriately.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="dp_link">User Display Picture URL</label>
+                                    <input type="url" class="form-control" id="dp_link" aria-describedby="dp_linkHelp" placeholder="Enter image URL or type N/A" required />
+                                    <small id="dp_linkHelp" class="form-text text-muted">Provide a hosted image link for your profile picture. If you do not wish to share one, simply enter N/A. File uploads are not accepted.</small>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-1 prev" data-prev-step="0">Previous</div>
+                        <div class="btn btn-outline-process next-1 next" data-next-step="2">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Reference, Trust & System Integration:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="referring_admin">Referring Admin Name</label>
+                                    <input type="name" class="form-control" id="referring_admin" aria-describedby="referring_adminHelp" placeholder="Enter the name of the referring admin" required />
+                                    <small id="referring_adminHelp" class="form-text text-muted">Please provide the name of the admin who referred you. This helps us track internal referrals and build a trusted network. If anyone not refer you then write N/A</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="referring_contact">Referring Admin Email or User ID</label>
+                                    <input type="eamil" class="form-control" id="referring_contact" aria-describedby="referring_contactHelp" placeholder="Enter referring admin's email or user ID" required />
+                                    <small id="referring_contactHelp" class="form-text text-muted">Provide the email address or user ID of the admin who referred you. This helps us notify them and verify your connection within the system. If anyone not refer you then write N/A</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="access_token">Access Token</label>
+                                    <input type="password" class="form-control" id="access_token" aria-describedby="access_tokenHelp" placeholder="Enter your access token" required />
+                                    <small id="access_tokenHelp" class="form-text text-muted">To complete your admin profile, you must provide a valid access token. If you do not have one, please contact an authorized admin to issue it. Submissions without a valid token will be rejected by the system.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-2 prev" data-prev-step="1">Previous</div>
+                        <div class="btn btn-outline-process next-2 next" data-next-step="3">Save & Next</div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Final Submission:</div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="favouriteColor">What is your favourite color</label>
+                                    <input type="color" class="form-control" id="fav_color" value="#0c8ff9" placeholder="e.g., Blue, Red, #000" required />
+                                    <small class="form-text text-muted">
+                                        Mention the color you like most, this information is use for your account security purpose.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="favouriteBook">What is your favourite book</label>
+                                    <input type="text" class="form-control" id="fav_book" maxlength="30" placeholder="e.g., The Alchemist, Harry Potter" required />
+                                    <small class="form-text text-muted">
+                                        Share the book that inspires or entertains you the most, this information is use for your account security purpose.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="createPassword">Create Password</label>
+                                    <input type="password" class="form-control" id="pass" placeholder="Enter a secure password" required />
+                                    <small class="form-text text-muted">
+                                        Use at least 8 characters with a mix of letters, numbers, and symbols. Remeber this password for your account access key.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Re-enter your password" required />
+                                    <small class="form-text text-muted">
+                                        Make sure this matches the password you entered above
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group" style="color: var(--reverse-white); text-align: left;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="iagree"
+                                    value="i agree" checked>
+                                <label class="form-check-label" for="iagree">I agree to the SAIT's Terms and
+                                    Service</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <small class="text-muted" style="font-weight: 600; margin-top: 15px;color: #343a40;">
+                                    By checking this box, I acknowledge that I have carefully read and understood 
+                                    the Terms of Service and Privacy Policy of SAIT (Super AI Tutor). 
+                                    I affirm that the information provided in this registration form is accurate, 
+                                    complete, and submitted in good faith to the best of my knowledge. I hereby 
+                                    consent to all stated terms and conditions, and confirm that this submission 
+                                    is made voluntarily, with full awareness and without any form of coercion or 
+                                    misrepresentation.</small>
+                            </div>
+                        </div>
+                        <div class="btn btn-outline-secondary prev-3 prev" data-prev-step="2">Previous</div>
+                        <div class="btn btn-outline-success next-3 submit">Save & Submit</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

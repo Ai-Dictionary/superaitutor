@@ -218,6 +218,39 @@ module.exports = {
 
         return prefix + idWithAt;
     },
+    generateAdminId: (admin) => {
+        const { name, email, contact, pin, dob } = admin;
+
+        const prefix = "MID";
+
+        const x = name.trim()[0].toUpperCase();
+
+        const birthYear = dob.split("-")[2];
+        const y = birthYear[birthYear.length - 1];
+
+        const emailPrefix = email.trim().toLowerCase().slice(0, 2);
+        const asciiSum = emailPrefix.charCodeAt(0) + emailPrefix.charCodeAt(1);
+
+        const pinStr = pin.toString();
+        const lastThreePin = parseInt(pinStr.slice(-3), 10);
+
+        const zzz = asciiSum + lastThreePin;
+
+        const contactSum = contact.toString().split("").reduce((sum, digit) => sum + parseInt(digit), 0);
+        const n = contactSum.toString().slice(-1);
+
+        const dd = String(module.exports.getTodayDate()).split("-")[0];
+
+        const signupYear = String(module.exports.getTodayDate()).split("-")[2];
+        const yy = signupYear.split("").reduce((sum, digit) => sum + parseInt(digit), 0).toString().padStart(2, "0");
+
+        const numericPart = `${x}${y}${zzz}${n}${dd}${yy}`;
+
+        const atIndex = Math.floor(Math.random() * numericPart.length);
+        const idWithAt = numericPart.slice(0, atIndex) + "@" + numericPart.slice(atIndex);
+
+        return prefix + idWithAt;
+    },
     generateFeedbackId: (feedback) => {
         const { type, from, email, related, created } = feedback;
 

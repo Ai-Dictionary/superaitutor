@@ -209,13 +209,18 @@ app.post('/auth', async (req, res) => {
     }else if(String(email).startsWith('UID')){
         memory.clusterName = 'teacher';
         profile_info = await memory.find_profile(email);
-    }else{
+    }else if(String(email).startsWith('MID')){
+        memory.clusterName = 'master';
+        profile_info = await memory.find_profile(email);
+    }else if((/^[\w.-]+@[\w.-]+\.\w{2,}$/).test(email)){
         memory.clusterName = 'student';
         profile_info = await memory.find_profile(email);
         if(profile_info?.status==3 && (!profile_info || Object.keys(profile_info).length === 0)){
             memory.clusterName = 'teacher';
             profile_info = await memory.find_profile(email);
         }
+    }else{
+        profile_info.status==3;
     }
     
     if(profile_info?.status!=3 && profile_info && Object.keys(profile_info).length > 0){
@@ -303,6 +308,11 @@ app.post('/create_account', async (req, res) => {
             memory.clusterName = 'student';
         }else if(profile_info.type == 'teacher'){
             memory.clusterName = 'teacher';
+        }else if(profile_info.type == 'admin'){
+            memory.clusterName = 'master';
+            if(profile_info.details.access_token != process.env.Access_Token){
+                return res.status(200).json({'message': jsonfile.readFileSync('./config/error_log.json')[9]});
+            }
         }else{
             return null;
         }

@@ -15,7 +15,7 @@ class SIGNUP{
     }
     async make_request(formData){
         try{
-            if(this.account_type=='student' || this.account_type=='teacher'){
+            if(this.account_type=='student' || this.account_type=='teacher' || this.account_type=='admin'){
                 const response = await fetch('/create_account', {
                     method: 'POST',
                     headers: {

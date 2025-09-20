@@ -7,5 +7,6 @@
     {"code": 5, "message": "Update failed! The specified field or ID attribute was not found in the records. Please ensure the attribute names are correct and try again"},
     {"code": 6, "message": "Oops! Something went wrong during the update. Please try again later or contact support if the issue persists"},
     {"code": 7, "message": "Duplicate entry detected! A record with the same email or other credentials already exists in the records. Please verify the data and try again with unique authentications. You may try with <ul><li>Use another email id</li><li>Use another contact number</li><li>Change your user name</li></ul> After change the above details try 1 min later for this feature."},
-    {"code": 8, "message": "Update failed! define attribute already have the same value which want to update with it, Please verify the the data and try again"}
+    {"code": 8, "message": "Update failed! define attribute already have the same value which want to update with it, Please verify the the data and try again"},
+    {"code": 9, "message": "The access token you provided is incorrect or unauthorized. Please double-check the token and try again. If you're unsure about your token, kindly contact an authorized admin to obtain a valid one. Without a proper access token, your admin profile cannot be created."}
 ]
