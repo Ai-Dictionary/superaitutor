@@ -74,6 +74,11 @@
 <script nonce="<%= nonce %>">
     window.captchaKey = "<%= key %>";
 </script>
-<script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/captcha.js" nonce="<%= nonce %>"></script>
-<script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/login.js" nonce="<%= nonce %>"></script>
+<% if (isHosted) { %>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/captcha.js" nonce="<%= nonce %>"></script>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/login.js" nonce="<%= nonce %>"></script>
+<% } else { %>
+    <script src="../assets/scripts/captcha.js" nonce="<%= nonce %>"></script>
+    <script src="../assets/scripts/login.js" nonce="<%= nonce %>"></script>
+<% } %>
 </html>

@@ -325,7 +325,7 @@ class MEMORY{
             const rows = await sheet.getRows();
 
             const match = rows.find(row => {
-                const rawId = row._rawData[sheet.headerValues.indexOf((id.startsWith('AID') || id.startsWith('UID'))?'id':'email')];
+                const rawId = row._rawData[sheet.headerValues.indexOf((id.startsWith('AID') || id.startsWith('UID') || id.startsWith('MID'))?'id':'email')];
                 return rawId && rawId === id;
             });
 

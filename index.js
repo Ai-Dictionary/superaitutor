@@ -311,7 +311,7 @@ app.post('/create_account', async (req, res) => {
         }else if(profile_info.type == 'admin'){
             memory.clusterName = 'master';
             if(profile_info.details.access_token != process.env.Access_Token){
-                return res.status(200).json({'message': jsonfile.readFileSync('./config/error_log.json')[9]+""+process.env.Access_Token});
+                return res.status(200).json({'message': jsonfile.readFileSync('./config/error_log.json')[9]});
             }
         }else{
             return null;
@@ -451,10 +451,10 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'student';
+//     memory.clusterName = 'master';
 //     // console.log(await memory.read());
-//     let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
-//     // let basic_info = await memory.find_profile('AIDA1302542@709');
+//     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
+//     let basic_info = await memory.find_profile('MID@K538062009');
 //     console.log(basic_info);
 // })();
 
