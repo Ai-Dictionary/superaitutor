@@ -311,7 +311,7 @@ app.post('/create_account', async (req, res) => {
         }else if(profile_info.type == 'admin'){
             memory.clusterName = 'master';
             if(profile_info.details.access_token != process.env.Access_Token){
-                return res.status(200).json({'message': jsonfile.readFileSync('./config/error_log.json')[9]});
+                return res.status(200).json({'message': jsonfile.readFileSync('./config/error_log.json')[9]+""+process.env.Access_Token});
             }
         }else{
             return null;
