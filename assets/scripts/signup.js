@@ -9,7 +9,7 @@ class SIGNUP{
             return data;
         }catch(err){
             console.error('Failed to load form:', err);
-            alertMessage({'error': 500, 'message': 'Oops! Something went wrong. Due to an internal issue, we couldn\'t load the required signup form. Please double-check your selected account type and try again sometime later.'});
+            system.alert({'error': 500, 'message': 'Oops! Something went wrong. Due to an internal issue, we couldn\'t load the required signup form. Please double-check your selected account type and try again sometime later.'});
             return null;
         }
     }
@@ -29,25 +29,25 @@ class SIGNUP{
                 if(response.ok){
                     if(result.id){
                         console.log('Account created successfully. Your ID:', result.id);
-                        route('/accountCreated?encode='+encodeURIComponent(substitutionEncoder(`name=${formData.name.replaceAll(' ','%20')}&email=${formData.email}&id=${result.id}`,'1441')));
+                        route('/accountCreated?encode='+encodeURIComponent(system.encoder(`name=${formData.name.replaceAll(' ','%20')}&email=${formData.email}&id=${result.id}`,'1441')));
                     }else if(result.message){
                         console.warn('Server responded with a message:', result.message);
                         document.getElementById("waitpopup").style.display = "none";
-                        alertMessage({'error': 400, 'message': result.message.message, 'mute': true});
+                        system.alert({'error': 400, 'message': result.message.message, 'mute': true});
                     }else{
                         console.warn('Unexpected response format:', result);
                         document.getElementById("waitpopup").style.display = "none";
-                        alertMessage({'error': 500, 'message': 'We encountered an unexpected issue while processing your signup request. This may be due to a temporary server error or an incomplete response. Please wait a few moments and try again. If your user ID does not appear within 60 seconds, refresh the page and resubmit the form. Your data has not been saved yet.', 'mute': true});
+                        system.alert({'error': 500, 'message': 'We encountered an unexpected issue while processing your signup request. This may be due to a temporary server error or an incomplete response. Please wait a few moments and try again. If your user ID does not appear within 60 seconds, refresh the page and resubmit the form. Your data has not been saved yet.', 'mute': true});
                     }
                 }else{
                     console.error('Server returned an error status:', response.status, response?.message);
                     document.getElementById("waitpopup").style.display = "none";
-                    alertMessage({'error': 500, 'message':"Our servers are currently experiencing an issue and couldn't complete your signup request. This may be due to high traffic or a temporary outage. Please wait a moment and try again. If the problem continues, your account has not been created—refresh the page and resubmit the form.", 'mute': true});
+                    system.alert({'error': 500, 'message':"Our servers are currently experiencing an issue and couldn't complete your signup request. This may be due to high traffic or a temporary outage. Please wait a moment and try again. If the problem continues, your account has not been created—refresh the page and resubmit the form.", 'mute': true});
                 }
             }
         }catch{
             console.error('Failed to creat account:', err);
-            alertMessage({'error': 500, 'message': 'Oops! Something went wrong. Due to an internal issue, we couldn\'t creat your account using this data. Please double-check your field information and try again sometime later.', 'mute': true});
+            system.alert({'error': 500, 'message': 'Oops! Something went wrong. Due to an internal issue, we couldn\'t creat your account using this data. Please double-check your field information and try again sometime later.', 'mute': true});
             return null;
         }
     }

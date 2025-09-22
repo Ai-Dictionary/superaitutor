@@ -20,6 +20,9 @@ function Teacher_listener(){
             setTimeout(()=>{
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },1000);
+            try{
+                document.getElementById('custom-alert').remove();
+            }catch{};
             current += 1;
         });
     });
@@ -36,6 +39,9 @@ function Teacher_listener(){
             setTimeout(()=>{
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },1000);
+            try{
+                document.getElementById('custom-alert').remove();
+            }catch{};
             current -= 1;
         });
     });
@@ -52,7 +58,7 @@ function Teacher_listener(){
             if(!isPageValid){
                 pages[4].querySelector(".title").innerHTML += `<span>Page ${index + 1} is not filled out correctly.</span>`;
                 console.warn(`Page ${index + 1} is not filled out correctly.`);
-                alertMessage({'error': 400, 'message': `It appears that Page ${index + 1} contains missing or incorrectly entered details. To proceed, please review all fields on this page and ensure they are completed accurately. Once all required information is provided in the correct format, you'll be able to continue.`, 'mute': true});
+                system.alert({'error': 400, 'message': `It appears that Page ${index + 1} contains missing or incorrectly entered details. To proceed, please review all fields on this page and ensure they are completed accurately. Once all required information is provided in the correct format, you'll be able to continue.`, 'mute': true});
                 allValid = false;
             }else{
                 const fields = page.querySelectorAll("input, select, textarea");
@@ -98,7 +104,7 @@ function Teacher_listener(){
         email: /^[\w.-]+@[\w.-]+\.\w{2,}$/,
         url: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
         textarea: /^(.{20,400})$/,
-        text: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{10,250}$/,
+        text: /^[A-Za-z0-9\s\-+,#@$&.:;!?]{5,250}$/,
         dob: /^\d{4}-\d{2}-\d{2}$/,
         graduation: /^\d{4}-\d{2}-\d{2}$/,
         contact: /^[6-9]\d{9}$/,
@@ -130,7 +136,7 @@ function Teacher_listener(){
         if(!isValid){
             currentPage.querySelector(".title").innerHTML += "<span>Please ensure that all fields are completed accurately before proceeding</span>";
             console.warn("Please ensure that all fields are completed accurately before proceeding.");
-            alertMessage({'error': 400, 'message': 'Before proceeding, please ensure that all required fields have been filled out accurately. Some entries appear to be missing or incorrectly formatted. Kindly review the form and make the necessary corrections to continue.', 'mute': true});
+            system.alert({'error': 400, 'message': 'Before proceeding, please ensure that all required fields have been filled out accurately. Some entries appear to be missing or incorrectly formatted. Kindly review the form and make the necessary corrections to continue.', 'mute': true});
         }
         return isValid;
     }

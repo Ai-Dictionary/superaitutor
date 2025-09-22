@@ -209,8 +209,7 @@
     color: #fff !important;
 }
 
-@media only screen and (max-width: 900px),
-only screen and (min-width: 900px) and (max-width: 1200px) {
+@media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
     body {
         overflow: auto;
 
@@ -251,6 +250,15 @@ only screen and (min-width: 900px) and (max-width: 1200px) {
 
     .form-outer form .page .row {
         display: block;
+    }
+
+    .form-group{
+        .table {
+            font-size: 8px;
+            td, th {
+                padding: 0.4rem 0.55rem;
+            }
+        }
     }
 }
 

@@ -451,10 +451,10 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'master';
+//     memory.clusterName = 'student';
 //     // console.log(await memory.read());
 //     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
-//     let basic_info = await memory.find_profile('MID@K538062009');
+//     let basic_info = await memory.delete('AIDS@6374552209');
 //     console.log(basic_info);
 // })();
 

@@ -46,7 +46,7 @@ function login(){
                     passwordField.value = "";
                     window.location.href = '/dashboard';
                 }else{
-                    alertMessage(data);
+                    system.alert(data);
                     // window.location.href = '/login';
                 }
             }).catch(error => {
