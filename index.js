@@ -360,6 +360,8 @@ app.get('/dashboard', async (req, res) => {
                     memory.clusterName = 'student';
                 }else if(String(id).startsWith('UID')){
                     memory.clusterName = 'teacher';
+                }else if(String(id).startsWith('MID')){
+                    memory.clusterName = 'master';
                 }else{
                     return null;
                 }
@@ -451,10 +453,10 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'student';
+//     memory.clusterName = 'master';
 //     // console.log(await memory.read());
 //     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
-//     let basic_info = await memory.delete('AIDS@6374552209');
+//     let basic_info = await memory.find_profile('MIDK5@37402209');
 //     console.log(basic_info);
 // })();
 
