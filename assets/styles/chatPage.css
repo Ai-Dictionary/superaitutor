@@ -199,6 +199,31 @@
     color: var(--rblue);
     font-family: sans-serif;
 }
+.chatBox #message-section .dume ul{
+    position: relative;
+    top: 20rem;
+    left: 0px;
+    list-style: none;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    outline: none;
+    li{
+        padding: 10px 20px;
+        margin-right: 10px;
+        border-radius: 10px;
+        background: var(--lavender);
+        color: slategray;
+        cursor: pointer;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+}
 .chatBox #input-section{
     width: 90%;
     margin: 2px auto;
@@ -233,7 +258,6 @@
     display: flex;
     flex-direction: row;
     justify-content: right;
-    /* background: green; */
     div{
         margin: 0px 5px 0px 10px;
     }
@@ -296,6 +320,9 @@
     }
     .chatBox #message-section{
         height: 80%;
+    }
+    .chatBox #message-section .dume ul{
+        top: 15rem;
     }
 }
 
