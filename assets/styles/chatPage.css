@@ -1,0 +1,330 @@
+.chatSpace{
+    .left{
+        /* background: pink; */
+        width: 20%;
+        .search{
+            width: 95%;
+            margin: 10px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            background: white;
+            border-radius: 0.25rem;
+            border: 1px solid #ced4da;
+            color: #495057;
+            .DocSearch-Button-Container{
+                width: 15%;
+                text-align: center;
+                color: #ced4da;
+            }
+            input{
+                width: 85%;
+                border: none;
+                outline: none;
+                box-shadow: none!important;
+            }
+        }
+        .search:focus-within{
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+        }
+        .botlist{
+            width: 100%;
+            margin: 10px auto;
+            height: 100%;
+            max-height: 80vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            .botcard{
+                width: 95%;
+                margin: 10px 5%;
+                background: var(--softblue);
+                border-radius: 5px;
+                padding: 20px 10px;
+                .left{
+                    width: 30%;
+                    img{
+                        position: relative;
+                        width: 60%;
+                        margin: 10px 20%;
+                    }
+                }
+                .right{
+                    width: 70%;
+                    p{
+                        color: slategray;
+                        max-height: 40px;
+                        font-size: 14px;
+                        margin-bottom: 0px;
+                        overflow: hidden;
+                    }
+                }
+            }
+            .botcard:hover{
+                background: var(--rblue);
+                user-select: none;
+                cursor: pointer;
+                color: #fff;
+                .left{
+                    img{
+                        background: #fff;
+                        border-radius: 50%;
+                    }
+                }
+                p{
+                    color: #cdd8e1!important;
+                }
+            }
+        }
+    }
+    .right{
+        /* background: blue; */
+        width: 80%;
+        .chathead{
+            /* background: pink; */
+            padding: 5px 30px;
+            .left{
+                width: 90%;
+                display: flex;
+                flex-direction: row;
+                img{
+                    position: relative;
+                    width: 40px;
+                }
+                div{
+                    width: 90%;
+                    font-weight: bold;
+                    margin-left: 20px;
+                    margin-top: 10px;
+                }
+            }
+            .right{
+                width: 10%;
+                justify-content: right;
+                svg{
+                    width: 16px;
+                    margin-left: 30px;
+                    cursor: pointer;
+                    color: slategray;
+                }
+            }
+        }
+        .chatBox{
+            width: 95%;
+            height: 82vh;
+            margin: 10px auto;
+            background: var(--softblue);
+            border-radius: 10px;
+        }
+    }
+}
+.chatBox #message-section::-webkit-scrollbar{
+    width: 10px;
+}
+.chatBox #message-section{
+    height: 82%;
+    padding: 0 2.5vw;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    outline: none;
+}
+.chatBox #message-section::-webkit-scrollbar-track{
+    background: transparent;
+}
+.chatBox #message-section::-webkit-scrollbar-thumb{
+    background-color: transparent;
+    border-radius: 6px;
+    border: 3px solid transparent;
+}
+.chatBox #message-section #bot,.chatBox #message-section #user,.chatBox #message-section #error{
+    position: relative;
+    bottom: 0;
+    min-height: 1.5vw;
+    max-width: 50%;
+    font-size: 16px;
+    background-color: transparent;
+    color: slategray;
+    border-radius: 0px 1.5vw 1.5vw 1.8vw;
+    padding: 1vw;
+    margin: 1.5vw 0;
+}
+.chatBox #message-section #user{
+    border: 1.5px solid #f6f6f6;
+    border-radius: 1.5vw 0vw 1.5vw 1.8vw;
+    background-color: var(--rblue);
+    color: #fff;
+    float: right;
+}
+.chatBox #message-section #error{
+    border: 1.5px solid red;
+    background-color: #fe57786f;
+    color: #fff;
+}
+.chatBox #message-section #separetor{
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 14px;
+    color: slategray;
+    font-family: consolas, sans-serif;
+    margin: 12px 0px;
+    transition: 1s ease-in-out;
+    span{
+        width: 20%;
+    }
+    hr{
+        width: 40%;
+        margin: 0px;
+        border: 1px dashed slategray;
+    }
+}
+.chatBox #message-section .message{
+    color: #fff;
+    clear: both;
+    line-height: 1.5vw;
+    font-size: 1.2vw;
+    padding: 8px;
+    position: relative;
+    margin: 8px 0;
+    max-width: 85%;
+    word-wrap: break-word;
+    transition: 1s ease-in-out;
+    z-index: 2;
+}
+.chatBox #message-section .dume h4{
+    margin: 10px auto;
+    color: var(--rblue);
+    font-family: sans-serif;
+}
+.chatBox #input-section{
+    width: 90%;
+    margin: 2px auto;
+    padding: 5px;
+    margin-bottom: 0px;
+    background: #fff;
+    border: 1px solid slategray;
+    border-radius: 10px;
+    z-index: 1;
+    overflow: hidden;
+}
+.chatBox #input-section textarea{
+    color: slategray;
+    min-width: 100%;
+    min-height: 50px;
+    max-height: 50px;
+    min-width: 100%;
+    resize: none;
+    padding: 8px 6px;
+    font-size: 16px;
+    margin: 2px 0%;
+    margin-bottom: 0px;
+    border: none;
+    transition: 1s ease-in-out;
+    outline: none;
+}
+.chatBox #input-section .control{
+    width: 100%;
+    height: fit-content;
+    margin: 5px auto;
+    margin-top: -5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    /* background: green; */
+    div{
+        margin: 0px 5px 0px 10px;
+    }
+}
+.chatBox .send{
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    outline: none;
+    position: relative;
+    background: var(--rblue);
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chatBox .send i{
+    font-size: 12px;
+    color: #fff;
+    margin: auto;
+    transition: 1s ease-in-out;
+}
+.chatBox .send .fa-circle-o-notch{
+	animation: 0.5s spiner linear infinite;
+}
+.chatBox .moreadd{
+    color: black;
+    font-size: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+
+/* Mobile view */
+@media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
+    .chatSpace{
+        .left{
+            display: none;
+        }
+        .right{
+            width: 100%;
+            .chathead{
+                .left{
+                    img{
+                        width: 30px;
+                        height: 30px;
+                    }
+                    div{
+                        font-size: 14px;
+                        margin-top: 5px; 
+                        margin-left: 10px;
+                    }
+                }
+                .right{
+                    width: 30%;
+                }
+            }
+        }
+    }
+    .chatBox #message-section{
+        height: 80%;
+    }
+}
+
+/* Desktop view */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    .chatSpace{
+        .left{
+            display: block;
+            width: 30%;
+            .botlist {
+                .botcard {
+                    .right {
+                        h6{
+                            font-size: 12px;
+                        }
+                        p{
+                            font-size: 8px;
+                        }
+                    }
+                }
+            }
+        }
+        .right{
+            width: 70%;
+        }
+    }
+}
+
+/* Tab view */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+
+}

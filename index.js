@@ -436,6 +436,13 @@ app.get('/relation_profile_info', async (req, res) => {
 
 });
 
+app.get('/chat', async (req, res) => {
+    const nonce = res.locals.nonce;
+    const isHosted = hex.isHosted(req);
+    const header = await ejs.renderFile('./views/header.ejs');
+    res.status(200).render('chatPage',{nonce: nonce, header, isHosted});
+});
+
 app.get('/medikit', (req, res)=>{
     try{
         const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;

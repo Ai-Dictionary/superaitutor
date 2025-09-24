@@ -1,20 +1,10 @@
-access_token: "dev@Sait2025"
-accountType: "admin"
-city: "North 24 Parganas"
-contact: "9876543211"
-dob: "2003-08-15"
-dp_link: "https://google.com/"
-email: "example@gmail.com"
-fav_book: "Harry Poter"
-fav_color: "#0c8ff9"
-gender: "Male"
-medium: "Bengali"
-name: "Krish"
-pass: "@Mitra2003"
-pin: "700159"
-referring_admin: "Krish Mitra"
-referring_contact: "krishnendumitra24@gmail.com"
-status: "active"
-time: "Parttime"
-type: "Super"
-web_link: "https://kidkrishkode.vercel.app/"
+- Solve a Doubt – Ask anything, get a clear answer
+- Image Question Solver – Upload an image, get it solved
+- Make a Mind Map – Visualize your concepts
+- Explain a Concept – Break down any topic
+- Quick Revision – Get a summary of key points
+- Step-by-Step Solution – Detailed walkthroughs for problems
+- Ask from Screenshot – Snap, send, solve
+- Topic Clarifier – Understand any subject better
+- Formula Finder – Get the right formula instantly
+- Why & How – Understand reasoning behind answers
