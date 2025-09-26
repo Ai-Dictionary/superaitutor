@@ -1,10 +1,8 @@
-- Solve a Doubt – Ask anything, get a clear answer
-- Image Question Solver – Upload an image, get it solved
-- Make a Mind Map – Visualize your concepts
-- Explain a Concept – Break down any topic
-- Quick Revision – Get a summary of key points
-- Step-by-Step Solution – Detailed walkthroughs for problems
-- Ask from Screenshot – Snap, send, solve
-- Topic Clarifier – Understand any subject better
-- Formula Finder – Get the right formula instantly
-- Why & How – Understand reasoning behind answers
+constructor() {
+        this.loc = window.location;
+        this.history = undefined;
+        this.pageId = ".chatBox";
+        this.inputId = "input";
+        this.sendBtnId = ".circle";
+        this.messageAreaId = "message-section";
+    }

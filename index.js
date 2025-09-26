@@ -43,6 +43,11 @@ if(hex.isLocalhost(os)){
 }
 app.use('/config', express.static(path.join(__dirname,'config')));
 app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/public', (req, res, next) => {
+    req.url = req.url.replace(/^\/public/, '');
+    const staticMiddleware = express.static(path.join(__dirname, 'public'));
+    staticMiddleware(req, res, next);
+});
 //{
 //     etag: false,
 //     lastModified: false,
@@ -149,13 +154,13 @@ app.use([
             return res.status(429).send('Server is too busy now, Because to many user is present in the lobby. Please try again some time later or report us');
         }
         varchar.ipHits[clientIP] = (varchar.ipHits[clientIP] || 0) + 1;
-        if(varchar.ipHits[clientIP] > 100 && varchar.ipHits[clientIP] < 200){
+        if((varchar.ipHits[clientIP] > 100 && varchar.ipHits[clientIP] < 200) && (clientIP != "::1")){
             varchar.tempBlockedIPs.set(clientIP, Date.now());
             delete varchar.ipHits[clientIP];
             hex.setBlockCookie(res, 'temp');
             return res.status(403).send('Your IP has been temporarily blocked due to exceed the request limit. Please check our fair use policy.');
         }
-        if(varchar.ipHits[clientIP] >= 200){
+        if((varchar.ipHits[clientIP] >= 200) && (clientIP != "::1")){
             varchar.blockedIPs.push(clientIP);
             varchar.tempBlockedIPs.delete(clientIP);
             delete varchar.ipHits[clientIP];

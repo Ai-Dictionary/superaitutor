@@ -65,6 +65,17 @@ class System{
         }
         return cipher;
     }
+    copy(id){
+        const textToCopy = document.querySelector(id);
+        const tempTextarea = document.createElement("textarea");
+        tempTextarea.value = textToCopy.textContent;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        tempTextarea.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        document.body.removeChild(tempTextarea);
+        alert("Text has been copied to the clipboard!");
+    }
 }
 
 let loader;
@@ -79,22 +90,3 @@ document.addEventListener("DOMContentLoaded",() => {
 function route(link){
     window.location.href = link;
 }
-
-
-// function substitutionEncoder(plain_txt, key){
-//         const vocabulary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
-//         let cipher = "";
-//         key = key.repeat(Math.ceil(plain_txt.length / key.length));
-
-//         for(let i = 0; i < plain_txt.length; i++){
-//             let plain_txtIndex = vocabulary.indexOf(plain_txt[i]);
-//             let keyIndex = vocabulary.indexOf(key[i]);
-//             if(plain_txtIndex !== -1 && keyIndex !== -1){
-//                 let newIndex = (plain_txtIndex + keyIndex) % vocabulary.length;
-//                 cipher += vocabulary[newIndex];
-//             } else {
-//                 cipher += plain_txt[i];
-//             }
-//         }
-//         return cipher;
-// }

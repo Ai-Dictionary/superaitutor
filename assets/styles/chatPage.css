@@ -122,7 +122,7 @@
     width: 10px;
 }
 .chatBox #message-section{
-    height: 82%;
+    height: 70%;
     padding: 0 2.5vw;
     overflow-y: auto;
     scrollbar-width: thin;
@@ -137,6 +137,16 @@
     border-radius: 6px;
     border: 3px solid transparent;
 }
+.chatBox #message-section .options{
+    width: 20%;
+    margin-left: 10px;
+    color: slateblue;
+    font-size: 14px;
+    i:hover{
+        cursor: pointer;
+        color: var(--rblue);
+    }
+}
 .chatBox #message-section #bot,.chatBox #message-section #user,.chatBox #message-section #error{
     position: relative;
     bottom: 0;
@@ -148,6 +158,11 @@
     border-radius: 0px 1.5vw 1.5vw 1.8vw;
     padding: 1vw;
     margin: 1.5vw 0;
+}
+.chatBox #message-section #bot{
+    padding-left: 2px;
+    max-width: 100%;
+    text-align: justify;
 }
 .chatBox #message-section #user{
     border: 1.5px solid #f6f6f6;
@@ -199,12 +214,10 @@
     color: var(--rblue);
     font-family: sans-serif;
 }
-.chatBox #message-section .dume ul{
+.chatBox .input-holder ul{
     position: relative;
-    top: 20rem;
-    left: 0px;
     list-style: none;
-    padding: 0px;
+    padding: 0px 20px;
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -269,7 +282,7 @@
     outline: none;
     position: relative;
     background: var(--rblue);
-    border-radius: 5px;
+    border-radius: 50%;
     width: 25px;
     height: 25px;
     display: flex;
@@ -284,6 +297,13 @@
 }
 .chatBox .send .fa-circle-o-notch{
 	animation: 0.5s spiner linear infinite;
+}
+@keyframes spiner{
+	0%{
+		transform: rotate(0deg);
+	}100%{
+		transform: rotate(360deg);
+	}
 }
 .chatBox .moreadd{
     color: black;
@@ -319,10 +339,30 @@
         }
     }
     .chatBox #message-section{
-        height: 80%;
+        height: 70%;
+        .options{
+            margin-top: 10px;
+            width: 50%;
+        }
     }
-    .chatBox #message-section .dume ul{
-        top: 15rem;
+    .chatBox #message-section #bot, .chatBox #message-section #user, .chatBox #message-section #error{
+        max-width: 60%;
+        font-size: 14px;
+        line-height: 20px;
+        padding: 4px 8px;
+    }
+    .chatBox #message-section #bot{
+        max-width: 100%;
+    }
+    .chatBox #message-section #separetor{
+        font-size: 12px;
+        span, hr{
+            width: 30%;
+        }
+    }
+    .chatBox #input-section textarea{
+        max-width: 95%;
+        min-width: 95%;
     }
 }
 
@@ -353,5 +393,28 @@
 
 /* Tab view */
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-
+    .chatSpace{
+        .left{
+            display: block;
+            width: 30%;
+            .botlist {
+                .botcard {
+                    .right {
+                        h6{
+                            font-size: 12px;
+                        }
+                        p{
+                            font-size: 8px;
+                        }
+                    }
+                }
+            }
+        }
+        .right{
+            width: 70%;
+        }
+    }
+    .chatBox #message-section{
+        height: 80%;
+    }
 }

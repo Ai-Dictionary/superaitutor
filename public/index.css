@@ -97,7 +97,7 @@
 .codeheader_Clang{
     background-color: #8D00FF;
 }
-.codeheader_Cpp{
+.codeheader_Cpp, .codeheader_sql{
     background-color: #2a1762;
 }
 .codeheader_Java{
@@ -123,10 +123,8 @@
 }
 
 .code-editor{
-    border: 1px solid grey;
-    width: 95%;
-    margin: 0 auto;
-    min-height: 300px;
+    width: 100%;
+    margin: 8px 0px;
     max-height: 400px;
     background-color: transparent;
     -webkit-border-radius: 6px 6px 6px 6px;
@@ -136,7 +134,7 @@
     font-size: 1em;
     overflow: hidden;
 }
-.code-editor:before{
+/* .code-editor:before{
     content: 'Copy';
     position: absolute;
     top: 30%;
@@ -150,7 +148,7 @@
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
-}
+} */
 .tabs{
     list-style-type: none;
     padding: 0;
@@ -194,7 +192,7 @@
 .code-wrapper{
     display: flex;
     flex-direction: row;
-    /* height: 400px; */
+    min-height: 40px;
     max-height: 400px;
     overflow-x: auto;
     background: var(--code-color);
