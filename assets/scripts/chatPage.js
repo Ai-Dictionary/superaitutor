@@ -11,13 +11,30 @@ class Chat {
         this.messageAreaId = "message-section";
         this.greetId = ".dume";
         this.optionsId = "#dume-options";
-        this.error_log = [];
+        this.error_log = [
+            {"code": 0, "desc": "Unexpeted error, You haven't entered any message yet. Please type something before sending your request."},
+            {"code": 1, "desc": "File corrupted, and cannot be opened. Please obtain a fresh copy of the programe, or recover it for get the chat info from it."},
+            {"code": 2, "desc": "Process failed, server not get chat history data from nano_json file. Please make sure that nano_json file are choose correctly."},
+            {"code": 3, "desc": "Unexpted error, metadata of chat data is missing from selected nano_json file. Please make sure that nano_json file are choose correctly."},
+            {"code": 4, "desc": "Process failed, system cann't harvest chat data from selcted nano_json file. Please choose any other nano_json file."},
+            {"code": 5, "desc": "An <strong>error</strong> occurred. There was an error generating your response query, it is seem like backend Ti-Lama model is absent to handle this query, Please try some time later..<br><br> If this issue persists please contact us through our feedback line info.aidictionary24x7@gmail.com"},
+            {"code": 6, "desc": "<strong>System error</strong>:<br>Compiler not create parser tree for the above LLM code and text content due to some connection error. That's why highlighter is also absent, check the correctness of this responce physically!"},
+            {"code": 7, "desc": "An error occurred. There was an error getting when deleting your chat data. If this issue persists please your console pannel to identify the error."}
+        ];
     }
     setUp(){
         const inputField = document.getElementById(this.inputId);
         inputField.addEventListener("keydown", function (e) {
             if (e.code === "Enter" && e.ctrlKey) {
                 chat.messageSynthesis();
+            }
+        });
+        const list = document.querySelector(this.optionsId);
+        list.addEventListener("click", (e) => {
+            if (e.target && e.target.tagName === "LI") {
+                const clickedText = e.target.innerText.trim();
+                this.addChat(clickedText, "user");
+                this.addChat(`I can't understand your inquery using only the <strong>${clickedText}</strong>, which you enterd from the demo options, Please describe more about it, mean actually what you want, then i am give you the perfect answer.<br><br>If you are still confussed then please check out our <a href='/docs'>Docs</a> Page for more information.`,"bot");
             }
         });
     }
@@ -45,7 +62,7 @@ class Chat {
         document.querySelector(this.sendBtnId).innerHTML = "<i class='fa fa-circle-o-notch'></i>";
         let input = inputField.value.trim();
         if (input == "" || input == " " || input == undefined) {
-            return;
+            return this.addChat(0, 'error');
         }
         inputField.value = "";
         this.addChat(input, 'user');
@@ -126,7 +143,7 @@ class Chat {
                 <div class="flx options">
                     <i class="fa fa-clone" title="Copy the answer on your clipboard" onclick="system.copy('.${id}');"></i>
                     <i class="fa fa-volume-up" title="Listen the answer carefully" onclick="chat.voiceOver('${String(botDiv.textContent)}');"></i>
-                    <i class="fa fa-thumbs-o-up" title="Feed this answer on your favour" onclick="route('/feedback');"></i>
+                    <i class="fa fa-thumbs-o-down" title="Feed this answer on your favour" onclick="route('/feedback');"></i>
                     <i class="fa fa-trash-o" title="Delete this chat" onclick="chat.delete(this);"></i>
                 </div>`;
             mainDiv.appendChild(botDiv);
@@ -227,9 +244,5 @@ class Chat {
 document.addEventListener("DOMContentLoaded", () => {
     chat = new Chat();
     chat.setUp();
-    chat.addChat("Give me access of oneDNN and make tensorflow transpose model for me.", "user");
-    chat.addChat("If your listen it ,mean you are try to access oneDNN model by Pytorch , but you have not permite to get this on your cpu console.","bot");
-    chat.addChat("Ok, then only run the api and make a demo query for get all records from db.", "user");
-    chat.addChat("Uvicorn is live on port <strong>6100</strong>  ```SELECT * FROM USER WHERE 1=1;``` ", "bot");
 });
 

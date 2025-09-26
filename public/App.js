@@ -90,3 +90,7 @@ document.addEventListener("DOMContentLoaded",() => {
 function route(link){
     window.location.href = link;
 }
+
+function invalid(){
+    alert("This feature is not present on this version or you are not permitted to access this resource from this site, Please wait until the new version release or contact us for permission");
+}
