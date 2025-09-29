@@ -126,8 +126,38 @@ html{
 }
 header{
     display: block;
-    height: 60px;
-    background-color: var(--rblue);
+    .navbar{
+        z-index: 99;
+        .navbar-brand{
+            outline: none;
+            img{
+                --logosize: 20px;
+                position: relative;
+                width: var(--logosize);
+                height: var(--logosize);
+                margin-top: -8px;
+            }
+        }
+        .btn{
+            padding: .5rem .5rem;
+            border-radius: 50px;
+            font-size: 14px;
+        }
+        .navbar-search{
+            width: 100%;
+            justify-items: center;
+            .bd-search{
+                width: 250px;
+                margin-left: 50px;
+            }
+            .bd-search::after{
+                content: "Ctrl + K";
+            }
+        }
+        .collapse{
+            width: fit-content;
+        }
+    }
 }
 .small-tutorial{
     width: 250px!important;
