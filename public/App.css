@@ -130,6 +130,9 @@ header{
         z-index: 99;
         .navbar-brand{
             outline: none;
+            font-family: "Zalando Sans SemiExpanded", sans-serif;
+            color: var(--rblue);
+            font-weight: 500;
             img{
                 --logosize: 20px;
                 position: relative;
@@ -139,16 +142,16 @@ header{
             }
         }
         .btn{
-            padding: .5rem .5rem;
+            padding: .58rem .4rem;
             border-radius: 50px;
-            font-size: 14px;
+            font-size: 12px;
         }
         .navbar-search{
             width: 100%;
             justify-items: center;
             .bd-search{
                 width: 250px;
-                margin-left: 50px;
+                margin-left: 35%;
             }
             .bd-search::after{
                 content: "Ctrl + K";
@@ -197,6 +200,15 @@ header{
     }
     header{
         display: block;
+        .navbar{
+            .navbar-search{
+                width: 50%;
+                .bd-search{
+                    width: 100%;
+                    margin-left: 0px;
+                }
+            }
+        }
     }
     .small-tutorial{
         bottom: 4%;
