@@ -271,14 +271,16 @@ app.get('/login', async (req, res) => {
     const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
         link: 'https://youtube.com/@AiDictionary-e2x',
     });
-    const header = await ejs.renderFile('./views/header.ejs');
+    let header;
     const token = req.cookies.auth_token;
-    if(token && hex.isHosted(req)){
+    if(token){
         const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
-        let expiry = encripted_info.split("-")[1];
+        let [id, expiry] = encripted_info.split("-");
         if(Date.now() < expiry){
-            return res.status(200).redirect("/deshboard");
+            header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
         }
+    }else{
+        header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only signup'});
     }
     res.status(200).render('login',{nonce: nonce, key: '404', header, tutorial, isHosted});
 });
@@ -289,7 +291,17 @@ app.get('/signup', async (req, res) => {
     const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
         link: 'https://youtube.com/@AiDictionary-e2x',
     });
-    const header = await ejs.renderFile('./views/header.ejs');
+    let header;
+    const token = req.cookies.auth_token;
+    if(token){
+        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+        let [id, expiry] = encripted_info.split("-");
+        if(Date.now() < expiry){
+            header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
+        }
+    }else{
+        header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only login'});
+    } 
     res.status(200).render('signup',{nonce: nonce, key: '404', header, tutorial, isHosted});
 });
 
@@ -352,7 +364,17 @@ app.get('/accountCreated', async (req, res) => {
     const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
         link: 'https://youtube.com/@AiDictionary-e2x',
     });
-    const header = await ejs.renderFile('./views/header.ejs');
+    let header;
+    const token = req.cookies.auth_token;
+    if(token){
+        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+        let [id, expiry] = encripted_info.split("-");
+        if(Date.now() < expiry){
+            header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
+        }
+    }else{
+        header = await ejs.renderFile('./views/header.ejs', {displayMode: 'both'});
+    }
     res.status(200).render('accountCreated',{nonce: nonce, header, tutorial, id, email, name, isHosted});
 });
 

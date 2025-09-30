@@ -6,14 +6,9 @@
     <nav class="navbar navbar-expand-lg navbar-light "><!-- bg-light -->
         <a class="navbar-brand" href="/"><img src="../public/favicon.ico" alt="sait"> SAIT</a>
         <div class="navbar-search">
-            <form class="bd-search position-relative me-auto">
+            <form class="bd-search position-relative me-auto" action="/docs" target="_blank">
                 <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;">
-                    <input type="search" class="form-control ds-input" id="search-input" placeholder="Search" aria-label="Search docs for..." autocomplete="off" data-bd-docs-version="5.0" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" dir="auto" style="position: relative; vertical-align: top;">
-                    <!-- <pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: system-ui, -apple-system, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, &quot;Liberation Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: auto; text-transform: none;">
-                    </pre>
-                    <span class="ds-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 100%; z-index: 100; left: 0px; right: auto; display: none;">
-                        <div class="ds-dataset-1"></div>
-                    </span> -->
+                    <input type="search" class="form-control ds-input" id="search-input" placeholder="Search" name="search" aria-label="Search docs for..." autocomplete="off" data-bd-docs-version="5.0" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" dir="auto" style="position: relative; vertical-align: top;">
                 </span>
             </form>
         </div>
@@ -50,10 +45,24 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/priceList">Pricing</a>
                 </li>
-                <li class="nav-item btn-group">
-                    <div class="btn btn-outline-dark" onclick="route('/signup');">Signup</div>
-                    <div class="btn btn-outline-dark" onclick="route('/login');">Login</div>
-                </li>
+                <% if (displayMode == 'both') { %>
+                    <li class="nav-item btn-group">
+                        <div class="btn btn-outline-dark" onclick="route('/signup');">Signup</div>
+                        <div class="btn btn-outline-dark" onclick="route('/login');">Login</div>
+                    </li>
+                <% } else if (displayMode == 'only login') { %>
+                    <li class="nav-item">
+                        <div class="btn btn-outline-dark" onclick="route('/login');">All ready have an account</div>
+                    </li>
+                <% } else if (typeof displayMode === 'object' && displayMode.name.length <= 2) { %>
+                    <li class="nav-item user-dp" style="background: <%= displayMode.bg %>">
+                        <div title="View Profile"><%= displayMode.name %></div>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <div class="btn btn-outline-dark" onclick="route('/signup');">Create your account</div>
+                    </li>
+                <% } %>
             </ul>
         </div>
     </nav>

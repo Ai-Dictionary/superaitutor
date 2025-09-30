@@ -149,6 +149,33 @@ module.exports = {
         varchar.ipHits[clientIP] = 0;
         module.exports.setBlockCookie(res, 'normal');
     },
+    get_UserInitials: (userId) => {
+        if (typeof userId !== 'string' || userId.length < 3) return null;
+
+        const prefix = userId.slice(0, 3);
+
+        switch (prefix) {
+            case 'AID': {
+                const firstInitial = userId[3];
+                return {id: userId, name: firstInitial, bg: module.exports.generateBGColor(userId)};
+            }
+            case 'MID': {
+                const firstInitial = userId[3];
+                return {id: userId, name: firstInitial, bg: module.exports.generateBGColor(userId)};
+            }
+            case 'UID': {
+                const ff = parseInt(userId.slice(3, 5), 10);
+                const ll = parseInt(userId.slice(5, 7), 10);
+
+                const firstInitial = String.fromCharCode(ff + 64);
+                const lastInitial = String.fromCharCode(ll + 64);
+
+                return {id: userId, name: firstInitial+""+lastInitial, bg: module.exports.generateBGColor(userId)};
+            }
+            default:
+                return null;
+        }
+    },
     foo:() => {
         return 0;
     }
