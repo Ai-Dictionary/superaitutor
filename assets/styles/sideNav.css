@@ -1,8 +1,8 @@
 .sidebar {
-    position: fixed;
+    /* position: fixed;
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 10; */
     width: 270px;
     height: 100vh;
     background: #151A2D;
@@ -10,15 +10,18 @@
 }
 
 .sidebar.collapsed {
-    width: 85px;
+    width: 0px;
 }
 
 .sidebar .sidebar-header {
     display: flex;
     position: relative;
-    padding: 25px 20px;
+    padding: 25px 20px 10px 20px;
     align-items: center;
     justify-content: space-between;
+}
+.sidebar-header.collapsed , .sidebar-nav.collapsed{
+    display: none;
 }
 
 .sidebar-header .header-logo img {
@@ -31,19 +34,28 @@
 
 .sidebar-header .sidebar-toggler,
 .sidebar-menu-button {
-    position: absolute;
-    right: 20px;
+    display: none;
     height: 35px;
     width: 35px;
     color: #151A2D;
     border: none;
     cursor: pointer;
-    display: flex;
     background: #EEF2FF;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
+    outline: none;
     transition: 0.4s ease;
+}
+
+.sidebar-menu-button {
+    position: absolute;
+    right: 20px;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    background: #151A2D;
+    color: #EEF2FF;
 }
 
 .sidebar.collapsed .sidebar-header .sidebar-toggler {
@@ -123,10 +135,11 @@
 }
 
 .sidebar-nav .secondary-nav {
-    position: absolute;
-    bottom: 35px;
+    /* position: absolute;
+    bottom: 35px; */
     width: 100%;
     background: #151A2D;
+    transition: all 1s ease-in-out;
 }
 
 .sidebar-nav .nav-item {
@@ -149,9 +162,16 @@
     list-style: none;
     padding-left: 15px;
     transition: height 0.4s ease;
+    display: none;
 }
 
-.sidebar.collapsed .dropdown-menu {
+.dropdown-container.open .dropdown-menu {
+    display: block;
+    height: fit-content;
+    background: transparent;
+    position: initial;
+}
+/* .sidebar.collapsed .dropdown-menu {
     position: absolute;
     top: -10px;
     left: 100%;
@@ -163,7 +183,7 @@
     border-radius: 0 10px 10px 0;
     background: #151A2D;
     transition: 0s;
-}
+} */
 
 .sidebar.collapsed .dropdown-menu:has(.dropdown-link) {
     padding: 7px 10px 7px 24px;
@@ -208,8 +228,21 @@
     display: none;
 }
 
+/* Mobile view */
+@media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
+    .sidebar {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 60;
+    }
+    .sidebar-header .sidebar-toggler, .sidebar-menu-button {
+        display: flex;
+    }
+}
+
 /* Responsive media query code for small screens */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .sidebar-menu-button {
         position: fixed;
         left: 20px;
@@ -233,4 +266,4 @@
     .sidebar.collapsed .sidebar-nav .primary-nav {
         transform: translateY(15px);
     }
-}
+} */
