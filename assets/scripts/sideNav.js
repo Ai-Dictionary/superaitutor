@@ -27,7 +27,7 @@
 // });
 
 // Attach click event to sidebar toggle buttons
-document.querySelectorAll(".sidebar-toggler, .sidebar-menu-button").forEach((button) => {
+document.querySelectorAll(".sidebar-toggler, .bi-layout-sidebar").forEach((button) => {
     button.addEventListener("click", () => {
         document.querySelector(".sidebar").classList.toggle("collapsed");
         document.querySelector(".sidebar-header").classList.toggle("collapsed");
