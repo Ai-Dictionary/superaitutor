@@ -13,7 +13,7 @@ header {
         }
     }
 }
-.bi-layout-sidebar{
+.bi-layout-sidebar,.bi-three-dots-vertical{
     display: none;
 }
 article header nav .user-details .dp{
@@ -50,6 +50,14 @@ article header nav .tools{
         cursor: pointer;
     }
 }
+.page{
+    width: 100%;
+    height: 100%;
+    img{
+        width: 60%;
+        margin: 10% 20%;
+    }
+}
 
 /* Mobile view */
 @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
@@ -59,14 +67,14 @@ article header nav .tools{
     header {
         .navbar {
             .navbar-search {
-                width: 50%;
+                width: 60%;
             }
         }
     }
     article header nav .user-details .dp{
         margin: 0px;
     }
-    .bi-layout-sidebar{
+    .bi-layout-sidebar, .bi-three-dots-vertical{
         display: block;
         color: slategray;
     }
