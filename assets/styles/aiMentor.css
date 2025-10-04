@@ -236,6 +236,7 @@
         flex-shrink: 0;
         white-space: nowrap;
     }
+    display: none;
 }
 .chatBox #input-section{
     width: 90%;

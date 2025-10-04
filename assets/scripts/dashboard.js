@@ -21,7 +21,7 @@ class PageRouter {
             if (template) {
                 const container = document.getElementById('page-content');
                 if (container) {
-                    container.innerHTML = template.innerHTML;
+                    container.innerHTML = template.innerHTML!='undefined'?template.innerHTML:(this.isHosted()?"<img src='https://ai-dictionary.github.io/superaitutor/assets/images/404.webp' alt='sait' class='Img404'/>":"<img src='../assets/images/404.webp' alt='sait' class='Img404'/>");
                     this.loadAssets(pageId);
                     history.pushState({}, '', `/deshboard?page=${pageId}`);
                 }
@@ -35,14 +35,28 @@ class PageRouter {
         try {
             const prefix = this.getAssetPrefix();
 
-            const css = document.createElement('link');
-            css.rel = 'stylesheet';
-            css.href = `${prefix}/assets/styles/${pageId}.css`;
-            document.head.appendChild(css);
+            const cssHref = `${prefix}/assets/styles/${pageId}.css`;
+            const jsSrc = `${prefix}/assets/scripts/${pageId}.js`;
 
-            const js = document.createElement('script');
-            js.src = `${prefix}/assets/scripts/${pageId}.js`;
-            document.body.appendChild(js);
+            const cssPath = new URL(cssHref, location.origin).pathname;
+            const jsPath = new URL(jsSrc, location.origin).pathname;
+
+            const cssExists = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(link => new URL(link.href).pathname === cssPath);
+
+            if (!cssExists) {
+                const css = document.createElement('link');
+                css.rel = 'stylesheet';
+                css.href = cssHref;
+                document.head.appendChild(css);
+            }
+
+            const jsExists = Array.from(document.querySelectorAll('script[src]')).some(script => new URL(script.src).pathname === jsPath);
+
+            if (!jsExists) {
+                const js = document.createElement('script');
+                js.src = jsSrc;
+                document.body.appendChild(js);
+            }
         } catch (e) {
             console.error(`Oops! Some assets are not set for "${pageId}" due to an error:\n`, e);
         }

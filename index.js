@@ -480,9 +480,10 @@ app.get('/deshboard', async (req, res) => {
     const promises = [
         ejs.renderFile('./views/templates/general.ejs'),
         ejs.renderFile('./views/templates/myCourse.ejs'),
+        ejs.renderFile('./views/templates/aiMentor.ejs'),
     ];
-    Promise.all(promises).then(([general, myCourse]) => {
-        res.status(200).render('dashboard',{nonce: nonce, isHosted, sideNav, general, myCourse});
+    Promise.all(promises).then(([general, myCourse, aiMentor]) => {
+        res.status(200).render('dashboard',{nonce: nonce, isHosted, sideNav, general, myCourse, aiMentor});
     });
 });
 
@@ -503,8 +504,8 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'master';
-//     // console.log(await memory.read());
+//     memory.clusterName = 'student';
+//     console.log(await memory.read());
 //     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
 //     let basic_info = await memory.find_profile('MIDK5@37402209');
 //     console.log(basic_info);
