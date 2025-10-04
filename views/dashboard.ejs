@@ -80,20 +80,20 @@
                     </svg>
                 </nav>
             </header>
-            <section class="page" id="general">
-                <% if (isHosted) { %>
-                    <img src="https://ai-dictionary.github.io/superaitutor/assets/images/404.webp" alt="sait"/>
-                <% } else { %>
-                    <img src="../assets/images/404.webp" alt="sait"/>
-                <% } %>
+            <section class="page" id="page-content">
+                
             </section>
+            <template class="default-tamplete" id="general-template"><%- typeof(general)!='undefined'?general:(isHosted?"<img src='https://ai-dictionary.github.io/superaitutor/assets/images/404.webp' alt='sait' class='Img404'/>":"<img src='../assets/images/404.webp' alt='sait' class='Img404'/>") %></template>
+            <template class="default-tamplete" id="myCourse-template"><%- typeof(myCourse)!='undefined'?myCourse:(isHosted?"<img src='https://ai-dictionary.github.io/superaitutor/assets/images/404.webp' alt='sait' class='Img404'/>":"<img src='../assets/images/404.webp' alt='sait' class='Img404'/>") %></template>
         </article>
     </main>
 </body>
 <script src="../static/App.js" nonce="<%= nonce %>"></script>
 <% if (isHosted) { %>
     <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/sideNav.js" nonce="<%= nonce %>"></script>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/dashboard.js" nonce="<%= nonce %>"></script>
 <% } else { %>
     <script src="../assets/scripts/sideNav.js" nonce="<%= nonce %>"></script>
+    <script src="../assets/scripts/dashboard.js" nonce="<%= nonce %>"></script>
 <% } %>
 </html>

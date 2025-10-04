@@ -477,7 +477,13 @@ app.get('/deshboard', async (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
     const sideNav = await ejs.renderFile('./views/sideNav.ejs')
-    res.status(200).render('dashboard',{nonce: nonce, isHosted, sideNav});
+    const promises = [
+        ejs.renderFile('./views/templates/general.ejs'),
+        ejs.renderFile('./views/templates/myCourse.ejs'),
+    ];
+    Promise.all(promises).then(([general, myCourse]) => {
+        res.status(200).render('dashboard',{nonce: nonce, isHosted, sideNav, general, myCourse});
+    });
 });
 
 app.get('/medikit', (req, res)=>{
