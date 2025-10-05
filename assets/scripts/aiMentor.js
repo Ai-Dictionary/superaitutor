@@ -1,5 +1,3 @@
-let chat;
-
 class Chat {
     constructor() {
         this.loc = window.location;
@@ -239,10 +237,10 @@ class Chat {
             console.error("An error occurred while deleting the chat.\n" + e);
         }
     }
+    // init(){
+    //     this.setUp();
+    // }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    chat = new Chat();
-    chat.setUp();
-});
-
+const chat = new Chat();
+chat.setUp();

@@ -2,6 +2,7 @@ class PageRouter {
     constructor(basePath = '..', hostedPath = 'https://ai-dictionary.github.io/superaitutor') {
         this.basePath = basePath;
         this.hostedPath = hostedPath;
+        this.currentPage = undefined;
 
         window.addEventListener('popstate', () => this.handlePopState());
         document.addEventListener('DOMContentLoaded', () => this.init());
@@ -19,10 +20,14 @@ class PageRouter {
         try {
             const template = document.getElementById(`${pageId}-template`);
             if (template) {
+                if(this.currentPage!=undefined){
+                    document.getElementById(this.currentPage).innerHTML = document.getElementById('page-content').innerHTML;
+                }
                 const container = document.getElementById('page-content');
                 if (container) {
                     container.innerHTML = template.innerHTML!='undefined'?template.innerHTML:(this.isHosted()?"<img src='https://ai-dictionary.github.io/superaitutor/assets/images/404.webp' alt='sait' class='Img404'/>":"<img src='../assets/images/404.webp' alt='sait' class='Img404'/>");
                     this.loadAssets(pageId);
+                    this.currentPage = `${pageId}-template`;
                     history.pushState({}, '', `/deshboard?page=${pageId}`);
                 }
             }

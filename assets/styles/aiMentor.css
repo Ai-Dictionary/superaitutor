@@ -236,7 +236,7 @@
         flex-shrink: 0;
         white-space: nowrap;
     }
-    display: none;
+    /* display: none; */
 }
 .chatBox #input-section{
     width: 90%;
@@ -352,7 +352,7 @@
         line-height: 20px;
         padding: 4px 8px;
     }
-    .chatBox #message-section #bot{
+    .chatBox #message-section #bot, .chatBox .message:has(#bot) {
         max-width: 100%;
     }
     .chatBox #message-section #separetor{

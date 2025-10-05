@@ -2,8 +2,14 @@
 .workspace.flx{
     justify-content: normal;
 }
+main{
+    overflow: hidden;
+}
+.sidebar{
+    width: 15%;
+}
 article{
-    width: 100%;
+    width: 85%;
     z-index: 1;
     /* background: yellow; */
 }
@@ -22,6 +28,7 @@ header {
 }
 article header{
     width: 100%;
+    position: sticky;
 }
 article header nav .user-details .dp{
     padding: 10px 10px;
@@ -80,6 +87,9 @@ article header nav .tools{
 @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
     article header nav .user-details .name, article header nav .tools{
         display: none;
+    }
+    article{
+        width: 100%;
     }
     header {
         .navbar {

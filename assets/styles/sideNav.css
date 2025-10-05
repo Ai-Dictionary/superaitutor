@@ -10,7 +10,7 @@
 }
 
 .sidebar.collapsed {
-    width: 0px;
+    width: 0px!important;
 }
 
 .sidebar .sidebar-header {
@@ -235,6 +235,7 @@
         top: 0px;
         left: 0px;
         z-index: 60;
+        width: 70%!important;
     }
     .sidebar-header .sidebar-toggler, .sidebar-menu-button {
         display: flex;
