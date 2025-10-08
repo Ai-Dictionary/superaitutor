@@ -1,5 +1,6 @@
 <div class="chatSpace flx">
-    <div class="left">
+    <div class="left chatList">
+        <div class="closeNav" onclick="chat.chatList_toggle('.chatSpace .left', '.chatSpace .mainSpace');">&times;</div>
         <form class="form-inline search">
             <span class="DocSearch-Button-Container">
                 <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
@@ -10,60 +11,67 @@
                     </path>
                 </svg>
             </span>
-            <input class="form-control" type="search" placeholder="Search" name="search" aria-label="Search"
-                title="Search you AI tutor's chat">
+            <input class="form-control" type="search" id="filterMentor" placeholder="Search" name="search" aria-label="Search"
+                title="Search you AI tutor's chat" onkeyup="system.search('filterMentor', 'botcard', 'flex');">
         </form>
         <div class="botlist">
-            <div class="botcard flx">
+            <div class="botcard flx" onclick="chat.changeBot('moppa');">
                 <div class="left">
                     <img src="../static/favicon.ico" alt="sait" />
                 </div>
                 <div class="right">
-                    <h6>Bot Name</h6>
+                    <h6>Moppa.sait</h6>
                     <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, odit?</p>
                 </div>
             </div>
-            <div class="botcard flx">
+            <div class="botcard flx" onclick="chat.changeBot('geography');">
                 <div class="left">
-                    <img src="../static/favicon.ico" alt="sait" />
+                    <!-- <img src="../static/favicon.ico" alt="sait" /> -->
+                    <span>G</span>
                 </div>
                 <div class="right">
-                    <h6>Bot Name</h6>
+                    <h6>Geography</h6>
                     <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, odit?</p>
                 </div>
             </div>
-            <div class="botcard flx">
+            <div class="botcard flx" onclick="chat.changeBot('history');">
                 <div class="left">
-                    <img src="../static/favicon.ico" alt="sait" />
+                    <!-- <img src="../static/favicon.ico" alt="sait" /> -->
+                     <span>H</span>
                 </div>
                 <div class="right">
-                    <h6>Bot Name</h6>
+                    <h6>History</h6>
                     <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, odit?</p>
                 </div>
             </div>
-            <div class="botcard flx">
+            <div class="botcard flx" onclick="chat.changeBot('english');">
                 <div class="left">
-                    <img src="../static/favicon.ico" alt="sait" />
+                    <!-- <img src="../static/favicon.ico" alt="sait" /> -->
+                     <span>E</span>
                 </div>
                 <div class="right">
-                    <h6>Bot Name</h6>
+                    <h6>English</h6>
                     <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, odit?</p>
                 </div>
+            </div>
+            <div id="filterMentorDOD">
+                <!-- <img src="../static/favicon.ico" alt="sait" /> -->
+                Oops!
             </div>
         </div>
     </div>
-    <div class="right">
+    <div class="right mainSpace">
         <div class="chathead flx">
             <div class="left">
                 <img src="../static/favicon.ico" alt="sait" />
-                <div>Bot Name</div>
+                <div id="botName">Moppa</div>
             </div>
             <div class="right flx">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path
                         d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                 </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16" onclick="chat.chatList_toggle('.chatSpace .left', '.chatSpace .mainSpace');">
                     <path fill-rule="evenodd"
                         d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                 </svg>

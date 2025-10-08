@@ -29,6 +29,7 @@
     height: 46px;
     display: block;
     object-fit: contain;
+    user-select: none;
     /* border-radius: 50%; */
 }
 
@@ -88,6 +89,7 @@
 
 .sidebar .sidebar-nav .primary-nav {
     overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-width: thin;
     padding-bottom: 20px;
     height: calc(100vh - 227px);
@@ -113,6 +115,8 @@
     align-items: center;
     text-decoration: none;
     border: 1px solid #151A2D;
+    cursor: pointer;
+    user-select: none;
     transition: 0.4s ease;
 }
 

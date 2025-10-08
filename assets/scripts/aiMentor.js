@@ -9,6 +9,8 @@ class Chat {
         this.messageAreaId = "message-section";
         this.greetId = ".dume";
         this.optionsId = "#dume-options";
+        this.currentBot = undefined;
+        this.chatList_active = false;
         this.error_log = [
             {"code": 0, "desc": "Unexpeted error, You haven't entered any message yet. Please type something before sending your request."},
             {"code": 1, "desc": "File corrupted, and cannot be opened. Please obtain a fresh copy of the programe, or recover it for get the chat info from it."},
@@ -53,6 +55,9 @@ class Chat {
                 console.log(e);
             }
         }
+    }
+    textExtrector(id){
+        return String(document.querySelector(`.${id}`).textContent);
     }
     messageSynthesis() {
         const inputField = document.getElementById(this.inputId);
@@ -124,10 +129,10 @@ class Chat {
             userDiv.innerText = `${input}`;
             mainDiv.appendChild(userDiv);
         } else if (type == 'bot') {
-            let code_present = 0; let id = this.codeIdGenerator();;
+            let code_present = 0; 
+            let id = this.codeIdGenerator();
             let botDiv = document.createElement("div");
             botDiv.classList.add("message");
-            botDiv.textContent = input;
             if (String(input).search("```") != -1) {
                 input = input.replaceAll(" ```", `<div class="code-editor">
                     <ul class="tabs codeheader_Clang"><li class="tab" title="Language Name">Code</li>
@@ -140,7 +145,7 @@ class Chat {
             botDiv.innerHTML = `<div id="bot"><span id="bot-response" class="${id}">${input}</span></div>
                 <div class="flx options">
                     <i class="fa fa-clone" title="Copy the answer on your clipboard" onclick="system.copy('.${id}');"></i>
-                    <i class="fa fa-volume-up" title="Listen the answer carefully" onclick="chat.voiceOver('${String(botDiv.textContent)}');"></i>
+                    <i class="fa fa-volume-up" title="Listen the answer carefully" onclick="chat.voiceOver(chat.textExtrector('${id}').replaceAll(/'/g, ','));"></i>
                     <i class="fa fa-thumbs-o-down" title="Feed this answer on your favour" onclick="route('/feedback');"></i>
                     <i class="fa fa-trash-o" title="Delete this chat" onclick="chat.delete(this);"></i>
                 </div>`;
@@ -235,6 +240,28 @@ class Chat {
         } catch (e) {
             system.handelPyError(this.error_log[7]);
             console.error("An error occurred while deleting the chat.\n" + e);
+        }
+    }
+    chatList_toggle(listName, mainName){
+        if(this.chatList_active){
+            document.querySelector(listName).style.display = "none";
+            document.querySelector(mainName).style.width = "100%";
+            this.chatList_active = false;
+        }else{
+            document.querySelector(listName).style.display = "block";
+            document.querySelector(mainName).style.width = "80%";
+            this.chatList_active = true;
+        }
+    }
+    changeBot(botName){
+        this.currentBot = botName;
+        try{
+            let head = document.getElementById('botName');
+            if(head){
+                head.textContent = botName;
+            }
+        }catch{
+            this.voiceOver("Sorry user, we can't change your ai guid now due to some unwanted error. Please try some time later or contact with our helpline");
         }
     }
     // init(){

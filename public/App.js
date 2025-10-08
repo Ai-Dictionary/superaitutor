@@ -76,6 +76,30 @@ class System{
         document.body.removeChild(tempTextarea);
         alert("Text has been copied to the clipboard!");
     }
+    search(data, list, type='list-item'){
+        let find = 0;
+        let miss=0;
+        let input = document.getElementById(`${data}`).value;
+        input = input.toLowerCase();
+        let x = document.getElementsByClassName(`${list}`);
+        for(let i = 0; i<x.length; i++){ 
+            if(!x[i].textContent.toLowerCase().includes(input)){
+                x[i].style.display = "none";
+                miss++;
+            }else{
+                x[i].style.display = type; //list-item
+                find++;
+            }
+        }
+        if(data == 'searchSelectList'){
+            data = 'searchData';
+        }
+        if(miss>find && find==0 && miss!=0){
+            document.getElementById(data+'DOD').style.display = "block";
+        }else{
+            document.getElementById(data+'DOD').style.display = "none";
+        }
+    }
 }
 
 let loader;

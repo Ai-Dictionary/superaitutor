@@ -66,7 +66,7 @@
                             </svg>
                         </div>
                         <div class="user-details flx">
-                            <div class="dp">
+                            <div class="dp" onclick="loadPage('profile');">
                                 KM
                             </div>
                             <div class="name">
@@ -100,6 +100,7 @@
             <template class="default-tamplete" id="general-template"><%- typeof(general)!='undefined'?general:'undefined' %></template>
             <template class="default-tamplete" id="myCourse-template"><%- typeof(myCourse)!='undefined'?myCourse:'undefined' %></template>
             <template class="default-tamplete" id="aiMentor-template"><%- typeof(aiMentor)!='undefined'?aiMentor:'undefined' %></template>
+            <template class="default-tamplete" id="profile-template"><h3>Nice to see you</h3></template>
         </article>
     </main>
 </body>
