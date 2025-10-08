@@ -478,7 +478,7 @@ app.get('/deshboard', async (req, res) => {
     const isHosted = hex.isHosted(req);
     const sideNav = await ejs.renderFile('./views/sideNav.ejs')
     const promises = [
-        ejs.renderFile('./views/templates/general.ejs'),
+        ejs.renderFile('./views/templates/general.ejs', {isHosted, name: 'Krishnendu Mitra'}),
         ejs.renderFile('./views/templates/myCourse.ejs'),
         ejs.renderFile('./views/templates/aiMentor.ejs'),
     ];

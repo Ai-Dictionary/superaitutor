@@ -1,7 +1,49 @@
-<h2>General</h2>
-<p>
-- Academic Standing → performance
-- Total Enrolled Courses → engagement
-- Fees & Access Status → access level
-- AI Mentor Access → tech-enabled support
-</p>
+<div class="analysis">
+    <div class="grd-box win1 flx">
+        <div class="left-component">
+            <h4>Greet <%= name %></h4>
+            <p>You've learned <strong>70% of your</strong> goal this week!</p>
+            <p>Keep it up and improve your results!</p>
+        </div>
+        <div class="right-component">
+            <% if (isHosted) { %>
+                <img src="https://ai-dictionary.github.io/superaitutor/assets/images/dasktop-greet.png" alt="sait" title="Image"/>
+            <% } else { %>
+                <image src="../assets/images/dasktop-greet.png" alt="sait" title="Image"/>
+            <% } %>
+
+        </div>
+    </div>
+    <div class="grd-box win2">
+        <div class="head flx"><strong>Usage</strong><span>Last 30 Min</span></div>
+        <div class="body">
+            <div class="component flx">
+                <div class="left-component flx">
+                    <div class="progress-circle">
+                        <div role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="--value: 2"></div>
+                    </div>
+                    <div class="name">Edge Request</div>
+                </div>
+                <div class="right-component">2Q / 100PM</div>
+            </div>
+            <div class="component flx">
+                <div class="left-component flx">
+                    <div class="progress-circle">
+                        <div role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="--value: 33"></div>
+                    </div>
+                    <div class="name">Provisioned Memory</div>
+                </div>
+                <div class="right-component">1KB / 3KB</div>
+            </div>
+        </div>
+    </div>
+    <div class="grd-box win3">Academic Standing</div>
+    <div class="grd-box win4">Total Enrolled Courses</div>
+    <div class="grd-box win5">Fees & Access Status</div>
+    <div class="grd-box win6">AI Mentor Access</div>
+    <div class="grd-box win7">Performance Graph</div>
+    <div class="grd-box win8">Pie Chart</div>
+    <div class="grd-box win9">9</div>
+    <div class="grd-box win10">10</div>
+</div>
+    

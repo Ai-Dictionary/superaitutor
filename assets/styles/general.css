@@ -1,0 +1,243 @@
+
+.analysis{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* grid-template-rows: repeat(8, 1fr); */
+    gap: 10px;
+    padding: 20px 10px;
+}
+.grd-box{
+    background: white;
+    border: 1px solid grey;
+    height: 100px;
+    border-radius: 5px;
+    transition: all 1s ease-in-out;
+}
+.win1{
+    grid-column: span 3 / span 3;
+    grid-row: span 2 / span 2;
+    background: linear-gradient(-10deg, #0E437E, var(--rblue));
+    height: 150px;
+    user-select: none;
+    .left-component{
+        width: 70%;
+        color: #fff;
+        padding: 3% 8%;
+        h4{
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+        p{
+            margin: 0px;
+            font-size: 14px;
+            color: #ece7e7;
+        }
+    }
+    .right-component{
+        width: 30%;
+        overflow: hidden;
+        text-align: right;
+        img{
+            position: relative;
+            width: 150px;
+            margin-right: 40px;
+        }
+    }
+}
+.win2{
+    grid-row: span 2 / span 2;
+    grid-column-start: 4;
+    height: 150px;
+    color: #171717;
+    padding: 2% 5%;
+    .head {
+        margin-bottom: 8px;
+        span{
+            font-size: 14px;
+            color: slategray;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+    }
+    .component{
+        font-size: 14px;
+        font-family: sans-serif;
+        .left-component{
+            @keyframes progress {
+                0% { --percentage: 0; }
+                100% { --percentage: var(--value); }
+            }
+            @property --percentage {
+                syntax: '<number>';
+                inherits: true;
+                initial-value: 0;
+            }
+            [role="progressbar"] {
+                --percentage: var(--value);
+                --primary: var(--rblue);
+                --secondary: #e8e7e7;
+                --size: 12px;
+                animation: progress 2s 0.5s forwards;
+                width: var(--size);
+                aspect-ratio: 1;
+                border-radius: 50%;
+                position: relative;
+                overflow: hidden;
+                display: grid;
+                place-items: center;
+                margin: 4px 4px 0px 0px;
+            }
+
+            [role="progressbar"]::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: conic-gradient(var(--primary) calc(var(--percentage) * 1%), var(--secondary) 0);
+                mask: radial-gradient(white 55%, transparent 0);
+                mask-mode: alpha;
+                -webkit-mask: radial-gradient(#0000 50%, #000 0);
+                -webkit-mask-mode: alpha;
+            }
+
+            [role="progressbar"]::after {
+                counter-reset: percentage var(--value);
+                /*   content: counter(percentage) '%'; */
+                font-family: Helvetica, Arial, sans-serif;
+                font-size: calc(var(--size) / 5);
+                color: var(--primary);
+            }
+        }
+        .right-component{
+            color: slategray;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+    }
+}
+.win3{
+    grid-row-start: 3;
+}
+.win4{
+    grid-row-start: 3;
+}
+.win5{
+    grid-row-start: 3;
+}
+.win6{
+    grid-row-start: 3;
+}
+.win7{
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-row-start: 4;
+}
+.win8{
+    grid-row: span 3 / span 3;
+    grid-column-start: 4;
+    grid-row-start: 4;
+}
+.win9{
+    grid-column: span 2 / span 2;
+    grid-row: span 2 / span 2;
+    grid-row-start: 7;
+}
+.win10{
+    grid-column: span 2 / span 2;
+    grid-row: span 2 / span 2;
+    grid-column-start: 3;
+    grid-row-start: 7;
+}
+
+/* Mobile view */
+@media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
+    .analysis{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .win1,
+    .win2,
+    .win7,
+    .win8{
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+    .win3,
+    .win4,
+    .win5,
+    .win6{
+        grid-column: span 1;
+        grid-row: auto;
+    }
+    .win9,
+    .win10{
+        grid-column: span 1;
+        grid-row: auto;
+    }
+    .win1{
+        .left-component{
+            width: 70%;
+            padding: 10% 4%;
+            h4{
+                font-size: 16px;
+            }
+            p{
+                font-size: 10px;
+            }
+        }
+        .right-component{
+            width: 30%;
+            img{
+                width: 100px;
+                margin-right: 20px;
+                margin-top: 50px;
+            }
+        }
+    }
+}
+
+/* Desktop view */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .analysis{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    .win1{
+        grid-column: span 3;
+        grid-row: span 2;
+    }
+    .win2{
+        grid-column: 4;
+        grid-row: span 2;
+    }
+    .win3{
+        grid-column: 1;
+        grid-row: auto;
+    }
+    .win4{
+        grid-column: 2;
+        grid-row: auto;
+    }
+    .win5{
+        grid-column: 3;
+        grid-row: auto;
+    }
+    .win6{
+        grid-column: 4;
+        grid-row: auto;
+    }
+    .win7,
+    .win8{
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+    .win9,
+    .win10{
+        grid-column: span 2;
+        grid-row: auto;
+    }
+}
