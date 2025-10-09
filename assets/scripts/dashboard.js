@@ -30,6 +30,11 @@ class PageRouter {
                     this.currentPage = `${pageId}-template`;
                     history.pushState({}, '', `/deshboard?page=${pageId}`);
                 }
+                if(pageId=='general'){
+                    setTimeout(()=>{
+                        performanceGraph();
+                    },1000);
+                }
             }
         } catch (e) {
             console.error(`Oops! Some page is not set for "${pageId}" due to an error:\n`, e);

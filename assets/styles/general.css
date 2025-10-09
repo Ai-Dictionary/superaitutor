@@ -146,6 +146,7 @@
         h4{
             margin-bottom: 8px;
             color: #35385D;
+            width: fit-content;
             span{
                 font-size: 14px;
             }
@@ -155,7 +156,7 @@
                 font-size: 10px;
                 padding: 4px 10px;
                 height: fit-content;
-                margin: auto;
+                margin: auto 8px;
             }
         }
         p{

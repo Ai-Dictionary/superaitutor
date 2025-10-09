@@ -32,17 +32,19 @@ progress: {
 
 */
 
-
-const script = document.createElement('script');
-script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.5.0';
-script.onload = () => {
+let performanceChart = null;
+function performanceGraph(){
     const xValues = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
     const yValues1 = [30, 56, 78, 82, 98, 68, 83, 91, 88, 92, 94, 89];
     const yValues2 = [84, 92, 81, 98, 96, 95, 86, 90, 92, 99, 93, 94];
 
     const ctx = document.getElementById('performance');
 
-    new Chart(ctx, {
+    if(performanceChart){
+        performanceChart.destroy();
+    }
+
+    performanceChart = new Chart(ctx, {
         type: "line",
         data: {
             labels: xValues,
@@ -74,5 +76,11 @@ script.onload = () => {
             }
         }
     });
+}
+
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.5.0';
+script.onload = () => {
+    performanceGraph();
 };
 document.head.appendChild(script);
