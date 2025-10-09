@@ -31,3 +31,48 @@ progress: {
 }
 
 */
+
+
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.5.0';
+script.onload = () => {
+    const xValues = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    const yValues1 = [30, 56, 78, 82, 98, 68, 83, 91, 88, 92, 94, 89];
+    const yValues2 = [84, 92, 81, 98, 96, 95, 86, 90, 92, 99, 93, 94];
+
+    const ctx = document.getElementById('performance');
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [
+                {
+                    data: yValues1,
+                    backgroundColor: "rgba(65, 105, 225, 0.4)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    lineTension: 0,
+                    fill: true
+                }, 
+                {
+                    data: yValues2,
+                    backgroundColor: "rgba(65, 225, 84, 0.3)",
+                    borderColor: "rgba(200, 255, 0, 0.1)",
+                    lineTension: 0,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: { display: false },
+                title: {
+                    display: false,
+                    text: "Marks vs. Time",
+                    font: { size: 16 }
+                }
+            }
+        }
+    });
+};
+document.head.appendChild(script);
