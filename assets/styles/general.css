@@ -18,6 +18,7 @@
     grid-row: span 2 / span 2;
     background: linear-gradient(-10deg, #0E437E, var(--rblue));
     height: 150px;
+    border: none;
     user-select: none;
     .left-component{
         width: 70%;
@@ -50,6 +51,7 @@
     height: 150px;
     color: #171717;
     padding: 2% 5%;
+    border: 1px solid grey;
     .head {
         margin-bottom: 8px;
         span{
@@ -117,17 +119,75 @@
         }
     }
 }
-.win3{
+.win3, .win4, .win5, .win6{
     grid-row-start: 3;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+    .left-component{
+        width: 30%;
+        text-align: center;
+        .summ-icon{
+            width: 40px;
+            height: 40px;
+            color: #fff;
+            padding: 5px;
+            margin: 30% auto;
+            border-radius: 50%;
+            svg{
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+    .right-component{
+        width: 70%;
+        padding: 10px;
+        h4{
+            margin-bottom: 8px;
+            color: #35385D;
+            span{
+                font-size: 14px;
+            }
+        }
+        p{
+            margin: 0px;
+            margin-bottom: -10px;
+            font-family: sans-serif;
+            font-size: 14px;
+            color: #59647A;
+        }
+        a{
+            text-decoration: none;
+            font-size: 10px;
+            margin: 0px;
+            color: var(--rblue);
+        }
+    }
 }
-.win4{
-    grid-row-start: 3;
+.win3{
+    background: #F4E8FF;
+    .summ-icon{
+        background: #BF83FF;
+    }
 }
 .win5{
-    grid-row-start: 3;
+    background: #FFF4DE;
+    .summ-icon{
+        background: #FE947A;
+    }
+}
+.win4{
+    background: #DCFCE7;
+    .summ-icon{
+        background: #3CD857;
+    }
 }
 .win6{
-    grid-row-start: 3;
+    background: #FFE2E6;
+    .summ-icon{
+        background: #F9597B;
+    }
 }
 .win7{
     grid-column: span 3 / span 3;
@@ -197,6 +257,35 @@
             }
         }
     }
+    .win3, .win4, .win5, .win6{
+        flex-direction: column;
+        height: fit-content;
+        .left-component{
+            .summ-icon{
+                width: 30px;
+                height: 30px;
+                padding: 0px;
+                margin: 15% 10px;
+                svg{
+                    width: 14px;
+                    height: 14px;
+                }
+            }
+        }
+        .right-component{
+            width: 100%;
+            padding: 5px 10px;
+            h4{
+                font-size: 20px;
+            }
+            h4 span, p{
+                font-size: 12px;
+            }
+            a{
+                font-size: 8px;
+            }
+        }
+    }
 }
 
 /* Desktop view */
@@ -209,6 +298,9 @@
     .win1{
         grid-column: span 3;
         grid-row: span 2;
+        .left-component {
+            padding-top: 8%;
+        }
     }
     .win2{
         grid-column: 4;

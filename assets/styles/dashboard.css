@@ -106,3 +106,26 @@ article header nav .tools{
         color: slategray;
     }
 }
+
+/* Desktop view */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    header {
+        .navbar {
+            .navbar-search {
+                width: 35%;
+            }
+        }
+    }
+    .navbar-nav {
+        flex-direction: row;
+    }
+    article header nav .user-details .name, article header nav .tools {
+        display: block;
+    }
+    #navbarDropdownMenuLink,  .tools.dropdown-menu {
+        display: none;
+    }
+    article header nav .user-details .dp {
+        margin: 0px 5px;
+    }
+}

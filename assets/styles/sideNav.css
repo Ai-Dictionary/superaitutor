@@ -245,30 +245,3 @@
         display: flex;
     }
 }
-
-/* Responsive media query code for small screens */
-/* @media (max-width: 768px) {
-    .sidebar-menu-button {
-        position: fixed;
-        left: 20px;
-        top: 20px;
-        height: 40px;
-        width: 42px;
-        display: flex;
-        color: #F1F4FF;
-        background: #151A2D;
-    }
-
-    .sidebar.collapsed {
-        width: 270px;
-        left: -270px;
-    }
-
-    .sidebar.collapsed .sidebar-header .sidebar-toggler {
-        transform: none;
-    }
-
-    .sidebar.collapsed .sidebar-nav .primary-nav {
-        transform: translateY(15px);
-    }
-} */
