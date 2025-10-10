@@ -476,14 +476,15 @@ app.get('/chat', async (req, res) => {
 app.get('/deshboard', async (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
-    const sideNav = await ejs.renderFile('./views/sideNav.ejs')
+    const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;
     const promises = [
-        ejs.renderFile('./views/templates/general.ejs', {isHosted, name: 'Krishnendu Mitra'}),
+        ejs.renderFile('./views/sideNav.ejs', {type: 'student'}),
+        ejs.renderFile('./views/templates/general.ejs', {isHosted, name: 'Krishnendu Mitra', edge_request: varchar.ipHits[clientIP]}),
         ejs.renderFile('./views/templates/myCourse.ejs'),
         ejs.renderFile('./views/templates/aiMentor.ejs'),
     ];
-    Promise.all(promises).then(([general, myCourse, aiMentor]) => {
-        res.status(200).render('dashboard',{nonce: nonce, isHosted, sideNav, general, myCourse, aiMentor});
+    Promise.all(promises).then(([sideNav, general, myCourse, aiMentor]) => {
+        res.status(200).render('dashboard', {nonce: nonce, isHosted, sideNav, general, myCourse, aiMentor});
     });
 });
 

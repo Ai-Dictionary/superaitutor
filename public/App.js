@@ -2,7 +2,7 @@ class Loader{
     constructor(load){
         this.loaded = load;
     }
-    creat(){
+    create(){
         if(this.loaded!=false){
             const loaderEle = document.createElement('div');
             loaderEle.classList.add("loader");
@@ -23,6 +23,54 @@ class Loader{
         },time);
     }
 }
+
+class PopUp {
+    constructor(type = 'normal', time = 3000, maxVisible = 5) {
+        this.type = type;
+        this.time = time;
+        this.maxVisible = maxVisible;
+
+        if(!document.querySelector('#popup-container')){
+            const container = document.createElement('div');
+            container.id = 'popup-container';
+            container.style.position = 'fixed';
+            container.style.bottom = '20px';
+            container.style.right = '10px';
+            container.style.zIndex = '999';
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column-reverse';
+            container.style.gap = '10px';
+            document.body.appendChild(container);
+        }
+    }
+
+    create(message = 'Some popup want to appear but due to permission limitation they are not shown in display.'){
+        const container = document.querySelector('#popup-container');
+        const div = document.createElement('div');
+        div.className = 'popup';
+
+        const timeoutId = setTimeout(() => {
+            div.remove();
+        }, this.time);
+
+        div.innerHTML = `
+            <div class="alert alert-${this.type === 'normal' ? 'secondary' : this.type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="clearTimeout(${timeoutId}); document.querySelector('.${div.className}').remove();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+
+        container.appendChild(div);
+
+        const popups = container.querySelectorAll('.popup');
+        if (popups.length > this.maxVisible) {
+            popups[0].remove();
+        }
+    }
+}
+
 class System{
     constructor(){
 
@@ -106,7 +154,7 @@ let loader;
 let system;
 document.addEventListener("DOMContentLoaded",() => {
     loader = new Loader(true);
-    loader.creat();
+    loader.create();
     loader.remove(2000);
     system = new System();
 });

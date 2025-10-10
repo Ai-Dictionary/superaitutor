@@ -20,11 +20,11 @@
             <div class="component flx">
                 <div class="left-component flx">
                     <div class="progress-circle">
-                        <div role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="--value: 2"></div>
+                        <div role="progressbar" aria-valuenow="<%- (typeof(edge_request)!='undefined'?edge_request:0) %>" aria-valuemin="0" aria-valuemax="100" style="--value: <%- (typeof(edge_request)!='undefined'?edge_request:0) %>"></div>
                     </div>
                     <div class="name">Edge Request</div>
                 </div>
-                <div class="right-component">2Q / 100PM</div>
+                <div class="right-component"><%- (typeof(edge_request)!='undefined'?edge_request:'0') %>Q / 100PM</div>
             </div>
             <div class="component flx">
                 <div class="left-component flx">
@@ -34,6 +34,15 @@
                     <div class="name">Provisioned Memory</div>
                 </div>
                 <div class="right-component">1KB / 3KB</div>
+            </div>
+            <div class="component flx">
+                <div class="left-component flx">
+                    <div class="progress-circle">
+                        <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="--value: 0"></div>
+                    </div>
+                    <div class="name">Intelligence Interaction</div>
+                </div>
+                <div class="right-component">0Q / 50PD</div>
             </div>
         </div>
     </div>

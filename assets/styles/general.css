@@ -319,6 +319,9 @@
             }
         }
     }
+    .win2{
+        border: 0.5px solid #dbdbf4ad;
+    }
     .win3, .win4, .win5, .win6{
         flex-direction: column;
         height: fit-content;

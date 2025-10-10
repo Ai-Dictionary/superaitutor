@@ -150,6 +150,15 @@
     position: relative;
 }
 
+.sidebar-nav .nav-item.nav-empty{
+    height: 100%;
+    color: whitesmoke;
+    padding: 70% 5px;
+    font-family: monospace;
+    text-align: center;
+    border-radius: 5px;
+}
+
 /* Dropdown Stylings */
 .sidebar-nav .dropdown-container .dropdown-icon {
     margin: 0 -4px 0 auto;
