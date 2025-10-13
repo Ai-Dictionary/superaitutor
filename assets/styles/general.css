@@ -12,6 +12,13 @@
     height: 100px;
     border-radius: 5px;
     transition: all 1s ease-in-out;
+    .suphead{
+        color: #59647A;
+        font-size: 14px;
+        i, svg{
+            margin: 0px 8px;
+        }
+    }
 }
 .win1{
     grid-column: span 3 / span 3;
@@ -260,6 +267,47 @@
     grid-row: span 3 / span 3;
     grid-column-start: 4;
     grid-row-start: 4;
+    padding: 10px 20px;
+    height: fit-content;
+    border: 0.5px solid #ddebf7;
+    h4{
+        font-size: 18px;
+        color: #171717;
+        font-weight: 600;
+    }
+    canvas, .pie-graph{
+        height: 260px!important;
+        width: 80%!important;
+        margin: 2px 10%;
+        border-radius: 50%;
+        border: 0.5px solid #ddebf7;
+        overflow: hidden;
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+    }
+    .pie-ul {
+        list-style: none;
+        color: grey;
+        font-family: sans-serif;
+        font-size: 12px;
+        margin: 12px 5px;
+        padding: 2px 4px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        li {
+            display: flex;
+            flex-direction: row;
+            cursor: pointer;
+        }
+        .pie-box {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            margin: 2px 4px;
+            background: #000;
+        }
+    }
 }
 .win9{
     grid-column: span 2 / span 2;
@@ -357,7 +405,7 @@
             font-size: 16px;
         }
         canvas, .line-graph {
-            height: fit-content!important;
+            height: 240px!important;
         }
         .graph-record{
             font-size: 12px;
@@ -408,5 +456,35 @@
     .win10{
         grid-column: span 2;
         grid-row: auto;
+    }
+    .win8{
+        canvas, .pie-graph {
+            width: 260px!important;
+        }
+        .pie-ul {   
+            grid-template-columns: repeat(3, 1fr);
+            height: fit-content;
+        }
+        span{
+            display: flex;
+            flex-direction: row;
+        }
+    }
+}
+
+/* Tab view */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    .win8{
+        canvas, .pie-graph {
+            width: 260px!important;
+        }
+        .pie-ul {   
+            grid-template-columns: repeat(1, 1fr);
+            height: fit-content;
+        }
+        span{
+            display: flex;
+            flex-direction: row;
+        }
     }
 }

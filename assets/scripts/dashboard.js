@@ -32,7 +32,7 @@ class PageRouter {
                 }
                 if(pageId=='general'){
                     setTimeout(()=>{
-                        performanceGraph();
+                        general.performanceGraph();
                     },1000);
                 }
             }

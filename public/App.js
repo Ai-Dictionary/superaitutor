@@ -69,6 +69,14 @@ class PopUp {
             popups[0].remove();
         }
     }
+    delete(){
+        const popups = container.querySelectorAll('.popup');
+        if(popups){
+            for(let i=0; i<popups.length; i++){
+                popups[i].remove();
+            }
+        }
+    }
 }
 
 class System{
