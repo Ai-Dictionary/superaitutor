@@ -1,4 +1,5 @@
 .chatSpace{
+    background: #fff;
     .chatList{
         display: none;
     }
@@ -151,7 +152,7 @@
             width: 95%;
             height: 82vh;
             margin: 10px auto;
-            background: var(--softblue);
+            /* background: var(--softblue); */
             border-radius: 10px;
         }
     }

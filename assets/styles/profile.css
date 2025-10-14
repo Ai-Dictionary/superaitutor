@@ -1,0 +1,92 @@
+.profile-page{
+    padding: 10px 20px;
+    width: 100%;
+    height: 100%;
+    .head{
+        h4{
+            color: #171717;
+        }
+        .btn{
+            padding: 4px 18px;
+            border-radius: 50px;
+        }
+    }
+    .body{
+        margin: 20px 0px;
+        .left-component, .right-component{
+            background: #fff;
+            border-radius: 10px;
+            height: 100%;
+            border: 0.5px solid #dbdbf4ad;
+            padding: 10px;
+        }
+        .left-component{
+            width: 38%;
+            .dp{
+                padding: 40px 10px;
+                text-align: center;
+                background: hsl(216, 81%, 81%);
+                border-radius: 50%;
+                border: 0.5px solid #dbdbf4ad;
+                margin: 20px auto;
+                color: #fff;
+                font-weight: bold;
+                font-family: sans-serif;
+                font-size: 80px;
+                width: 200px;
+                height: 200px;
+                user-select: none;
+            }
+        }
+        .right-component{
+            width: 58%;
+        }
+        .breaker{
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            color: steelblue;
+            width: 100%;
+        }
+        .user-data{
+            .form-group.flx{
+                label{
+                    font-size: 14px;
+                    padding-top: 10px;
+                    width: 50%;
+                }
+                .form-control{
+                    width: 50%;
+                    border: none;
+                    border-bottom: 1px solid #ced4da;
+                    border-radius: 0px;
+                }
+                .form-control:focus{
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}
+
+/* Mobile view */
+@media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
+    .profile-page{
+        padding: 10px;
+        .body{
+            flex-direction: column;
+            .left-component, .right-component{
+                width: 100%;
+                margin-bottom: 20px;
+                padding: 10px 20px;
+            }
+            .left-component{
+                .dp{
+                    width: 150px;
+                    height: 150px;
+                    font-size: 50px;
+                }
+            }
+        }
+    }
+}

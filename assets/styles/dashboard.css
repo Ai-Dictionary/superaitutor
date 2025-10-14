@@ -1,4 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+SemiExpanded:ital,wght@0,200..900;1,200..900&display=swap');
+.btn-process{
+    color: #fff;
+    background-color: #4169e1;
+    border-color: #816eee;
+}
+.btn-process:hover{
+    color: #fff;
+    background-color: var(--loader-font);
+    border-color: var(--loader-font);
+}
+.btn-outline-process{
+    color: #a194f7;
+    background-color: transparent;
+    border-color: #a194f7;
+}
+.btn-outline-process:hover{
+    color: #fff;
+    background-color: #4169e1;
+    border-color: #816eee;
+}
 .workspace.flx{
     justify-content: normal;
 }

@@ -1,4 +1,3 @@
-
 .analysis{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -456,6 +455,11 @@
     .win10{
         grid-column: span 2;
         grid-row: auto;
+    }
+    .win7{
+        canvas, .line-graph{
+            height: 300px!important;
+        }
     }
     .win8{
         canvas, .pie-graph {
