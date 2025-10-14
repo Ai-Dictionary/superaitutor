@@ -80,6 +80,9 @@
                 .form-control:focus{
                     box-shadow: none;
                 }
+                .form-control:disabled{
+                    background: transparent!important;
+                }
             }
         }
         .hidden{
@@ -92,6 +95,9 @@
                 .form-control{
                     width: 70%;
                 }
+            }
+            small{
+                text-align: justify;
             }
         }
     }
@@ -118,6 +124,16 @@
                     font-size: 50px;
                 }
             }
-        }
+            .right-component{
+                padding: 0px;
+            }
+            .security-mark{
+                .form-group.flx{
+                    .form-control{
+                        width: 60%;
+                        }
+                    }
+                }
+            }
     }
 }

@@ -1,3 +1,9 @@
+<% function formatDate(dob) {
+  if (!dob) return '1947-08-15';
+  const [dd, mm, yyyy] = dob.split('-');
+  return `${yyyy}-${mm}-${dd}`;
+} %>
+
 <div class="profile-page">
     <div class="head flx">
         <h4>Account Details</h4>
@@ -8,7 +14,7 @@
                     <path
                         d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
                 </svg>
-                Edit
+                Edit Profile
             </div>
             <div class="btn btn-process">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -22,19 +28,19 @@
     </div>
     <div class="body flx">
         <div class="left-component">
-            <div class="dp" title="My Desktop Picture">
-                KM
+            <div class="dp" title="My Desktop Picture" <%- `style="background: ${user?.bg || '#eee'};"` %>>
+                <%- (typeof(user?.name)!='undefined'?(user?.name?.split(' ').filter(Boolean)[0]?.[0] || '') + (user?.name?.split(' ').filter(Boolean).slice(-1)[0]?.[0] || '0'):'UN') %>
             </div>
             <div class="breaker">Personal Details</div>
             <div class="user-data">
                 <div class="form-group flx">
                     <label for="userName">Name</label>
                     <input type="name" class="form-control" id="name" aria-describedby="nameHelp"
-                        placeholder="Enter your full name" required />
+                        placeholder="Enter your full name" value="<%= (typeof(user?.name)!='undefined'?(user?.name):'Unkown User') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="gender">Gender</label>
-                    <select class="form-control" id="gender" aria-describedby="genderHelp" required>
+                    <select class="form-control" id="gender" aria-describedby="genderHelp" data-value="<%= (typeof(user?.gender)!='undefined'?(user?.gender):'Other') %>" required>
                         <option value="Male" selected>Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
@@ -43,48 +49,48 @@
                 <div class="form-group flx">
                     <label for="dob">Date of Birth</label>
                     <input type="date" class="form-control" id="dob" max="60" min="8" id="dob"
-                        aria-describedby="dobHelp" placeholder="dd-mm-yyyy" required />
+                        aria-describedby="dobHelp" placeholder="dd-mm-yyyy" value="<%= (typeof(user?.dob)!='undefined'?formatDate(user?.dob):'1947-08-15') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="contact">Contact Number (WhatsApp Preferred)</label>
                     <input type="tel" class="form-control" id="contact" maxlength="10" id="contact"
-                        aria-describedby="contactHelp" placeholder="Enter your contact number" required />
+                        aria-describedby="contactHelp" placeholder="Enter your contact number" value="<%= (typeof(user?.contact)!='undefined'?(user?.contact):'') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="email">Email Address</label>
                     <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter your email id" required />
+                        placeholder="Enter your email id" value="<%= (typeof(user?.email)!='undefined'?(user?.email):'') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="address">Residential Address</label>
                     <input type="text" class="form-control" id="address" maxlength="30" id="address"
-                        aria-describedby="addressHelp" placeholder="Enter your current address" required />
+                        aria-describedby="addressHelp" placeholder="Enter your current address" value="<%= (typeof(user?.address)!='undefined'?(user?.address):'') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="postoffice">Post Office</label>
                     <input type="postoffice" class="form-control" aria-describedby="postofficeHelp"
-                        placeholder="Enter your nearest postoffice name" required />
+                        placeholder="Enter your nearest postoffice name" value="<%= (typeof(user?.address.split(' P.O- ')[1])!='undefined'?(user?.address.split(' P.O- ')[1]):'') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="city">City</label>
                     <input type="text" class="form-control" maxlength="30" id="city" aria-describedby="cityHelp"
-                        placeholder="Enter your current city" required />
+                        placeholder="Enter your current city" value="<%= (typeof(user?.city)!='undefined'?(user?.city):'') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="pin">PIN Code</label>
                     <input type="number" class="form-control" id="pin" maxlength="6" aria-describedby="pinHelp"
-                        placeholder="Enter your pin code" required />
+                        placeholder="Enter your pin code" value="<%= (typeof(user?.pin)!='undefined'?(user?.pin):'') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="parentName">Parent's Full Name</label>
                     <input type="text" class="form-control" id="parent_name" placeholder="Enter your parent's full name"
-                        required />
+                        value="<%= (typeof(user?.parent_name)!='undefined'?(user?.parent_name):'') %>" required />
                 </div>
                 <div class="form-group flx">
                     <label for="relationship">Relationship with Parent</label>
-                    <select class="form-control" id="relationship" required>
-                        <option value="Father" selected>Father</option>
-                        <option value="Mother">Mother</option>
+                    <select class="form-control" id="relationship" data-value="<%= (typeof(user?.relationship)!='undefined'?(user?.relationship):'Other') %>" required>
+                        <option value="Father">Father</option>
+                        <option value="Mother" selected>Mother</option>
                         <option value="Grandfather">Grandfather</option>
                         <option value="Grandmother">Grandmother</option>
                         <option value="Uncle">Uncle</option>
@@ -100,7 +106,7 @@
                 <div class="form-group flx">
                     <label for="parentContact">Parent's Contact Number (WhatsApp Preferred)</label>
                     <input type="tel" class="form-control" id="parent_contact" maxlength="10"
-                        placeholder="Enter parent's contact number" required />
+                        placeholder="Enter parent's contact number" value="<%= (typeof(user?.parent_contact)!='undefined'?(user?.parent_contact):'') %>" required />
                 </div>
             </div>
         </div>
@@ -111,14 +117,14 @@
                     <div class="form-group flx">
                         <label for="institutionName">Current Institution (School/College Name)</label>
                         <input type="text" class="form-control" id="institute" aria-describedby="institutionHelp"
-                            placeholder="Enter the name of your school or college" required />
+                            placeholder="Enter the name of your school or college" value="<%= (typeof(user?.institute)!='undefined'?(user?.institute):'') %>" required />
                     </div>
                     <div class="form-group flx">
                         <label for="educationLevel">Education Level</label>
-                        <select class="form-control" id="level" required>
-                            <option value="Primary School">Primary School</option>
+                        <select class="form-control" id="level" data-value="<%= (typeof(user?.level)!='undefined'?(user?.level):'Other') %>" required>
+                            <option value="Primary School" selected>Primary School</option>
                             <option value="High School">High School</option>
-                            <option value="Undergraduate" selected>Undergraduate</option>
+                            <option value="Undergraduate">Undergraduate</option>
                             <option value="Postgraduate">Postgraduate</option>
                             <option value="Doctorate">Doctorate / PhD</option>
                             <option value="Diploma">Diploma / Certification</option>
@@ -127,7 +133,7 @@
                     </div>
                     <div class="form-group flx">
                         <label for="currentClass">Current Class</label>
-                        <select class="form-control" id="class" required>
+                        <select class="form-control" id="class" data-value="<%= (typeof(user?.class)!='undefined'?(user?.class):'Other') %>" required>
                             <option value="6">Class 6</option>
                             <option value="7">Class 7</option>
                             <option value="8">Class 8</option>
@@ -146,7 +152,7 @@
                     </div>
                     <div class="form-group flx">
                         <label for="academicStream">Academic Stream / Major</label>
-                        <select class="form-control" id="stream" required>
+                        <select class="form-control" id="stream" data-value="<%= (typeof(user?.stream)!='undefined'?(user?.stream):'Other') %>" required>
                             <option value="Not Applicable">Not Applicable</option>
                             <option value="Science" selected>Science</option>
                             <option value="Commerce">Commerce</option>
@@ -189,11 +195,11 @@
                     <div class="form-group flx">
                         <label for="previousResults">Previous Academic Results</label>
                         <input type="number" class="form-control" id="results"
-                            placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" required />
+                            placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" value="<%= (typeof(user?.result)!='undefined'?(user?.result):'') %>" required />
                     </div>
                     <div class="form-group flx">
                         <label for="mediumInstruction">Preferred Medium of Instruction</label>
-                        <select class="form-control" id="medium" required>
+                        <select class="form-control" id="medium" data-value="<%= (typeof(user?.medium)!='undefined'?(user?.medium):'Other') %>" required>
                             <option value="English">English</option>
                             <option value="Hindi">Hindi</option>
                             <option value="Bengali" selected>Bengali</option>
@@ -207,12 +213,12 @@
                     <div class="form-group flx">
                         <label for="favouriteSubjects">Favourite Subjects</label>
                         <input type="text" class="form-control" id="fav_subject"
-                            placeholder="e.g., Geography, English, Computer Science" required />
+                            placeholder="e.g., Geography, English, Computer Science" value="<%= (typeof(user?.fav_subject)!='undefined'?(user?.fav_subject):'') %>" required />
                     </div>
                     <div class="form-group flx">
                         <label for="difficultSubjects">Difficult Subjects</label>
                         <input type="text" class="form-control" id="diff_subject"
-                            placeholder="e.g., Mathematics, Chemistry, English" required />
+                            placeholder="e.g., Mathematics, Chemistry, English" value="<%= (typeof(user?.diff_subject)!='undefined'?(user?.diff_subject):'') %>" required />
                     </div>
                 </div>
             </div>
@@ -221,7 +227,7 @@
                 <div class="user-data">
                     <div class="form-group flx">
                         <label for="preferredClass">Preferred Class/Grade</label>
-                        <select class="form-control" id="pref_class" required>
+                        <select class="form-control" id="pref_class" data-value="<%= (typeof(user?.pref_class)!='undefined'?(user?.pref_class):'Other') %>" required>
                             <option value="Current Class" selected>Current Class</option>
                             <option value="Next Class">Next Class / Upcoming Grade</option>
                             <option value="Grade Improvement">Grade Improvement / Repeat Year</option>
@@ -239,7 +245,7 @@
                     </div>
                     <div class="form-group flx">
                         <label for="higherEdGoal">Intended Higher Education Goal</label>
-                        <select class="form-control" id="goal" required>
+                        <select class="form-control" id="goal" data-value="<%= (typeof(user?.goal)!='undefined'?(user?.goal):'Other') %>" required>
                             <option value="Engineering">Engineering (e.g., B.Tech, BE)</option>
                             <option value="Medicine">Medicine / Healthcare (e.g., MBBS, BDS, Nursing)</option>
                             <option value="Management">Management / Business (e.g., BBA, MBA)</option>
@@ -262,7 +268,7 @@
                     </div>
                     <div class="form-group flx">
                         <label for="examPrep">Competitive Exams Preparing For</label>
-                        <select class="form-control" id="exam_prep" required>
+                        <select class="form-control" id="exam_prep" data-value="<%= (typeof(user?.exam_prep)!='undefined'?(user?.exam_prep):'Other') %>" required>
                             <option value="Board Exam">Board Exams (10th / 12th)</option>
                             <option value="CUET">CUET (Central University Entrance Test)</option>
                             <option value="JEE">JEE (Joint Entrance Exam)</option>
@@ -283,7 +289,7 @@
                     </div>
                     <div class="form-group flx">
                         <label for="careerGoal">Career Aspirations</label>
-                        <select class="form-control" id="career" required>
+                        <select class="form-control" id="career" data-value="<%= (typeof(user?.career)!='undefined'?(user?.career):'Other') %>" required>
                             <option value="Software Engineer">Software Engineer / Developer</option>
                             <option value="Data Scientist">Data Scientist / AI Specialist</option>
                             <option value="Civil Engineer">Civil / Mechanical / Electrical Engineer</option>

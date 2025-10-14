@@ -111,18 +111,23 @@ module.exports = {
         }
         return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
     },
-    profile_setup(profile_info){
+    profile_setup(profile_info, whose=''){
         try{
             let props;
-            if(profile_info.id.startsWith('UID')){
-                props = ['emergency_contact', 'relevent_certificate', 'job_status', 'previous_institute', 'familiar', 'fav_color', 'fav_book', 'amount', 'as_stud', 'status'];
-            }else if(profile_info.id.startsWith('AID')){
-                props = ['contact', 'address', 'parent_contact', 'previous_institute', 'fav_color', 'fav_book', 'amount', 'as_tech', 'status'];
-            }else if(profile_info.id.startsWith('MID')){
-                props = ['dob', 'contact', 'fav_color', 'fav_book', 'amount', 'referring_contact', 'permission', 'status'];
+            if(whose!='self'){
+                if(profile_info.id.startsWith('UID')){
+                    props = ['emergency_contact', 'relevent_certificate', 'job_status', 'previous_institute', 'familiar', 'fav_color', 'fav_book', 'amount', 'as_stud', 'status'];
+                }else if(profile_info.id.startsWith('AID')){
+                    props = ['contact', 'address', 'parent_contact', 'previous_institute', 'fav_color', 'fav_book', 'amount', 'as_tech', 'status'];
+                }else if(profile_info.id.startsWith('MID')){
+                    props = ['dob', 'contact', 'fav_color', 'fav_book', 'amount', 'referring_contact', 'permission', 'status'];
+                }else{
+                    return null;
+                }
             }else{
-                return null;
+                props = ['fav_color', 'fav_book', 'status'];
             }
+            
             for(let i=0; i<props.length; i++){
                 delete profile_info[props[i]];
             }
@@ -130,7 +135,7 @@ module.exports = {
             if(confidence!=true){
                 return false;
             }
-            profile_info.bg = module.exports.generateBGColor(profile_info.name);
+            profile_info.bg = module.exports.generateBGColor(profile_info.name, profile_info?.email);
             return profile_info;
         }catch{
             return false;

@@ -476,10 +476,10 @@ app.get('/deshboard', async (req, res) => {
         ejs.renderFile('./views/templates/general.ejs', {isHosted, name: user.name, edge_request: varchar.ipHits[clientIP]}),
         ejs.renderFile('./views/templates/myCourse.ejs'),
         ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
-        ejs.renderFile('./views/templates/profile.ejs', {user: hex.profile_setup(user), type: hex.user_type(user.id)}),
+        ejs.renderFile('./views/templates/profile.ejs', {user: hex.profile_setup(user, 'self'), type: hex.user_type(user.id)}),
     ];
     Promise.all(promises).then(([sideNav, general, myCourse, aiMentor, profile]) => {
-        res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user)}, sideNav, general, myCourse, aiMentor, profile});
+        res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user.name, user.email)}, sideNav, general, myCourse, aiMentor, profile});
     });
 });
 
