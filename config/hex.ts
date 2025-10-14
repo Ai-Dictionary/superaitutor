@@ -1,3 +1,4 @@
+// @ts-nocheck
 module.exports = {
     pyerrorscanner: function pyerrorscanner(data){
         if((data*1) - (data*1) == 0){
@@ -175,6 +176,9 @@ module.exports = {
             default:
                 return null;
         }
+    },
+    user_type: (id) => {
+        return id.startsWith('AID')?'student':id.startsWith('UID')?'teacher':id.startsWith('MID')?'admin':null;
     },
     foo:() => {
         return 0;

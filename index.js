@@ -470,15 +470,16 @@ app.get('/deshboard', async (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
     const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;
+    const user = jsonfile.readFileSync('./public/manifest.json').sample_profile;
     const promises = [
-        ejs.renderFile('./views/sideNav.ejs', {type: 'student'}),
-        ejs.renderFile('./views/templates/general.ejs', {isHosted, name: 'Krishnendu Mitra', edge_request: varchar.ipHits[clientIP]}),
+        ejs.renderFile('./views/sideNav.ejs', {type: hex.user_type(user.id)}),
+        ejs.renderFile('./views/templates/general.ejs', {isHosted, name: user.name, edge_request: varchar.ipHits[clientIP]}),
         ejs.renderFile('./views/templates/myCourse.ejs'),
-        ejs.renderFile('./views/templates/aiMentor.ejs', {name: 'Krishnendu Mitra'}),
-        ejs.renderFile('./views/templates/profile.ejs', {name: 'Krishnendu Mitra'}),
+        ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
+        ejs.renderFile('./views/templates/profile.ejs', {user: hex.profile_setup(user), type: hex.user_type(user.id)}),
     ];
     Promise.all(promises).then(([sideNav, general, myCourse, aiMentor, profile]) => {
-        res.status(200).render('dashboard', {nonce: nonce, isHosted, sideNav, general, myCourse, aiMentor, profile});
+        res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user)}, sideNav, general, myCourse, aiMentor, profile});
     });
 });
 
@@ -501,9 +502,9 @@ app.all(/.*/, (req, res) => {
 //     let memory = new Memory();
 //     memory.clusterName = 'student';
 //     console.log(await memory.read());
-//     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
-//     let basic_info = await memory.find_profile('MIDK5@37402209');
-//     console.log(basic_info);
+    // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
+    // let basic_info = await memory.find_profile('MIDK5@37402209');
+    // console.log(basic_info);
 // })();
 
 server.listen(PORT, (err) => {

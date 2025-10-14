@@ -1,13 +1,23 @@
 <div class="profile-page">
     <div class="head flx">
         <h4>Account Details</h4>
-        <div class="btn btn-outline-process">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
-                viewBox="0 0 16 16">
-                <path
-                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-            </svg>
-            Edit
+        <div class="flx">
+            <div class="btn btn-outline-process">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                </svg>
+                Edit
+            </div>
+            <div class="btn btn-process">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
+                </svg>
+                Public Profile
+            </div>
         </div>
     </div>
     <div class="body flx">
@@ -95,113 +105,241 @@
             </div>
         </div>
         <div class="right-component">
-            <div class="breaker">Academic Details</div>
-            <div class="user-data">
-                <div class="form-group flx">
-                    <label for="institutionName">Current Institution (School/College Name)</label>
-                    <input type="text" class="form-control" id="institute" aria-describedby="institutionHelp"
-                        placeholder="Enter the name of your school or college" required />
+            <div class="small-component">
+                <div class="breaker">Academic Details</div>
+                <div class="user-data">
+                    <div class="form-group flx">
+                        <label for="institutionName">Current Institution (School/College Name)</label>
+                        <input type="text" class="form-control" id="institute" aria-describedby="institutionHelp"
+                            placeholder="Enter the name of your school or college" required />
+                    </div>
+                    <div class="form-group flx">
+                        <label for="educationLevel">Education Level</label>
+                        <select class="form-control" id="level" required>
+                            <option value="Primary School">Primary School</option>
+                            <option value="High School">High School</option>
+                            <option value="Undergraduate" selected>Undergraduate</option>
+                            <option value="Postgraduate">Postgraduate</option>
+                            <option value="Doctorate">Doctorate / PhD</option>
+                            <option value="Diploma">Diploma / Certification</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group flx">
+                        <label for="currentClass">Current Class</label>
+                        <select class="form-control" id="class" required>
+                            <option value="6">Class 6</option>
+                            <option value="7">Class 7</option>
+                            <option value="8">Class 8</option>
+                            <option value="9">Class 9</option>
+                            <option value="10" selected>Class 10</option>
+                            <option value="11">Class 11</option>
+                            <option value="12">Class 12</option>
+                            <option value="Bachelor">Bachelor's Degree</option>
+                            <option value="Diploma">Diploma / Certification</option>
+                            <option value="Master">Master's Degree</option>
+                            <option value="PhD">PhD / Doctorate</option>
+                            <option value="Post Doctoral">Postdoctoral Research</option>
+                            <option value="Gap Year">Gap Year</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group flx">
+                        <label for="academicStream">Academic Stream / Major</label>
+                        <select class="form-control" id="stream" required>
+                            <option value="Not Applicable">Not Applicable</option>
+                            <option value="Science" selected>Science</option>
+                            <option value="Commerce">Commerce</option>
+                            <option value="Arts">Arts / Humanities</option>
+                            <option value="Vocational">Vocational Studies</option>
+                            <option value="Engineering">Engineering (e.g., Mechanical, Electrical, Civil)</option>
+                            <option value="Computer Science">Computer Science / IT</option>
+                            <option value="Business">Business Administration / Management</option>
+                            <option value="Economics">Economics</option>
+                            <option value="Accounting">Accounting / Finance</option>
+                            <option value="Law">Law / Legal Studies</option>
+                            <option value="Medicine">Medicine / MBBS</option>
+                            <option value="Nursing">Nursing / Allied Health</option>
+                            <option value="Pharmacy">Pharmacy</option>
+                            <option value="Architecture">Architecture</option>
+                            <option value="Education">Education / B.Ed</option>
+                            <option value="Psychology">Psychology</option>
+                            <option value="Sociology">Sociology</option>
+                            <option value="Political_science">Political Science</option>
+                            <option value="History">History</option>
+                            <option value="Literature">English / Literature</option>
+                            <option value="Media Communication">Mass Communication / Journalism</option>
+                            <option value="Fine Arts">Fine Arts / Performing Arts</option>
+                            <option value="Agriculture">Agricultural Sciences</option>
+                            <option value="Environmental">Environmental Science</option>
+                            <option value="Statistics">Statistics / Mathematics</option>
+                            <option value="Foreign Languages">Foreign Languages</option>
+                            <option value="Hotel Management">Hotel Management / Hospitality</option>
+                            <option value="Fashion Design">Fashion Design</option>
+                            <option value="Interior Design">Interior Design</option>
+                            <option value="Animation">Animation / Multimedia</option>
+                            <option value="Culinary">Culinary Arts</option>
+                            <option value="Sports Science">Sports Science / Physical Education</option>
+                            <option value="Data Science">Data Science / AI / ML</option>
+                            <option value="Cybersecurity">Cybersecurity</option>
+                            <option value="Not Decided">Undecided / Exploring Options</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group flx">
+                        <label for="previousResults">Previous Academic Results</label>
+                        <input type="number" class="form-control" id="results"
+                            placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" required />
+                    </div>
+                    <div class="form-group flx">
+                        <label for="mediumInstruction">Preferred Medium of Instruction</label>
+                        <select class="form-control" id="medium" required>
+                            <option value="English">English</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Bengali" selected>Bengali</option>
+                            <option value="Urdu">Urdu</option>
+                            <option value="Odia">Odia</option>
+                            <option value="Sanskrit">Sanskrit</option>
+                            <option value="Multilingual">Multilingual / Bilingual</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group flx">
+                        <label for="favouriteSubjects">Favourite Subjects</label>
+                        <input type="text" class="form-control" id="fav_subject"
+                            placeholder="e.g., Geography, English, Computer Science" required />
+                    </div>
+                    <div class="form-group flx">
+                        <label for="difficultSubjects">Difficult Subjects</label>
+                        <input type="text" class="form-control" id="diff_subject"
+                            placeholder="e.g., Mathematics, Chemistry, English" required />
+                    </div>
                 </div>
-                <div class="form-group flx">
-                    <label for="educationLevel">Education Level</label>
-                    <select class="form-control" id="level" required>
-                        <option value="Primary School">Primary School</option>
-                        <option value="High School">High School</option>
-                        <option value="Undergraduate" selected>Undergraduate</option>
-                        <option value="Postgraduate">Postgraduate</option>
-                        <option value="Doctorate">Doctorate / PhD</option>
-                        <option value="Diploma">Diploma / Certification</option>
-                        <option value="Other">Other</option>
-                    </select>
+            </div>
+            <div class="small-component">
+                <div class="breaker">Career Details</div>
+                <div class="user-data">
+                    <div class="form-group flx">
+                        <label for="preferredClass">Preferred Class/Grade</label>
+                        <select class="form-control" id="pref_class" required>
+                            <option value="Current Class" selected>Current Class</option>
+                            <option value="Next Class">Next Class / Upcoming Grade</option>
+                            <option value="Grade Improvement">Grade Improvement / Repeat Year</option>
+                            <option value="Competitive Exam">Competitive Exam Preparation (e.g., NEET, JEE, UPSC)
+                            </option>
+                            <option value="Entrance Exam">Entrance Exam Target (e.g., CUET, CAT, GRE)</option>
+                            <option value="Bachelor">Bachelor's Admission Goal</option>
+                            <option value="Master">Master's Admission Goal</option>
+                            <option value="PhD">PhD / Research Goal</option>
+                            <option value="Diploma">Diploma / Certification Program</option>
+                            <option value="Professional Course">Professional Course (e.g., CA, CS, CMA)</option>
+                            <option value="Skill Development">Skill Development / Non-academic Learning</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group flx">
+                        <label for="higherEdGoal">Intended Higher Education Goal</label>
+                        <select class="form-control" id="goal" required>
+                            <option value="Engineering">Engineering (e.g., B.Tech, BE)</option>
+                            <option value="Medicine">Medicine / Healthcare (e.g., MBBS, BDS, Nursing)</option>
+                            <option value="Management">Management / Business (e.g., BBA, MBA)</option>
+                            <option value="Law">Law / Legal Studies (e.g., LLB, BA-LLB)</option>
+                            <option value="Science">Pure Sciences (e.g., B.Sc, M.Sc)</option>
+                            <option value="Arts">Arts / Humanities (e.g., BA, MA)</option>
+                            <option value="Commerce">Commerce / Finance (e.g., B.Com, M.Com)</option>
+                            <option value="Computer Science">Computer Science / IT</option>
+                            <option value="Design">Design / Architecture (e.g., B.Des, B.Arch)</option>
+                            <option value="Education">Education / Teaching (e.g., B.Ed, M.Ed)</option>
+                            <option value="Data Science">Data Science / AI / Machine Learning</option>
+                            <option value="Media Communication">Mass Communication / Journalism</option>
+                            <option value="Hospitality">Hotel Management / Hospitality</option>
+                            <option value="Fashion">Fashion / Interior Design</option>
+                            <option value="Agriculture">Agriculture / Environmental Studies</option>
+                            <option value="Sports">Sports / Physical Education</option>
+                            <option value="Not Decided" selected>Undecided / Exploring Options</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group flx">
+                        <label for="examPrep">Competitive Exams Preparing For</label>
+                        <select class="form-control" id="exam_prep" required>
+                            <option value="Board Exam">Board Exams (10th / 12th)</option>
+                            <option value="CUET">CUET (Central University Entrance Test)</option>
+                            <option value="JEE">JEE (Joint Entrance Exam)</option>
+                            <option value="NEET">NEET (Medical Entrance)</option>
+                            <option value="UPSC">UPSC (Civil Services)</option>
+                            <option value="SSC">SSC (Staff Selection Commission)</option>
+                            <option value="Railway">Railway Recruitment Exams</option>
+                            <option value="Banking">Banking Exams (IBPS, SBI PO, etc.)</option>
+                            <option value="State PSC">State PSC Exams</option>
+                            <option value="CAT">CAT (MBA Entrance)</option>
+                            <option value="GATE">GATE</option>
+                            <option value="GMAT">GMAT</option>
+                            <option value="GRE">GRE</option>
+                            <option value="TOEFL">TOEFL / IELTS</option>
+                            <option value="Not Preparing" selected>Not Preparing for Any Exam</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group flx">
+                        <label for="careerGoal">Career Aspirations</label>
+                        <select class="form-control" id="career" required>
+                            <option value="Software Engineer">Software Engineer / Developer</option>
+                            <option value="Data Scientist">Data Scientist / AI Specialist</option>
+                            <option value="Civil Engineer">Civil / Mechanical / Electrical Engineer</option>
+                            <option value="Doctor">Doctor / Surgeon</option>
+                            <option value="Nurse">Nurse / Paramedic</option>
+                            <option value="Pharmacist">Pharmacist</option>
+                            <option value="Civil Services">Civil Services (IAS, IPS, IFS)</option>
+                            <option value="Defense">Defense / Armed Forces</option>
+                            <option value="Police">Police / Law Enforcement</option>
+                            <option value="Entrepreneur">Entrepreneur / Startup Founder</option>
+                            <option value="Manager">Corporate Manager / Consultant</option>
+                            <option value="Accountant">Accountant / Financial Analyst</option>
+                            <option value="Researcher">Researcher / Scientist</option>
+                            <option value="Professor">Professor / Academic</option>
+                            <option value="Teacher">School Teacher / Educator</option>
+                            <option value="Designer">Designer / Architect</option>
+                            <option value="Journalist">Journalist / Media Professional</option>
+                            <option value="Artist">Artist / Performer</option>
+                            <option value="Not Decided" selected>Not Decided Yet</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group flx">
-                    <label for="currentClass">Current Class</label>
-                    <select class="form-control" id="class" required>
-                        <option value="6">Class 6</option>
-                        <option value="7">Class 7</option>
-                        <option value="8">Class 8</option>
-                        <option value="9">Class 9</option>
-                        <option value="10" selected>Class 10</option>
-                        <option value="11">Class 11</option>
-                        <option value="12">Class 12</option>
-                        <option value="Bachelor">Bachelor's Degree</option>
-                        <option value="Diploma">Diploma / Certification</option>
-                        <option value="Master">Master's Degree</option>
-                        <option value="PhD">PhD / Doctorate</option>
-                        <option value="Post Doctoral">Postdoctoral Research</option>
-                        <option value="Gap Year">Gap Year</option>
-                        <option value="Other">Other</option>
-                    </select>
+            </div>
+            <div class="small-component">
+                <div class="breaker">Security Details</div>
+                <div class="security-mark">
+                    <div class="form-group flx">
+                        <input type="password" class="form-control" id="password" placeholder="Enter your current password"
+                            required />
+                        <div class="btn btn-outline-process">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4M2.5 7A1.5 1.5 0 0 0 1 8.5v5A1.5 1.5 0 0 0 2.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 9.5 7z"/>
+                            </svg>
+                            Unlock
+                        </div>
+                    </div>
+                    <small class="form-text text-muted">Please verify your current password to access and manage your security details, including viewing or updating your password and other safty credentials.</small>
                 </div>
-                <div class="form-group flx">
-                    <label for="academicStream">Academic Stream / Major</label>
-                    <select class="form-control" id="stream" required>
-                        <option value="Not Applicable">Not Applicable</option>
-                        <option value="Science" selected>Science</option>
-                        <option value="Commerce">Commerce</option>
-                        <option value="Arts">Arts / Humanities</option>
-                        <option value="Vocational">Vocational Studies</option>
-                        <option value="Engineering">Engineering (e.g., Mechanical, Electrical, Civil)</option>
-                        <option value="Computer Science">Computer Science / IT</option>
-                        <option value="Business">Business Administration / Management</option>
-                        <option value="Economics">Economics</option>
-                        <option value="Accounting">Accounting / Finance</option>
-                        <option value="Law">Law / Legal Studies</option>
-                        <option value="Medicine">Medicine / MBBS</option>
-                        <option value="Nursing">Nursing / Allied Health</option>
-                        <option value="Pharmacy">Pharmacy</option>
-                        <option value="Architecture">Architecture</option>
-                        <option value="Education">Education / B.Ed</option>
-                        <option value="Psychology">Psychology</option>
-                        <option value="Sociology">Sociology</option>
-                        <option value="Political_science">Political Science</option>
-                        <option value="History">History</option>
-                        <option value="Literature">English / Literature</option>
-                        <option value="Media Communication">Mass Communication / Journalism</option>
-                        <option value="Fine Arts">Fine Arts / Performing Arts</option>
-                        <option value="Agriculture">Agricultural Sciences</option>
-                        <option value="Environmental">Environmental Science</option>
-                        <option value="Statistics">Statistics / Mathematics</option>
-                        <option value="Foreign Languages">Foreign Languages</option>
-                        <option value="Hotel Management">Hotel Management / Hospitality</option>
-                        <option value="Fashion Design">Fashion Design</option>
-                        <option value="Interior Design">Interior Design</option>
-                        <option value="Animation">Animation / Multimedia</option>
-                        <option value="Culinary">Culinary Arts</option>
-                        <option value="Sports Science">Sports Science / Physical Education</option>
-                        <option value="Data Science">Data Science / AI / ML</option>
-                        <option value="Cybersecurity">Cybersecurity</option>
-                        <option value="Not Decided">Undecided / Exploring Options</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group flx">
-                    <label for="previousResults">Previous Academic Results</label>
-                    <input type="number" class="form-control" id="results"
-                        placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="mediumInstruction">Preferred Medium of Instruction</label>
-                    <select class="form-control" id="medium" required>
-                        <option value="English">English</option>
-                        <option value="Hindi">Hindi</option>
-                        <option value="Bengali" selected>Bengali</option>
-                        <option value="Urdu">Urdu</option>
-                        <option value="Odia">Odia</option>
-                        <option value="Sanskrit">Sanskrit</option>
-                        <option value="Multilingual">Multilingual / Bilingual</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group flx">
-                    <label for="favouriteSubjects">Favourite Subjects</label>
-                    <input type="text" class="form-control" id="fav_subject"
-                        placeholder="e.g., Geography, English, Computer Science" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="difficultSubjects">Difficult Subjects</label>
-                    <input type="text" class="form-control" id="diff_subject"
-                        placeholder="e.g., Mathematics, Chemistry, English" required />
+                <div class="user-data hidden">
+                    <div class="form-group flx">
+                        <label for="favouriteColor">Favourite color</label>
+                        <input type="color" class="form-control" id="fav_color" value="#0c8ff9"
+                            placeholder="e.g., Blue, Red, #000" required />
+
+                    </div>
+                    <div class="form-group flx">
+                        <label for="favouriteBook">Favourite book</label>
+                        <input type="text" class="form-control" id="fav_book" maxlength="30"
+                            placeholder="e.g., The Alchemist, Harry Potter" required />
+                    </div>
+                    <div class="form-group flx">
+                        <label for="createPassword">Password</label>
+                        <input type="password" class="form-control" id="pass" placeholder="Enter a secure password"
+                            required />
+                    </div>
                 </div>
             </div>
         </div>
