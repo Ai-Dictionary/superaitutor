@@ -411,31 +411,50 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
-app.get('/my_profile_info', async (req, res) => {
-    let memory = new Memory();
-    if(String(req.body.id).startsWith('AID')){
-        memory.clusterName = 'student';
-    }else if(String(req.body.id).startsWith('UID')){
-        memory.clusterName = 'teacher';
-    }else{
-        return null;
-    }
-    let profile_info = await memory.find_profile(req.body.id);
-    profile_info.bg = hex.generateBGColor(profile_info.name);
-    res.status(200).json(profile_info);
-});
+// app.get('/my_profile_info', async (req, res) => {
+//     let memory = new Memory();
+//     if(String(req.body.id).startsWith('AID')){
+//         memory.clusterName = 'student';
+//     }else if(String(req.body.id).startsWith('UID')){
+//         memory.clusterName = 'teacher';
+//     }else{
+//         return null;
+//     }
+//     let profile_info = await memory.find_profile(req.body.id);
+//     profile_info.bg = hex.generateBGColor(profile_info.name);
+//     res.status(200).json(profile_info);
+// });
 
-app.get('/other_profile_info', async (req, res) => {
+// app.get('/other_profile_info', async (req, res) => {
+//     let memory = new Memory();
+//     if(String(req.body.id).startsWith('AID')){
+//         memory.clusterName = 'student';
+//     }else if(String(req.body.id).startsWith('UID')){
+//         memory.clusterName = 'teacher';
+//     }else{
+//         return null;
+//     }
+//     let basic_info = await memory.find_profile(req.body.id);
+//     res.status(200).json({profile_info: hex.profile_setup(basic_info)});
+// });
+
+app.post('/update_profile_info', async (req, res) => {
     let memory = new Memory();
     if(String(req.body.id).startsWith('AID')){
         memory.clusterName = 'student';
     }else if(String(req.body.id).startsWith('UID')){
         memory.clusterName = 'teacher';
+    }else if(String(req.body.id).startsWith('MID')){
+        memory.clusterName = 'master';
     }else{
-        return null;
+        return res.status(400).json({"status": false});
     }
-    let basic_info = await memory.find_profile(req.body.id);
-    res.status(200).json({profile_info: hex.profile_setup(basic_info)});
+    let confirmation = await memory.update_all({"id": req.body.id, "updates": req.body.update_info});
+    if(confirmation?.status){
+        res.status(200).json({'status': confirmation.status, 'message': jsonfile.readFileSync('./config/error_log.json')[confirmation.status].message});
+    }else{
+        res.status(200).json({'status': true});
+    }
 });
 
 app.get('/relation_profile_info', async (req, res) => {

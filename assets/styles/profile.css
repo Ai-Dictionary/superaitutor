@@ -6,6 +6,10 @@
         user-select: none;
         h4{
             color: #171717;
+            span{
+                font-size: 16px;
+                color: slategrey;
+            }
         }
         .flx{
             width: fit-content;
@@ -14,6 +18,9 @@
             padding: 4px 18px;
             border-radius: 50px;
             margin-right: 8px;
+        }
+        .save-option{
+            display: none;
         }
     }
     .btn{
@@ -28,7 +35,7 @@
             border-radius: 10px;
             height: 100%;
             border: 0.5px solid #dbdbf4ad;
-            padding: 10px;
+            padding: 10px 20px;
         }
         .left-component{
             width: 40%;

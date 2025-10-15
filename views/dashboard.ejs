@@ -103,6 +103,19 @@
             <template class="default-tamplete" id="profile-template"><%- typeof(profile)!='undefined'?profile:'undefined' %></template>
         </article>
     </main>
+    <div class="blbg waitpopup" id="waitpopup">
+        <div class="popup">
+            <div class="wait-icon">
+                <% if (isHosted) { %>
+                    <img src="https://ai-dictionary.github.io/superaitutor/assets/images/clock.webp" alt="loading"/>
+                <% } else { %>
+                    <img src="../assets/images/clock.webp" alt="loading"/>
+                <% } %>
+            </div>
+            <h4>Wait a moment</h4>
+            <small class="text-muted">Please do not close this window or click any buttons. This process may take a few moments to complete securely...</small>
+        </div>
+    </div>
 </body>
 <script src="../static/App.js" nonce="<%= nonce %>"></script>
 <% if (isHosted) { %>

@@ -85,5 +85,17 @@ class PageRouter {
     }
 }
 
+class Process{
+    constructor(){
+          
+    }
+    start(){
+        document.getElementById("waitpopup").style.display = "block";
+    }
+    end(){
+        document.getElementById("waitpopup").style.display = "none";
+    }
+}
+
 const router = new PageRouter();
 window.loadPage = (pageId) => router.loadPage(pageId);
