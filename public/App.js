@@ -121,6 +121,14 @@ class System{
         }
         return cipher;
     }
+    objEncoder(obj, key='1441'){
+        const encrypted = {};
+        for (let field in obj) {
+            const value = String(obj[field]);
+            encrypted[field] = this.encoder(value, key);
+        }
+        return encrypted;
+    }
     copy(id){
         const textToCopy = document.querySelector(id);
         const tempTextarea = document.createElement("textarea");

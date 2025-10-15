@@ -94,7 +94,7 @@ function Admin_listener(){
     });
 
     const regex = {
-        name: /^[a-zA-Z\s]{3,50}$/,
+        name: /^(?=.{7,50}$)([a-zA-Z]{3,}\s+){1,2}[a-zA-Z]{3,}$/,
         email: /^[\w.-]+@[\w.-]+\.\w{2,}$/,
         admin: /^(N\/A|MID(?=[\d]*@[\d]*$)[\d@]+)$/,
         url: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,

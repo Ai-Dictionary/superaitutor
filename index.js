@@ -451,9 +451,32 @@ app.post('/update_profile_info', async (req, res) => {
     }
     let confirmation = await memory.update_all({"id": req.body.id, "updates": req.body.update_info});
     if(confirmation?.status){
-        res.status(200).json({'status': confirmation.status, 'message': jsonfile.readFileSync('./config/error_log.json')[confirmation.status].message});
+        res.status(400).json({'status': confirmation.status, 'message': jsonfile.readFileSync('./config/error_log.json')[confirmation.status].message});
     }else{
         res.status(200).json({'status': true});
+    }
+});
+
+app.post('/profile_security_info', async (req, res) => {
+    let memory = new Memory();
+    if(String(req.body.id).startsWith('AID')){
+        memory.clusterName = 'student';
+    }else if(String(req.body.id).startsWith('UID')){
+        memory.clusterName = 'teacher';
+    }else if(String(req.body.id).startsWith('MID')){
+        memory.clusterName = 'master';
+    }else{
+        return res.status(400).json({"status": false});
+    }
+    let record = await memory.find_profile(req.body.id);
+    if(record?.status && Object.keys(record.status).length <= 1){
+        res.status(400).json({'status': record.status, 'message': jsonfile.readFileSync('./config/error_log.json')[record.status].message});
+    }else{
+        if(record.pass == security.substitutionDecoder(req.body.pass, '@Sait2025')){
+            res.status(200).json({'profile': security.objDecoder({"fav_book": record.fav_book, "fav_color": record.fav_color, "pass": record.pass}, '@Sait2025')});
+        }else{
+            res.status(401).json({'status': 10, 'message': jsonfile.readFileSync('./config/error_log.json')[10].message})
+        }
     }
 });
 

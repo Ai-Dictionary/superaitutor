@@ -2,11 +2,12 @@ class Profile{
     constructor(){
         this.mode = "lock";
         this.updated_info ={};
+        this.id = document.querySelector(".head h4 span").textContent.split('for ')[1];
         this.initSelectValues();
         this.toggleUserData('lock');
         this.changeInfo();
         this.regex ={
-            name: /^[a-zA-Z\s]{3,50}$/,
+            name: /^(?=.{7,50}$)([a-zA-Z]{3,}\s+){1,2}[a-zA-Z]{3,}$/,
             email: /^[\w.-]+@[\w.-]+\.\w{2,}$/,
             url: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
             textarea: /^(.{20,400})$/,
@@ -20,7 +21,6 @@ class Profile{
             subjectList: /^[A-Za-z\s]+(,\s*[A-Za-z\s]+)*$/,
             password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^+=])[A-Za-z\d@$!%*#?&^+=]{8,}$/
         };
-        this.setupValidation();
     }
 
     initSelectValues(){
@@ -45,6 +45,9 @@ class Profile{
 
         document.querySelector('.save-option').style.display = this.mode == 'lock' ? 'none' : 'block';
         document.querySelector('.normal-option').style.display = this.mode == 'lock' ? 'block' : 'none';
+        if(this.mode == 'lock'){
+            this.setupValidation();
+        }
         this.mode = this.mode == 'lock' ? 'unlock' : 'lock';
     }
 
@@ -71,6 +74,7 @@ class Profile{
                 saveBtn.innerHTML = saveBtn.innerHTML.replace("No Change Detect", "Save Change");
                 saveBtn.classList.remove("btn-outline-secondary");
                 saveBtn.classList.add("btn-outline-success");
+                this.updateDP();
                 if(Object.keys(changedFields).length == 0){
                     this.cancelChange();
                 }
@@ -96,6 +100,8 @@ class Profile{
         saveBtn.innerHTML = saveBtn.innerHTML.replace("Save Change", "No Change Detect");
         saveBtn.classList.remove("btn-outline-success");
         saveBtn.classList.add("btn-outline-secondary");
+        document.querySelector(".security-mark").style.display = "block";
+        document.querySelector(".hidden").style.display = "none";
         this.toggleUserData();
     }
 
@@ -127,7 +133,7 @@ class Profile{
             pass = this.regex.gpa.test(value) || this.regex.percentage.test(value);
         }else if(id === "fav_subjects" || id === "diff_subjects"){
             pass = this.regex.subjectList.test(value);
-        }else if(id === "pass"){
+        }else if(id === "pass" || id === "password"){
             pass = this.regex.password.test(value);
         }else if(id === "confirmPassword"){
             const password = document.getElementById("pass")?.value.trim();
@@ -144,38 +150,47 @@ class Profile{
     }
 
     setupValidation(){
-        const fields = document.querySelectorAll(".user-info input, .user-info select, .user-info textarea");
+        const allFields = document.querySelectorAll(".body input, .body select, .body textarea");
+
+        const fields = Array.from(allFields).filter(field => {
+            if (field.closest(".security-mark")) return false;
+            const hiddenParent = field.closest(".hidden");
+            if (hiddenParent && getComputedStyle(hiddenParent).display === "none") return false;
+            return true;
+        });
 
         fields.forEach(field => {
             field.addEventListener("input", () => {
                 this.validateField(field);
             });
         });
+    }
 
-        const submitBtn = document.querySelector(".submit-btn");
-        if(submitBtn){
-            submitBtn.addEventListener("click", (e) => {
-                let allValid = true;
-                fields.forEach(field => {
-                    const valid = validateField(field);
-                    if(!valid){
-                        allValid = false;
-                    }
-                });
+    changeValidate(){
+        const allFields = document.querySelectorAll(".body input, .body select, .body textarea");
 
-                if(!allValid){
-                    e.preventDefault();
-                    alert("Please correct the highlighted fields before submitting.");
-                }else{
-                    console.log("All fields valid. Proceeding...");
-                }
-            });
-        }
+        const fields = Array.from(allFields).filter(field => {
+            if (field.closest(".security-mark")) return false;
+            const hiddenParent = field.closest(".hidden");
+            if (hiddenParent && getComputedStyle(hiddenParent).display === "none") return false;
+            return true;
+        });
+        
+        let allValid = true;
+        
+        fields.forEach(field => {
+            const valid = this.validateField(field);
+            if(!valid){
+                allValid = false;
+            }
+        });
+
+        return allValid;
     }
 
     saveChange(){
         if(this.mode == 'lock'){
-            if(Object.keys(this.updated_info).length != 0){
+            if(Object.keys(this.updated_info).length != 0 && this.changeValidate()){
                 document.querySelector(".save-option .save-info").disabled = "false";
                 new Process().start();
                 fetch('/update_profile_info',{
@@ -184,13 +199,16 @@ class Profile{
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        "id": document.querySelector(".head h4 span").textContent.split('for ')[1],
+                        "id": this.id,
                         "update_info": this.updated_info
                     })
                 }).then(response => response.json()).then(data => {
                     new Process().end();
                     if(data.status === true){
                         new PopUp("success", 4000).create("Profile information updated successfully, Reload for getting new profile data.");
+                        setTimeout(() => {
+                            route(window.location.href);
+                        },3500);
                     }else if(data.status === false){
                         new PopUp("warning", 4000).create("Provided user id is not associate with any profile type, Please provide valid user id");
                     }else{
@@ -201,12 +219,61 @@ class Profile{
                 });
             }else{
                 let popup = new PopUp("normal", 4000);
-                popup.create("Please change your profile details first and then try to send request for update that!");
+                popup.create("Please change your profile details correctly first and then try to send request for update that!");
             }
         }else{
             let popup = new PopUp("warning", 4000);
             popup.create("Some unwanted resource access command hit the application server.");
             console.warn("Save Change Not Possible For This Call");
+        }
+    }
+
+    call_for_security_info(pass){
+        fetch('/profile_security_info', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: this.id,
+                pass: String(system.encoder(pass, "@Sait2025"))
+            })
+        }).then(response => response.json()).then(data => {
+            new Process().end();
+            if(data.status){
+                system.alert({ "error": data.status, "message": data.message });
+            }else if(data.profile){
+                const profile = system.objEncoder(data.profile, "@Sait2025");
+                document.querySelector(".security-mark").style.display = "none";
+                document.querySelector(".hidden").style.display = "block";
+                document.getElementById("fav_color").value = profile.fav_color;
+                document.getElementById("fav_book").value = profile.fav_book;
+                document.getElementById("pass").value = profile.pass;
+            }else{
+                new PopUp("warning", 4000).create("Some unexpted error occure while send request for security information");
+                console.warn(data);
+            }
+        }).catch(error => {
+            let popup = new PopUp("warning", 4000);
+            popup.create("Some unwanted resource access command hit the application server.");
+            console.warn("Save Change Not Possible For This Call");
+        });
+    }
+
+    unlock(){
+        const password = document.getElementById("password");
+        const valid = this.validateField(password);
+        if(valid){
+            new Process().start();
+            this.call_for_security_info(password.value);
+        }
+    }
+
+    updateDP(){
+        let name = document.getElementById("name");
+        if(this.validateField(name)){
+            let dp = name.value.split(' ')[0][0]+name.value.split(' ')[name.value.split(' ').length-1][0];
+            document.querySelector('.profile-dp').textContent = dp;
         }
     }
 }
