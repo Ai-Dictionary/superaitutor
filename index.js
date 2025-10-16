@@ -485,7 +485,7 @@ app.get('/deshboard', async (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
     const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;
-    const user = jsonfile.readFileSync('./public/manifest.json').admin_profile;
+    const user = jsonfile.readFileSync('./public/manifest.json').sample_profile;
     const type =  hex.user_type(user.id);
     const promises = [
         ejs.renderFile('./views/sideNav.ejs', {type: type}),

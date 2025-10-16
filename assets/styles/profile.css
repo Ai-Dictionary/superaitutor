@@ -112,6 +112,7 @@
         .user-data{
             .page{
                 max-height: 100%;
+                overflow: unset;
                 .title{
                     display: none;
                 }

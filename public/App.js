@@ -173,6 +173,17 @@ document.addEventListener("DOMContentLoaded",() => {
     loader.create();
     loader.remove(2000);
     system = new System();
+
+    document.addEventListener('keydown', function (event) {
+        if(event.ctrlKey && event.key.toLowerCase() === 'k'){
+            event.preventDefault();
+            const searchInput = document.getElementById('search-input');
+            if(searchInput){
+                searchInput.focus();
+                searchInput.select();
+            }
+        }
+    });
 });
 
 function route(link){
