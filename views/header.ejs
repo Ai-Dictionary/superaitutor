@@ -55,7 +55,7 @@
                         <div class="btn btn-outline-dark" onclick="route('/login');">All ready have an account</div>
                     </li>
                 <% } else if (typeof displayMode === 'object' && displayMode.name.length <= 2) { %>
-                    <li class="nav-item user-dp" <%= `style="background: ${displayMode.bg || '#eee'};"` %>>
+                    <li class="nav-item user-dp" <%- `style="background: ${displayMode.bg || '#eee'};"` %> onclick="route('/dashboard?page=profile');">
                         <div title="View Profile, <%= displayMode.id %>"><%= displayMode.name %></div>
                     </li>
                 <% } else { %>

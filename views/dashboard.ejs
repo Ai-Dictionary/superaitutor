@@ -66,12 +66,28 @@
                             </svg>
                         </div>
                         <div class="user-details flx">
-                            <div class="dp" onclick="loadPage('profile');">
-                                KM
+                            <div class="dp" onclick="loadPage('profile');" <%- `style="background: ${user?.bg || '#eee'};"` %>>
+                                <%- (typeof(user?.name)!='undefined'?(user?.name?.split(' ').filter(Boolean)[0]?.[0] || '') + (user?.name?.split(' ').filter(Boolean).slice(-1)[0]?.[0] || '0'):'UN') %>
                             </div>
+                            <%
+                                function generate_NickName(name){
+                                    fullName = typeof name === 'string' ? name.trim() : '';
+                                    const nameParts = fullName.split(/\s+/);
+                                    let nickname = '';
+                                    if(nameParts.length > 0){
+                                        const firstName = nameParts[0];
+                                        if(firstName.length <= 8){
+                                            nickname = firstName;
+                                        }else{
+                                            nickname = firstName.slice(0, 5);
+                                        }
+                                    }
+                                    return  nickname;
+                                }
+                            %>
                             <div class="name">
                                 <div class="top">My Account</div>
-                                <div class="down">Welcome back Krish</div>
+                                <div class="down">Welcome back <%- typeof(user?.name)!='undefined'?generate_NickName(user.name):'Unkonwn' %></div>
                             </div>
                         </div>
                     </div>

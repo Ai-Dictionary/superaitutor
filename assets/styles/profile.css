@@ -39,6 +39,7 @@
         }
         .left-component{
             width: 40%;
+            height: auto;
             .dp{
                 padding: 40px 10px;
                 text-align: center;

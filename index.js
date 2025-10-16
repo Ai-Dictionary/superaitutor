@@ -411,33 +411,6 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
-// app.get('/my_profile_info', async (req, res) => {
-//     let memory = new Memory();
-//     if(String(req.body.id).startsWith('AID')){
-//         memory.clusterName = 'student';
-//     }else if(String(req.body.id).startsWith('UID')){
-//         memory.clusterName = 'teacher';
-//     }else{
-//         return null;
-//     }
-//     let profile_info = await memory.find_profile(req.body.id);
-//     profile_info.bg = hex.generateBGColor(profile_info.name);
-//     res.status(200).json(profile_info);
-// });
-
-// app.get('/other_profile_info', async (req, res) => {
-//     let memory = new Memory();
-//     if(String(req.body.id).startsWith('AID')){
-//         memory.clusterName = 'student';
-//     }else if(String(req.body.id).startsWith('UID')){
-//         memory.clusterName = 'teacher';
-//     }else{
-//         return null;
-//     }
-//     let basic_info = await memory.find_profile(req.body.id);
-//     res.status(200).json({profile_info: hex.profile_setup(basic_info)});
-// });
-
 app.post('/update_profile_info', async (req, res) => {
     let memory = new Memory();
     if(String(req.body.id).startsWith('AID')){
@@ -542,11 +515,11 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'student';
+//     memory.clusterName = 'teacher';
 //     console.log(await memory.read());
-    // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
-    // let basic_info = await memory.find_profile('MIDK5@37402209');
-    // console.log(basic_info);
+//     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
+//     // let basic_info = await memory.find_profile('MIDK5@37402209');
+//     // console.log(basic_info);
 // })();
 
 server.listen(PORT, (err) => {

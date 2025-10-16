@@ -93,6 +93,7 @@ class Profile{
             }
         });
         this.initSelectValues();
+        this.updateDP();
 
         this.updated_info ={};
 
