@@ -485,13 +485,18 @@ app.get('/deshboard', async (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
     const clientIP = req.headers['x-forwarded-for'] || req.headers['x-vercel-forwarded-for'] || req.connection.remoteAddress || req.ip;
-    const user = jsonfile.readFileSync('./public/manifest.json').sample_profile;
+    const user = jsonfile.readFileSync('./public/manifest.json').admin_profile;
+    const type =  hex.user_type(user.id);
     const promises = [
-        ejs.renderFile('./views/sideNav.ejs', {type: hex.user_type(user.id)}),
+        ejs.renderFile('./views/sideNav.ejs', {type: type}),
         ejs.renderFile('./views/templates/general.ejs', {isHosted, name: user.name, edge_request: varchar.ipHits[clientIP]}),
         ejs.renderFile('./views/templates/myCourse.ejs'),
         ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
-        ejs.renderFile('./views/templates/profile.ejs', {user: hex.profile_setup(user, 'self'), type: hex.user_type(user.id)}),
+        ejs.renderFile('./views/templates/profile.ejs', {
+            user: hex.profile_setup(user, 'self'), 
+            type: type, 
+            page: type=='student'?await ejs.renderFile('./views/studentSignUp.ejs'):(type=='teacher'?await ejs.renderFile('./views/teacherSignUp.ejs'):(type=='admin'?await ejs.renderFile('./views/adminSignUp.ejs'):''))
+        }),
     ];
     Promise.all(promises).then(([sideNav, general, myCourse, aiMentor, profile]) => {
         res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user.name, user.email)}, sideNav, general, myCourse, aiMentor, profile});
@@ -515,7 +520,7 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'teacher';
+//     memory.clusterName = 'master';
 //     console.log(await memory.read());
 //     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
 //     // let basic_info = await memory.find_profile('MIDK5@37402209');

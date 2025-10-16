@@ -1,405 +1,571 @@
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: 270px;
-    height: 100vh;
-    background: #151A2D;
-    transition: all 0.4s ease;
-}
+<% function formatDate(dob) {
+  if (!dob) return '1947-08-15';
+  const [dd, mm, yyyy] = dob.split('-');
+  return `${yyyy}-${mm}-${dd}`;
+} %>
 
-.sidebar.collapsed {
-    width: 85px;
-}
+<div class="profile-page">
+    <div class="head flx">
+        <h4>Account Details <span>for <%= (typeof(user?.id)!='undefined'?(user?.id):'Unknown ID') %></span></h4>
+        <div class="flx normal-option">
+            <div class="btn btn-outline-process" title="Change my profile information" onclick="toggleUserData();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
+                    viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                </svg>
+                Edit Profile
+            </div>
+            <div class="btn btn-process">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
+                </svg>
+                Public Profile
+            </div>
+        </div>
+        <div class="flx save-option">
+            <div class="btn btn-outline-secondary save-info" title="Change my profile information" onclick="userProfile.saveChange();" disabled="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                    <path d="M11 2H9v3h2z"/>
+                    <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+                </svg>
+                No Change Detect
+            </div>
+            <div class="btn btn-outline-danger" title="Discard my all changes" onclick="userProfile.cancelChange();" disabled="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                </svg>
+                Cancel
+            </div>
+        </div>
+    </div>
+    <div class="body flx">
+        <div class="left-component">
+            <div class="dp profile-dp" title="My Desktop Picture" <%- `style="background: ${user?.bg || '#eee'};"` %>>
+                <%- (typeof(user?.name)!='undefined'?(user?.name?.split(' ').filter(Boolean)[0]?.[0] || '') + (user?.name?.split(' ').filter(Boolean).slice(-1)[0]?.[0] || '0'):'UN') %>
+            </div>
+            <div class="breaker">Personal Details</div>
+            <div class="user-data">
+                <div class="form-group flx">
+                    <label for="userName">Name</label>
+                    <input type="name" class="form-control" id="name" aria-describedby="nameHelp"
+                        placeholder="Enter your full name" value="<%= (typeof(user?.name)!='undefined'?(user?.name):'Unknown User') %>" required />
+                </div>
+                <div class="form-group flx">
+                    <label for="gender">Gender</label>
+                    <select class="form-control" id="gender" aria-describedby="genderHelp" data-value="<%= (typeof(user?.gender)!='undefined'?(user?.gender):'Other') %>" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group flx">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" class="form-control" id="dob" max="60" min="8" id="dob"
+                        aria-describedby="dobHelp" placeholder="dd-mm-yyyy" value="<%= (typeof(user?.dob)!='undefined'?formatDate(user?.dob):'1947-08-15') %>" required />
+                </div>
+                <div class="form-group flx">
+                    <label for="contact">Contact Number (WhatsApp Preferred)</label>
+                    <input type="tel" class="form-control" id="contact" maxlength="10" id="contact"
+                        aria-describedby="contactHelp" placeholder="Enter your contact number" value="<%= (typeof(user?.contact)!='undefined'?(user?.contact):'') %>" required />
+                </div>
+                <div class="form-group flx">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                        placeholder="Enter your email id" value="<%= (typeof(user?.email)!='undefined'?(user?.email):'') %>" required />
+                </div>
+                <div class="form-group flx">
+                    <label for="address">Residential Address</label>
+                    <input type="text" class="form-control" id="address" maxlength="30" id="address"
+                        aria-describedby="addressHelp" placeholder="Enter your current address" value="<%= (typeof(user?.address)!='undefined'?(user?.address.split(' P.O- ')[0]):'') %>" required />
+                </div>
+                <div class="form-group flx">
+                    <label for="postoffice">Post Office</label>
+                    <input type="postoffice" class="form-control" aria-describedby="postofficeHelp"
+                        placeholder="Enter your nearest postoffice name" value="<%= (typeof(user?.address.split(' P.O- ')[1])!='undefined'?(user?.address.split(' P.O- ')[1]):'') %>" required />
+                </div>
+                <div class="form-group flx">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" maxlength="30" id="city" aria-describedby="cityHelp"
+                        placeholder="Enter your current city" value="<%= (typeof(user?.city)!='undefined'?(user?.city):'') %>" required />
+                </div>
+                <div class="form-group flx">
+                    <label for="pin">PIN Code</label>
+                    <input type="number" class="form-control" id="pin" maxlength="6" aria-describedby="pinHelp"
+                        placeholder="Enter your pin code" value="<%= (typeof(user?.pin)!='undefined'?(user?.pin):'') %>" required />
+                </div>
+                <% if (type == "student") { %>
+                    <div class="form-group flx">
+                        <label for="parentName">Parent's Full Name</label>
+                        <input type="text" class="form-control" id="parent_name" placeholder="Enter your parent's full name"
+                            value="<%= (typeof(user?.parent_name)!='undefined'?(user?.parent_name):'') %>" required />
+                    </div>
+                    <div class="form-group flx">
+                        <label for="relationship">Relationship with Parent</label>
+                        <select class="form-control" id="relationship" data-value="<%= (typeof(user?.relationship)!='undefined'?(user?.relationship):'Other') %>" required>
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Grandfather">Grandfather</option>
+                            <option value="Grandmother">Grandmother</option>
+                            <option value="Uncle">Uncle</option>
+                            <option value="Aunt">Aunt</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Husband">Husband</option>
+                            <option value="Legal Guardian">Legal Guardian</option>
+                            <option value="Foster Parent">Foster Parent</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group flx">
+                        <label for="parentContact">Parent's Contact Number (WhatsApp Preferred)</label>
+                        <input type="tel" class="form-control" id="parent_contact" maxlength="10"
+                            placeholder="Enter parent's contact number" value="<%= (typeof(user?.parent_contact)!='undefined'?(user?.parent_contact):'') %>" required />
+                    </div>
+                <% } %>
+                <% if (type == "teacher") { %>
+                    <div class="form-group flx">
+                        <label for="emergency_contact">Emergency Contact Number (WhatsApp Preferred)</label>
+                        <input type="tel" class="form-control" id="emergency_contact" maxlength="10" placeholder="Enter alternative contact number" 
+                            value="<%= (typeof(user?.emergency_contact)!='undefined'?(user?.emergency_contact):'') %>" required />
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="right-component">
+            <div class="small-component">
+                <div class="breaker"><%- type=='student'?'Academic':(type=='teacher'?'Educational':(type=='admin'?'':'Unknown')) %> Details</div>
+                <div class="user-data">
+                    <% if (type == "student") { %>
+                        <div class="form-group flx">
+                            <label for="institutionName">Current Institution (School/College Name)</label>
+                            <input type="text" class="form-control" id="institute" aria-describedby="institutionHelp"
+                                placeholder="Enter the name of your school or college" value="<%= (typeof(user?.institute)!='undefined'?(user?.institute):'') %>" required />
+                        </div>
+                        <div class="form-group flx">
+                            <label for="educationLevel">Education Level</label>
+                            <select class="form-control" id="level" data-value="<%= (typeof(user?.level)!='undefined'?(user?.level):'Other') %>" required>
+                                <option value="Primary School">Primary School</option>
+                                <option value="High School">High School</option>
+                                <option value="Undergraduate">Undergraduate</option>
+                                <option value="Postgraduate">Postgraduate</option>
+                                <option value="Doctorate">Doctorate / PhD</option>
+                                <option value="Diploma">Diploma / Certification</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="currentClass">Current Class</label>
+                            <select class="form-control" id="class" data-value="<%= (typeof(user?.class)!='undefined'?(user?.class):'Other') %>" required>
+                                <option value="6">Class 6</option>
+                                <option value="7">Class 7</option>
+                                <option value="8">Class 8</option>
+                                <option value="9">Class 9</option>
+                                <option value="10">Class 10</option>
+                                <option value="11">Class 11</option>
+                                <option value="12">Class 12</option>
+                                <option value="Bachelor">Bachelor's Degree</option>
+                                <option value="Diploma">Diploma / Certification</option>
+                                <option value="Master">Master's Degree</option>
+                                <option value="PhD">PhD / Doctorate</option>
+                                <option value="Post Doctoral">Postdoctoral Research</option>
+                                <option value="Gap Year">Gap Year</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="academicStream">Academic Stream / Major</label>
+                            <select class="form-control" id="stream" data-value="<%= (typeof(user?.stream)!='undefined'?(user?.stream):'Other') %>" required>
+                                <option value="Not Applicable">Not Applicable</option>
+                                <option value="Science">Science</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Arts">Arts / Humanities</option>
+                                <option value="Vocational">Vocational Studies</option>
+                                <option value="Engineering">Engineering (e.g., Mechanical, Electrical, Civil)</option>
+                                <option value="Computer Science">Computer Science / IT</option>
+                                <option value="Business">Business Administration / Management</option>
+                                <option value="Economics">Economics</option>
+                                <option value="Accounting">Accounting / Finance</option>
+                                <option value="Law">Law / Legal Studies</option>
+                                <option value="Medicine">Medicine / MBBS</option>
+                                <option value="Nursing">Nursing / Allied Health</option>
+                                <option value="Pharmacy">Pharmacy</option>
+                                <option value="Architecture">Architecture</option>
+                                <option value="Education">Education / B.Ed</option>
+                                <option value="Psychology">Psychology</option>
+                                <option value="Sociology">Sociology</option>
+                                <option value="Political_science">Political Science</option>
+                                <option value="History">History</option>
+                                <option value="Literature">English / Literature</option>
+                                <option value="Media Communication">Mass Communication / Journalism</option>
+                                <option value="Fine Arts">Fine Arts / Performing Arts</option>
+                                <option value="Agriculture">Agricultural Sciences</option>
+                                <option value="Environmental">Environmental Science</option>
+                                <option value="Statistics">Statistics / Mathematics</option>
+                                <option value="Foreign Languages">Foreign Languages</option>
+                                <option value="Hotel Management">Hotel Management / Hospitality</option>
+                                <option value="Fashion Design">Fashion Design</option>
+                                <option value="Interior Design">Interior Design</option>
+                                <option value="Animation">Animation / Multimedia</option>
+                                <option value="Culinary">Culinary Arts</option>
+                                <option value="Sports Science">Sports Science / Physical Education</option>
+                                <option value="Data Science">Data Science / AI / ML</option>
+                                <option value="Cybersecurity">Cybersecurity</option>
+                                <option value="Not Decided">Undecided / Exploring Options</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="previousResults">Previous Academic Results</label>
+                            <input type="number" class="form-control" id="results"
+                                placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" value="<%= (typeof(user?.result)!='undefined'?(user?.result):'') %>" required />
+                        </div>
+                        <div class="form-group flx">
+                            <label for="mediumInstruction">Preferred Medium of Instruction</label>
+                            <select class="form-control" id="medium" data-value="<%= (typeof(user?.medium)!='undefined'?(user?.medium):'Other') %>" required>
+                                <option value="English">English</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Urdu">Urdu</option>
+                                <option value="Odia">Odia</option>
+                                <option value="Sanskrit">Sanskrit</option>
+                                <option value="Multilingual">Multilingual / Bilingual</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="favouriteSubjects">Favourite Subjects</label>
+                            <input type="text" class="form-control" id="fav_subject"
+                                placeholder="e.g., Geography, English, Computer Science" value="<%= (typeof(user?.fav_subject)!='undefined'?(user?.fav_subject):'') %>" required />
+                        </div>
+                        <div class="form-group flx">
+                            <label for="difficultSubjects">Difficult Subjects</label>
+                            <input type="text" class="form-control" id="diff_subject"
+                                placeholder="e.g., Mathematics, Chemistry, English" value="<%= (typeof(user?.diff_subject)!='undefined'?(user?.diff_subject):'') %>" required />
+                        </div>
+                    <% } %>
+                    <% if (type == "teacher") { %>
+                        <div class="form-group flx">
+                            <label for="high_degree">Highest Degree Completed</label>
+                            <select class="form-control" id="high_degree" aria-describedby="high_degreeHelp" data-value="<%= (typeof(user?.high_degree)!='undefined'?(user?.high_degree):'Other') %>" required>
+                                <option value="12">Class 12</option>
+                                <option value="BA">Bachelor of Arts (BA)</option>
+                                <option value="BSc">Bachelor of Science (BSc)</option>
+                                <option value="BCom">Bachelor of Commerce (BCom)</option>
+                                <option value="BBA">Bachelor of Business Administration (BBA)</option>
+                                <option value="B.Ed">Bachelor of Education (B.Ed)</option>
+                                <option value="B.Tech">Bachelor of Technology (B.Tech)</option>
+                                <option value="LLB">Bachelor of Laws (LLB)</option>
+                                <option value="MBBS">Bachelor of Medicine, Bachelor of Surgery (MBBS)</option>
+                                <option value="MA">Master of Arts (MA)</option>
+                                <option value="MSc">Master of Science (MSc)</option>
+                                <option value="MCom">Master of Commerce (MCom)</option>
+                                <option value="MBA">Master of Business Administration (MBA)</option>
+                                <option value="M.Ed">Master of Education (M.Ed)</option>
+                                <option value="M.Tech">Master of Technology (M.Tech)</option>
+                                <option value="LLM">Master of Laws (LLM)</option>
+                                <option value="MD">Doctor of Medicine (MD)</option>
+                                <option value="MS">Master of Surgery (MS)</option>
+                                <option value="PhD">Doctor of Philosophy (Ph.D)</option>
+                                <option value="EdD">Doctor of Education (Ed.D)</option>
+                                <option value="D.Sc">Doctor of Science (D.Sc)</option>
+                                <option value="Post Doctoral">Postdoctoral Research</option>
+                                <option value="Diploma">Diploma / Advanced Diploma</option>
+                                <option value="PG Diploma">Postgraduate Diploma</option>
+                                <option value="Professional Certification">Professional Certification (e.g., TEFL, CA, CS, CFA)</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="institutionName">University / College Name</label>
+                            <input type="text" class="form-control" id="institute" min="8" aria-describedby="institutionHelp" placeholder="Enter the name of your University or college" value="<%= (typeof(user?.institute)!='undefined'?(user?.institute):'Other') %>" required />
+                        </div>
+                        <div class="form-group flx">
+                            <label for="relevent_certificate">Other Relevant Certifications</label>
+                                <select class="form-control" id="relevent_certificate" aria-describedby="relevent_certificateHelp" data-value="<%= (typeof(user?.relevent_certificate)!='undefined'?(user?.relevent_certificate):'Other') %>"  multiple required>
+                                    <option value="CTET">CTET (Central Teacher Eligibility Test)</option>
+                                    <option value="TET">State TET (Teacher Eligibility Test)</option>
+                                    <option value="NET">UGC NET (National Eligibility Test)</option>
+                                    <option value="SET">State Eligibility Test (SET)</option>
+                                    <option value="PGT">Post Graduate Teacher (PGT)</option>
+                                    <option value="TGT">Trained Graduate Teacher (TGT)</option>
+                                    <option value="PRT">Primary Teacher (PRT)</option>
+                                    <option value="B.Ed">Bachelor of Education (B.Ed)</option>
+                                    <option value="M.Ed">Master of Education (M.Ed)</option>
+                                    <option value="Diploma in Education">Diploma in Education</option>
+                                    <option value="Montessori Training">Montessori Training</option>
+                                    <option value="Special Education">Special Education Certification</option>
+                                    <option value="TESOL">TESOL / TEFL (English Language Teaching)</option>
+                                    <option value="Computer Certification">Computer Literacy / IT Certification</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        <div class="form-group flx">
+                            <label for="subject">Specialized Subject</label>
+                            <select class="form-control" id="subject" aria-describedby="subjectHelp" data-value="<%= (typeof(user?.subject)!='undefined'?(user?.subject):'Other') %>" required>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Biology">Biology</option>
+                                <option value="English">English</option>
+                                <option value="History">History</option>
+                                <option value="Geography">Geography</option>
+                                <option value="Political Science">Political Science</option>
+                                <option value="Economics">Economics</option>
+                                <option value="Sociology">Sociology</option>
+                                <option value="Psychology">Psychology</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Sanskrit">Sanskrit</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Fine Arts">Fine Arts</option>
+                                <option value="Music">Music</option>
+                                <option value="Drama">Drama / Theatre Studies</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Data Science/AI/ML">Data Science/AI/ML</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Business Studies">Business Studies</option>
+                                <option value="Accountancy">Accountancy</option>
+                                <option value="Physical Education">Physical Education</option>
+                                <option value="Environmental Science">Environmental Science</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="mediumInstruction">Preferred Medium of Instruction</label>
+                            <select class="form-control" id="medium" aria-describedby="mediumHelp" data-value="<%= (typeof(user?.medium)!='undefined'?(user?.medium):'Other') %>" required>
+                                <option value="English">English</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Urdu">Urdu</option>
+                                <option value="Odia">Odia</option>
+                                <option value="Sanskrit">Sanskrit</option>
+                                <option value="Multilingual">Multilingual / Bilingual</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="small-component">
+                <div class="breaker"><%- type=='student'?'Career':(type=='teacher'?'Experience':(type=='admin'?'':'Unknown')) %>  Details</div>
+                <div class="user-data">
+                    <% if (type == 'student') { %>
+                        <div class="form-group flx">
+                            <label for="preferredClass">Preferred Class/Grade</label>
+                            <select class="form-control" id="pref_class" data-value="<%= (typeof(user?.pref_class)!='undefined'?(user?.pref_class):'Other') %>" required>
+                                <option value="Current Class">Current Class</option>
+                                <option value="Next Class">Next Class / Upcoming Grade</option>
+                                <option value="Grade Improvement">Grade Improvement / Repeat Year</option>
+                                <option value="Competitive Exam">Competitive Exam Preparation (e.g., NEET, JEE, UPSC)
+                                </option>
+                                <option value="Entrance Exam">Entrance Exam Target (e.g., CUET, CAT, GRE)</option>
+                                <option value="Bachelor">Bachelor's Admission Goal</option>
+                                <option value="Master">Master's Admission Goal</option>
+                                <option value="PhD">PhD / Research Goal</option>
+                                <option value="Diploma">Diploma / Certification Program</option>
+                                <option value="Professional Course">Professional Course (e.g., CA, CS, CMA)</option>
+                                <option value="Skill Development">Skill Development / Non-academic Learning</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="higherEdGoal">Intended Higher Education Goal</label>
+                            <select class="form-control" id="goal" data-value="<%= (typeof(user?.goal)!='undefined'?(user?.goal):'Other') %>" required>
+                                <option value="Engineering">Engineering (e.g., B.Tech, BE)</option>
+                                <option value="Medicine">Medicine / Healthcare (e.g., MBBS, BDS, Nursing)</option>
+                                <option value="Management">Management / Business (e.g., BBA, MBA)</option>
+                                <option value="Law">Law / Legal Studies (e.g., LLB, BA-LLB)</option>
+                                <option value="Science">Pure Sciences (e.g., B.Sc, M.Sc)</option>
+                                <option value="Arts">Arts / Humanities (e.g., BA, MA)</option>
+                                <option value="Commerce">Commerce / Finance (e.g., B.Com, M.Com)</option>
+                                <option value="Computer Science">Computer Science / IT</option>
+                                <option value="Design">Design / Architecture (e.g., B.Des, B.Arch)</option>
+                                <option value="Education">Education / Teaching (e.g., B.Ed, M.Ed)</option>
+                                <option value="Data Science">Data Science / AI / Machine Learning</option>
+                                <option value="Media Communication">Mass Communication / Journalism</option>
+                                <option value="Hospitality">Hotel Management / Hospitality</option>
+                                <option value="Fashion">Fashion / Interior Design</option>
+                                <option value="Agriculture">Agriculture / Environmental Studies</option>
+                                <option value="Sports">Sports / Physical Education</option>
+                                <option value="Not Decided">Undecided / Exploring Options</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="examPrep">Competitive Exams Preparing For</label>
+                            <select class="form-control" id="exam_prep" data-value="<%= (typeof(user?.exam_prep)!='undefined'?(user?.exam_prep):'Other') %>" required>
+                                <option value="Board Exam">Board Exams (10th / 12th)</option>
+                                <option value="CUET">CUET (Central University Entrance Test)</option>
+                                <option value="JEE">JEE (Joint Entrance Exam)</option>
+                                <option value="NEET">NEET (Medical Entrance)</option>
+                                <option value="UPSC">UPSC (Civil Services)</option>
+                                <option value="SSC">SSC (Staff Selection Commission)</option>
+                                <option value="Railway">Railway Recruitment Exams</option>
+                                <option value="Banking">Banking Exams (IBPS, SBI PO, etc.)</option>
+                                <option value="State PSC">State PSC Exams</option>
+                                <option value="CAT">CAT (MBA Entrance)</option>
+                                <option value="GATE">GATE</option>
+                                <option value="GMAT">GMAT</option>
+                                <option value="GRE">GRE</option>
+                                <option value="TOEFL">TOEFL / IELTS</option>
+                                <option value="Not Preparing">Not Preparing for Any Exam</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="careerGoal">Career Aspirations</label>
+                            <select class="form-control" id="career" data-value="<%= (typeof(user?.career)!='undefined'?(user?.career):'Other') %>" required>
+                                <option value="Software Engineer">Software Engineer / Developer</option>
+                                <option value="Data Scientist">Data Scientist / AI Specialist</option>
+                                <option value="Civil Engineer">Civil / Mechanical / Electrical Engineer</option>
+                                <option value="Doctor">Doctor / Surgeon</option>
+                                <option value="Nurse">Nurse / Paramedic</option>
+                                <option value="Pharmacist">Pharmacist</option>
+                                <option value="Civil Services">Civil Services (IAS, IPS, IFS)</option>
+                                <option value="Defense">Defense / Armed Forces</option>
+                                <option value="Police">Police / Law Enforcement</option>
+                                <option value="Entrepreneur">Entrepreneur / Startup Founder</option>
+                                <option value="Manager">Corporate Manager / Consultant</option>
+                                <option value="Accountant">Accountant / Financial Analyst</option>
+                                <option value="Researcher">Researcher / Scientist</option>
+                                <option value="Professor">Professor / Academic</option>
+                                <option value="Teacher">School Teacher / Educator</option>
+                                <option value="Designer">Designer / Architect</option>
+                                <option value="Journalist">Journalist / Media Professional</option>
+                                <option value="Artist">Artist / Performer</option>
+                                <option value="Not Decided">Not Decided Yet</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    <% }else if(type == 'teacher'){ %>
+                        <div class="form-group flx">
+                            <label for="experience">Total Years of Teaching Experience</label>
+                            <input type="number" class="form-control" id="experience" name="experience" min="0" max="40" placeholder="Enter the years of Experience time" aria-describedby="experienceHelp" value="<%= (typeof(user?.experience)!='undefined'?(user?.experience):'Other') %>" required />
+                        </div>
+                        <div class="form-group flx">
+                            <label for="job_status">Current Job Status</label>
+                            <select class="form-control" id="job_status" aria-describedby="job_statusHelp" data-value="<%= (typeof(user?.job_status)!='undefined'?(user?.job_status):'Other') %>" required>
+                                <option value="Full-Time">Working Full-Time</option>
+                                <option value="Part-Time">Working Part-Time</option>
+                                <option value="Contractual">Contractual / Temporary Position</option>
+                                <option value="Freelance">Freelance Tutor / Educator</option>
+                                <option value="Private Coaching">Running Private Coaching / Tuition</option>
+                                <option value="Online Teaching">Online Teaching / EdTech Platform</option>
+                                <option value="School Teacher">School Teacher (Primary / Secondary)</option>
+                                <option value="College Faculty">College / University Faculty</option>
+                                <option value="Researcher">Academic Researcher</option>
+                                <option value="Administrative">Educational Administrator / Coordinator</option>
+                                <option value="Curriculum Developer">Curriculum Developer / Instructional Designer</option>
+                                <option value="Trainer">Corporate Trainer / Skill Development</option>
+                                <option value="Consultant">Education Consultant</option>
+                                <option value="On Sabbatical">On Sabbatical / Career Break</option>
+                                <option value="Retired">Retired</option>
+                                <option value="Seeking Opportunities">Actively Seeking Teaching Opportunities</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="previous_institute">Previous Institution Taught At</label>
+                            <input type="text" class="form-control" id="previous_institute" name="previous_institute" placeholder="Enter recent Institution name or type N/A" minlength="2" maxlength="50" aria-describedby="previous_instituteHelp" value="<%= (typeof(user?.previous_institute)!='undefined'?(user?.previous_institute):'Other') %>" required />
+                        </div>
+                        <div class="form-group flx">
+                            <label for="class_level">Grade/Class Levels Comfortable Teaching/Mentoring</label>
+                            <select class="form-control" id="class_level" aria-describedby="class_levelHelp" data-value="<%= (typeof(user?.class_level)!='undefined'?(user?.class_level):'Other') %>" required>
+                                <option value="6-9">Class 6 to 9 (Middle School)</option>
+                                <option value="8-10">Class 8 to 10 (Upper Middle / Secondary)</option>
+                                <option value="9-12">Class 9 to 12 (Secondary)</option>
+                                <option value="11-12">Class 11 to 12 (Higher Secondary)</option>
+                                <option value="6-12">Class 6 to 12 (School Level)</option>
+                                <option value="Bachelor">Bachelor's Degree Level</option>
+                                <option value="Diploma">Diploma / Certification Level</option>
+                                <option value="Master">Master's Degree Level</option>
+                                <option value="PhD">PhD / Doctorate Level</option>
+                                <option value="Post Doctoral">Postdoctoral Research Level</option>
+                                <option value="Gap Year">Gap Year / Transitional Learners</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="mentorship">Interest in Exam Mentorship</label>
+                            <select class="form-control" id="mentorship" aria-describedby="mentorshipHelp" data-value="<%= (typeof(user?.mentorship)!='undefined'?(user?.mentorship):'Other') %>" required>
+                                <option value="Board Exam">Board Exams (10th / 12th)</option>
+                                <option value="CUET">CUET (Central University Entrance Test)</option>
+                                <option value="JEE">JEE (Joint Entrance Exam)</option>
+                                <option value="NEET">NEET (Medical Entrance)</option>
+                                <option value="UPSC">UPSC (Civil Services)</option>
+                                <option value="SSC">SSC (Staff Selection Commission)</option>
+                                <option value="Railway">Railway Recruitment Exams</option>
+                                <option value="Banking">Banking Exams (IBPS, SBI PO, etc.)</option>
+                                <option value="State PSC">State PSC Exams</option>
+                                <option value="CAT">CAT (MBA Entrance)</option>
+                                <option value="GATE">GATE</option>
+                                <option value="GMAT">GMAT</option>
+                                <option value="GRE">GRE</option>
+                                <option value="TOEFL">TOEFL / IELTS</option>
+                                <option value="Not Interested">Not Interested in Exam Mentorship</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="record_video">Willingness to Record Video Lectures</label>
+                            <select class="form-control" id="record_video" aria-describedby="record_videoHelp" data-value="<%= (typeof(user?.record_video)!='undefined'?(user?.record_video):'Other') %>" required>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group flx">
+                            <label for="mode">Preferred Mode of Engagement</label>
+                            <select class="form-control" id="mode" aria-describedby="mode" data-value="<%= (typeof(user?.mode)!='undefined'?(user?.mode):'Other') %>" required>
+                                <option value="Mentorship">Mentorship (guidance and counselling)</option>
+                                <option value="Live Teaching">Live Teaching (Zoom, Google Meet, etc.)</option>
+                                <option value="Recorded Lectures">Recorded Lectures (Pre-recorded video sessions)</option>
+                                <option value="Content Creation">Content Creation (Articles, quizzes, study material, mind maps)</option>
+                                <option value="Doubt Solving">Doubt Solving and Discussion</option>
+                                <option value="Live & Recorded">Live & Recorded Teaching</option>
+                                <option value="Mentor & Teacher">Mentoring with Teaching</option>
+                            </select>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="small-component">
+                <div class="breaker">Security Details</div>
+                <div class="security-mark">
+                    <div class="form-group flx">
+                        <input type="password" class="form-control" id="password" placeholder="Enter your current password"
+                            required />
+                        <div class="btn btn-outline-process" onclick="userProfile.unlock();">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4M2.5 7A1.5 1.5 0 0 0 1 8.5v5A1.5 1.5 0 0 0 2.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 9.5 7z"/>
+                            </svg>
+                            Unlock
+                        </div>
+                    </div>
+                    <small class="form-text text-muted">Please verify your current password to access and manage your security details, including viewing or updating your password and other safty credentials.</small>
+                </div>
+                <div class="user-data hidden">
+                    <div class="form-group flx">
+                        <label for="favouriteColor">Favourite color</label>
+                        <input type="color" class="form-control" id="fav_color" value="#0c8ff9"
+                            placeholder="e.g., Blue, Red, #000" required />
 
-.sidebar .sidebar-header {
-    display: flex;
-    position: relative;
-    padding: 25px 20px;
-    align-items: center;
-    justify-content: space-between;
-}
+                    </div>
+                    <div class="form-group flx">
+                        <label for="favouriteBook">Favourite book</label>
+                        <input type="text" class="form-control" id="fav_book" maxlength="30"
+                            placeholder="e.g., The Alchemist, Harry Potter" required />
+                    </div>
+                    <div class="form-group flx">
+                        <label for="createPassword">Password</label>
+                        <input type="password" class="form-control" id="pass" placeholder="Enter a secure password"
+                            required />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-.sidebar-header .header-logo img {
-    width: 46px;
-    height: 46px;
-    display: block;
-    object-fit: contain;
-    /* border-radius: 50%; */
-}
-
-.sidebar-header .sidebar-toggler,
-.sidebar-menu-button {
-    position: absolute;
-    right: 20px;
-    height: 35px;
-    width: 35px;
-    color: #151A2D;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    background: #EEF2FF;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    transition: 0.4s ease;
-}
-
-.sidebar.collapsed .sidebar-header .sidebar-toggler {
-    transform: translate(-4px, 65px);
-}
-
-.sidebar-header .sidebar-toggler svg,
-.sidebar-menu-button svg {
-    font-size: 1.75rem;
-    transition: 0.4s ease;
-}
-
-.sidebar.collapsed .sidebar-header .sidebar-toggler svg {
-    transform: rotate(180deg);
-}
-
-.sidebar-header .sidebar-toggler:hover {
-    background: #d9e1fd;
-}
-
-.sidebar-nav .nav-list {
-    list-style: none;
-    display: flex;
-    gap: 4px;
-    padding: 0 15px;
-    flex-direction: column;
-    transform: translateY(15px);
-    transition: 0.4s ease;
-}
-
-.sidebar .sidebar-nav .primary-nav {
-    overflow-y: auto;
-    scrollbar-width: thin;
-    padding-bottom: 20px;
-    height: calc(100vh - 227px);
-    scrollbar-color: transparent transparent;
-}
-
-.sidebar .sidebar-nav .primary-nav:hover {
-    scrollbar-color: #EEF2FF transparent;
-}
-
-.sidebar.collapsed .sidebar-nav .primary-nav {
-    overflow: unset;
-    transform: translateY(65px);
-}
-
-.sidebar-nav .nav-item .nav-link {
-    color: #fff;
-    display: flex;
-    gap: 12px;
-    white-space: nowrap;
-    border-radius: 8px;
-    padding: 11px 15px;
-    align-items: center;
-    text-decoration: none;
-    border: 1px solid #151A2D;
-    transition: 0.4s ease;
-}
-
-.sidebar-nav .nav-item:is(:hover, .open)>.nav-link:not(.dropdown-title) {
-    color: #151A2D;
-    background: #EEF2FF;
-}
-
-.sidebar .nav-link .nav-label {
-    transition: opacity 0.3s ease;
-}
-
-.sidebar.collapsed .nav-link :where(.nav-label, .dropdown-icon) {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.sidebar.collapsed .nav-link .dropdown-icon {
-    transition: opacity 0.3s 0s ease;
-}
-
-.sidebar-nav .secondary-nav {
-    position: absolute;
-    bottom: 35px;
-    width: 100%;
-    background: #151A2D;
-}
-
-.sidebar-nav .nav-item {
-    position: relative;
-}
-
-/* Dropdown Stylings */
-.sidebar-nav .dropdown-container .dropdown-icon {
-    margin: 0 -4px 0 auto;
-    transition: transform 0.4s ease, opacity 0.3s 0.2s ease;
-}
-
-.sidebar-nav .dropdown-container.open .dropdown-icon {
-    transform: rotate(180deg);
-}
-
-.sidebar-nav .dropdown-menu {
-    height: 0;
-    overflow-y: hidden;
-    list-style: none;
-    padding-left: 15px;
-    transition: height 0.4s ease;
-}
-
-.sidebar.collapsed .dropdown-menu {
-    position: absolute;
-    top: -10px;
-    left: 100%;
-    opacity: 0;
-    height: auto !important;
-    padding-right: 10px;
-    overflow-y: unset;
-    pointer-events: none;
-    border-radius: 0 10px 10px 0;
-    background: #151A2D;
-    transition: 0s;
-}
-
-.sidebar.collapsed .dropdown-menu:has(.dropdown-link) {
-    padding: 7px 10px 7px 24px;
-}
-
-.sidebar.sidebar.collapsed .nav-item:hover>.dropdown-menu {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(12px);
-    transition: all 0.4s ease;
-}
-
-.sidebar.sidebar.collapsed .nav-item:hover>.dropdown-menu:has(.dropdown-link) {
-    transform: translateY(10px);
-}
-
-.dropdown-menu .nav-item .nav-link {
-    color: #F1F4FF;
-    padding: 9px 15px;
-}
-
-.sidebar.collapsed .dropdown-menu .nav-link {
-    padding: 7px 15px;
-}
-
-.dropdown-menu .nav-item .nav-link.dropdown-title {
-    display: none;
-    color: #fff;
-    padding: 9px 15px;
-}
-
-.dropdown-menu:has(.dropdown-link) .nav-item .dropdown-title {
-    font-weight: 500;
-    padding: 7px 15px;
-}
-
-.sidebar.collapsed .dropdown-menu .nav-item .dropdown-title {
-    display: block;
-}
-
-.sidebar-menu-button {
-    display: none;
-}
-
-/* Responsive media query code for small screens */
-/* @media (max-width: 768px) {
-    .sidebar-menu-button {
-        position: fixed;
-        left: 20px;
-        top: 20px;
-        height: 40px;
-        width: 42px;
-        display: flex;
-        color: #F1F4FF;
-        background: #151A2D;
-    }
-
-    .sidebar.collapsed {
-        width: 270px;
-        left: -270px;
-    }
-
-    .sidebar.collapsed .sidebar-header .sidebar-toggler {
-        transform: none;
-    }
-
-    .sidebar.collapsed .sidebar-nav .primary-nav {
-        transform: translateY(15px);
-    }
-} */
-
-
-
-<!-- Mobile Sidebar Menu Button -->
-<button class="sidebar-menu-button">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-    </svg>
-</button>
-<aside class="sidebar">
-    <!-- Sidebar Header -->
-    <header class="sidebar-header">
-        <a href="#" class="header-logo">
-            <img src="../public/logo1500.png" alt="SAIT" />
-        </a>
-        <button class="sidebar-toggler">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-chevron-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
-            </svg>
-        </button>
-    </header>
-
-    <nav class="sidebar-nav">
-        <!-- Primary Top Nav -->
-        <ul class="nav-list primary-nav">
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-columns-gap" viewBox="0 0 16 16">
-                        <path
-                            d="M6 1v3H1V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1zm14 12v3h-5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1zM6 8v7H1V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zm14-6v7h-5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z" />
-                    </svg>
-                    <span class="nav-label">Dashboard</span>
-                </a>
-            </li>
-
-            <!-- Dropdown -->
-            <li class="nav-item dropdown-container">
-                <a href="#" class="nav-link dropdown-switch">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-calendar4" viewBox="0 0 16 16">
-                        <path
-                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
-                    </svg>
-                    <span class="nav-label">Services</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-chevron-down dropdown-icon" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
-                    </svg>
-                </a>
-
-                <!-- Dropdown Menu -->
-                <ul class="dropdown-menu">
-                    <li class="nav-item"><a class="nav-link dropdown-title">Services</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link dropdown-link">IT Consulting</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link dropdown-link">Cloud Solutions</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link dropdown-link">Mobile Apps</a></li>
-                </ul>
-            </li>
-
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-mortarboard" viewBox="0 0 16 16">
-                        <path
-                            d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z" />
-                        <path
-                            d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z" />
-                    </svg>
-                    <span class="nav-label">Teacher</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-chat-left-text" viewBox="0 0 16 16">
-                        <path
-                            d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                        <path
-                            d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
-                    </svg>
-                    <span class="nav-label">AI Mentor</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-gear" viewBox="0 0 16 16">
-                        <path
-                            d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
-                        <path
-                            d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
-                    </svg>
-                    <span class="nav-label">Settings</span>
-                </a>
-            </li>
-        </ul>
-
-        <!-- Secondary Bottom Nav -->
-        <ul class="nav-list secondary-nav">
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-question-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                        <path
-                            d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94" />
-                    </svg>
-                    <span class="nav-label">Support</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
-                        <path fill-rule="evenodd"
-                            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
-                    </svg>
-                    <span class="nav-label">Sign Out</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</aside>
-
-
-// Toggle the visibility of a dropdown menu
-
-const toggleDropdown = (dropdown, menu, isOpen) => {
-    dropdown.classList.toggle("open", isOpen);
-    menu.style.height = isOpen ? `${menu.scrollHeight}px` : 0;
-};
-
-// Close all open dropdowns
-const closeAllDropdowns = () => {
-    document.querySelectorAll(".dropdown-container.open").forEach((openDropdown) => {
-        toggleDropdown(openDropdown, openDropdown.querySelector(".dropdown-menu"), false);
-    });
-};
-
-// Attach click event to all dropdown toggles
-document.querySelectorAll(".dropdown-switch").forEach((dropdownToggle) => {
-    dropdownToggle.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        const dropdown = dropdownToggle.closest(".dropdown-container");
-        const menu = dropdown.querySelector(".dropdown-menu");
-        const isOpen = dropdown.classList.contains("open");
-
-        closeAllDropdowns(); // Close all open dropdowns
-        toggleDropdown(dropdown, menu, !isOpen); // Toggle current dropdown visibility
-    });
-});
-
-// Attach click event to sidebar toggle buttons
-document.querySelectorAll(".sidebar-toggler, .sidebar-menu-button").forEach((button) => {
-    button.addEventListener("click", () => {
-        closeAllDropdowns(); // Close all open dropdowns
-        document.querySelector(".sidebar").classList.toggle("collapsed"); // Toggle collapsed class on sidebar
-    });
-});
-
-// Collapse sidebar by default on small screens
-if (window.innerWidth <= 1024) document.querySelector(".sidebar").classList.add("collapsed");
+</div>

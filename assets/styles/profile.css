@@ -51,6 +51,7 @@
                 font-weight: bold;
                 font-family: sans-serif;
                 font-size: 80px;
+                text-transform: uppercase;
                 width: 200px;
                 height: 200px;
                 user-select: none;
@@ -72,7 +73,7 @@
             user-select: none;
         }
         .user-data{
-            .form-group.flx{
+            .form-group.flx, .page .row .form-group{
                 label{
                     font-size: 14px;
                     padding-top: 10px;
@@ -106,6 +107,34 @@
             }
             small{
                 text-align: justify;
+            }
+        }
+        .user-data{
+            .page{
+                max-height: 100%;
+                .title{
+                    display: none;
+                }
+                .row{
+                    display: block;
+                    .form-group{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        small{
+                            display: none;
+                        }
+                    }
+                    .form-group:has(table) {
+                        display: none;
+                    }
+                    .form-group:has(#access_token) {
+                        display: none;
+                    }
+                }
+                .btn{
+                    display: none;
+                }
             }
         }
     }
