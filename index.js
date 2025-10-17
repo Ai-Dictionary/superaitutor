@@ -491,6 +491,7 @@ app.get('/deshboard', async (req, res) => {
         ejs.renderFile('./views/sideNav.ejs', {type: type}),
         ejs.renderFile('./views/templates/general.ejs', {isHosted, name: user.name, edge_request: varchar.ipHits[clientIP]}),
         ejs.renderFile('./views/templates/myCourse.ejs'),
+        ejs.renderFile('./views/templates/teacher.ejs', {type: type}),
         ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
         ejs.renderFile('./views/templates/profile.ejs', {
             user: hex.profile_setup(user, 'self'), 
@@ -498,8 +499,8 @@ app.get('/deshboard', async (req, res) => {
             page: type=='student'?await ejs.renderFile('./views/studentSignUp.ejs'):(type=='teacher'?await ejs.renderFile('./views/teacherSignUp.ejs'):(type=='admin'?await ejs.renderFile('./views/adminSignUp.ejs'):''))
         }),
     ];
-    Promise.all(promises).then(([sideNav, general, myCourse, aiMentor, profile]) => {
-        res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user.name, user.email)}, sideNav, general, myCourse, aiMentor, profile});
+    Promise.all(promises).then(([sideNav, general, myCourse, teacher, aiMentor, profile]) => {
+        res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user.name, user.email)}, sideNav, general, myCourse, teacher, aiMentor, profile});
     });
 });
 
