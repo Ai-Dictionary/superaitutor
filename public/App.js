@@ -140,12 +140,12 @@ class System{
         document.body.removeChild(tempTextarea);
         alert("Text has been copied to the clipboard!");
     }
-    search(data, list, type='list-item'){
+    search(search_input_id, sample_space_class, type='list-item', search_key=''){
         let find = 0;
         let miss=0;
-        let input = document.getElementById(`${data}`).value;
+        let input = search_key==''?document.getElementById(`${search_input_id}`).value:search_key;
         input = input.toLowerCase();
-        let x = document.getElementsByClassName(`${list}`);
+        let x = document.getElementsByClassName(`${sample_space_class}`);
         for(let i = 0; i<x.length; i++){ 
             if(!x[i].textContent.toLowerCase().includes(input)){
                 x[i].style.display = "none";
@@ -155,13 +155,10 @@ class System{
                 find++;
             }
         }
-        if(data == 'searchSelectList'){
-            data = 'searchData';
-        }
         if(miss>find && find==0 && miss!=0){
-            document.getElementById(data+'DOD').style.display = "block";
+            document.getElementById(search_input_id+'DOD').style.display = "block";
         }else{
-            document.getElementById(data+'DOD').style.display = "none";
+            document.getElementById(search_input_id+'DOD').style.display = "none";
         }
     }
 }
