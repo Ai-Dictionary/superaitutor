@@ -1,17 +1,15 @@
 class Teacher {
     constructor() {
-        this.user = [
-            { name: "a", exp: 2, rate: 4.5, subject: ["math", "phy", "che"], pin: 159 },
-            { name: "b", exp: 1, rate: 4.1, subject: ["math", "phy"], pin: 156 },
-            { name: "c", exp: 3, rate: 4.9, subject: ["math", "che", "phy"], pin: 125 },
-            { name: "d", exp: 1, rate: 4.8, subject: ["math", "phy"], pin: 162 },
-            { name: "e", exp: 3, rate: 3.2, subject: ["math", "che"], pin: 158 },
-            { name: "f", exp: 2, rate: 3.8, subject: ["che", "phy"], pin: 158 }
-        ]
+        this.user = [];
         this.initListener();
     }
 
     initListener() {
+        const BodyElement = document.getElementById('raw-data');
+        const raw_data = BodyElement.innerText;
+        this.user = JSON.parse(raw_data);
+        this.make_user_list();
+
         const filterElement = document.getElementById('filter');
         if (filterElement) {
             filterElement.addEventListener('change', this.handleFilter.bind(this));
@@ -45,7 +43,7 @@ class Teacher {
         const selectedValue = event.target.value;
         if (selectedValue == 'All') {
             system.search('teacher-search', 'teacher', 'block');
-        }else{
+        } else {
             system.search('teacher-search', 'teacher', 'block', selectedValue);
         }
 
@@ -83,7 +81,57 @@ class Teacher {
 
         return selected_user;
     }
+
+    make_user_list(iteration = 'first') {
+        let demo = document.querySelector('.body .teacher');
+        if (demo != null) {
+            if (this.user.length > 0) {
+                for (let i = 0; i < this.user.length; i++) {
+                    let user = this.user[i];
+                    const card = document.createElement('div');
+                    card.className = 'teacher';
+                    card.innerHTML = demo.innerHTML;
+
+                    const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
+
+                    while (walker.nextNode()) {
+                        const node = walker.currentNode;
+                        const matches = node.textContent.match(/{(\w+)}/g);
+
+                        if (matches) {
+                            let updatedText = node.textContent;
+                            matches.forEach(match => {
+                                const key = match.replace(/[{}]/g, '');
+                                if (user.hasOwnProperty(key)) {
+                                    updatedText = updatedText.replace(match, user[key]);
+                                }
+                            });
+                            node.textContent = updatedText;
+                        }
+                    }
+                    card.querySelectorAll("*").forEach(el => {
+                        for (let attr of el.getAttributeNames()) {
+                            let val = el.getAttribute(attr);
+                            const matches = val.match(/{(\w+)}/g);
+                            if (matches) {
+                                matches.forEach(match => {
+                                    const key = match.replace(/[{}]/g, '');
+                                    if (user.hasOwnProperty(key)) {
+                                        val = val.replace(match, user[key]);
+                                    }
+                                });
+                                el.setAttribute(attr, val);
+                            }
+                        }
+                    });
+                    document.querySelector('.body').appendChild(card);
+                }
+            }else{
+                document.getElementById('teacher-searchDOD').style.display = 'block';
+            }
+            demo.remove();
+        }
+    }
 }
 
-const s = new Teacher().search_user("math", "rate", "high", 159);
-// console.log(s);
+new Teacher();

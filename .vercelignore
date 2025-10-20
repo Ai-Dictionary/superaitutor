@@ -6,6 +6,7 @@ images/
 assets/styles/
 assets/scripts/
 assets/images/
+test/
 
 # Ignore heavy assets like PDFs and large images (adjust as needed)
 assets/*.pdf

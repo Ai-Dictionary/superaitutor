@@ -491,7 +491,7 @@ app.get('/deshboard', async (req, res) => {
         ejs.renderFile('./views/sideNav.ejs', {type: type}),
         ejs.renderFile('./views/templates/general.ejs', {isHosted, name: user.name, edge_request: varchar.ipHits[clientIP]}),
         ejs.renderFile('./views/templates/myCourse.ejs'),
-        ejs.renderFile('./views/templates/teacher.ejs', {type: type}),
+        ejs.renderFile('./views/templates/teacher.ejs', {type: type, isHosted, teachers: !isHosted?jsonfile.readFileSync('./assets/db.json'):[]}),
         ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
         ejs.renderFile('./views/templates/profile.ejs', {
             user: hex.profile_setup(user, 'self'), 
@@ -521,7 +521,7 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'master';
+//     memory.clusterName = 'teacher';
 //     console.log(await memory.read());
 //     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
 //     // let basic_info = await memory.find_profile('MIDK5@37402209');

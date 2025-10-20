@@ -64,6 +64,7 @@
                         font-family: sans-serif;
                         font-weight: 600;
                         font-size: 18px;
+                        user-select: none;
                     }
                 }
                 .right{
@@ -123,6 +124,11 @@
                     width: 14px;
                     margin-top: -2px;
                 }
+                span{
+                    max-width: 50%;
+                    max-height: 20px;
+                    overflow: hidden;
+                }
             }
         }
     }
@@ -136,6 +142,12 @@
             position: relative;
             width: 100%;
         }
+    }
+    #raw-data{
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        display: none;
     }
 }
 

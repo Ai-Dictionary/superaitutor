@@ -1,571 +1,500 @@
-<% function formatDate(dob) {
-  if (!dob) return '1947-08-15';
-  const [dd, mm, yyyy] = dob.split('-');
-  return `${yyyy}-${mm}-${dd}`;
-} %>
-
-<div class="profile-page">
-    <div class="head flx">
-        <h4>Account Details <span>for <%= (typeof(user?.id)!='undefined'?(user?.id):'Unknown ID') %></span></h4>
+<div class="teacher-page">
+    <div class="head">
+        <h4>Find your <strong><%- type=='student' ?'Teacher':(type=='teacher' ?'Student':(type=='admin' ?'not define':'self')) %></strong></h4>
         <div class="flx normal-option">
-            <div class="btn btn-outline-process" title="Change my profile information" onclick="toggleUserData();">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
-                    viewBox="0 0 16 16">
-                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                </svg>
-                Edit Profile
-            </div>
-            <div class="btn btn-process">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
-                </svg>
-                Public Profile
-            </div>
-        </div>
-        <div class="flx save-option">
-            <div class="btn btn-outline-secondary save-info" title="Change my profile information" onclick="userProfile.saveChange();" disabled="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
-                    <path d="M11 2H9v3h2z"/>
-                    <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
-                </svg>
-                No Change Detect
-            </div>
-            <div class="btn btn-outline-danger" title="Discard my all changes" onclick="userProfile.cancelChange();" disabled="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                </svg>
-                Cancel
-            </div>
-        </div>
-    </div>
-    <div class="body flx">
-        <div class="left-component">
-            <div class="dp profile-dp" title="My Desktop Picture" <%- `style="background: ${user?.bg || '#eee'};"` %>>
-                <%- (typeof(user?.name)!='undefined'?(user?.name?.split(' ').filter(Boolean)[0]?.[0] || '') + (user?.name?.split(' ').filter(Boolean).slice(-1)[0]?.[0] || '0'):'UN') %>
-            </div>
-            <div class="breaker">Personal Details</div>
-            <div class="user-data">
-                <div class="form-group flx">
-                    <label for="userName">Name</label>
-                    <input type="name" class="form-control" id="name" aria-describedby="nameHelp"
-                        placeholder="Enter your full name" value="<%= (typeof(user?.name)!='undefined'?(user?.name):'Unknown User') %>" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="gender">Gender</label>
-                    <select class="form-control" id="gender" aria-describedby="genderHelp" data-value="<%= (typeof(user?.gender)!='undefined'?(user?.gender):'Other') %>" required>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+            <div class="left-component flx">
+                <div class="form-group">
+                    <select class="form-control" id="filter" aria-describedby="filterHelp">
+                        <option value="All">All</option>
+                        <option value="Nearest" selected>Nearest</option>
+                        <option value="Teacher only">Teacher only</option>
+                        <option value="Mentor only">Mentor only</option>
+                        <option value="High rated">High rated</option>
+                        <option value="Low rated">Low rated</option>
                     </select>
                 </div>
-                <div class="form-group flx">
-                    <label for="dob">Date of Birth</label>
-                    <input type="date" class="form-control" id="dob" max="60" min="8" id="dob"
-                        aria-describedby="dobHelp" placeholder="dd-mm-yyyy" value="<%= (typeof(user?.dob)!='undefined'?formatDate(user?.dob):'1947-08-15') %>" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="contact">Contact Number (WhatsApp Preferred)</label>
-                    <input type="tel" class="form-control" id="contact" maxlength="10" id="contact"
-                        aria-describedby="contactHelp" placeholder="Enter your contact number" value="<%= (typeof(user?.contact)!='undefined'?(user?.contact):'') %>" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="email">Email Address</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter your email id" value="<%= (typeof(user?.email)!='undefined'?(user?.email):'') %>" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="address">Residential Address</label>
-                    <input type="text" class="form-control" id="address" maxlength="30" id="address"
-                        aria-describedby="addressHelp" placeholder="Enter your current address" value="<%= (typeof(user?.address)!='undefined'?(user?.address.split(' P.O- ')[0]):'') %>" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="postoffice">Post Office</label>
-                    <input type="postoffice" class="form-control" aria-describedby="postofficeHelp"
-                        placeholder="Enter your nearest postoffice name" value="<%= (typeof(user?.address.split(' P.O- ')[1])!='undefined'?(user?.address.split(' P.O- ')[1]):'') %>" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="city">City</label>
-                    <input type="text" class="form-control" maxlength="30" id="city" aria-describedby="cityHelp"
-                        placeholder="Enter your current city" value="<%= (typeof(user?.city)!='undefined'?(user?.city):'') %>" required />
-                </div>
-                <div class="form-group flx">
-                    <label for="pin">PIN Code</label>
-                    <input type="number" class="form-control" id="pin" maxlength="6" aria-describedby="pinHelp"
-                        placeholder="Enter your pin code" value="<%= (typeof(user?.pin)!='undefined'?(user?.pin):'') %>" required />
-                </div>
-                <% if (type == "student") { %>
-                    <div class="form-group flx">
-                        <label for="parentName">Parent's Full Name</label>
-                        <input type="text" class="form-control" id="parent_name" placeholder="Enter your parent's full name"
-                            value="<%= (typeof(user?.parent_name)!='undefined'?(user?.parent_name):'') %>" required />
-                    </div>
-                    <div class="form-group flx">
-                        <label for="relationship">Relationship with Parent</label>
-                        <select class="form-control" id="relationship" data-value="<%= (typeof(user?.relationship)!='undefined'?(user?.relationship):'Other') %>" required>
-                            <option value="Father">Father</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Grandfather">Grandfather</option>
-                            <option value="Grandmother">Grandmother</option>
-                            <option value="Uncle">Uncle</option>
-                            <option value="Aunt">Aunt</option>
-                            <option value="Brother">Brother</option>
-                            <option value="Sister">Sister</option>
-                            <option value="Husband">Husband</option>
-                            <option value="Legal Guardian">Legal Guardian</option>
-                            <option value="Foster Parent">Foster Parent</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group flx">
-                        <label for="parentContact">Parent's Contact Number (WhatsApp Preferred)</label>
-                        <input type="tel" class="form-control" id="parent_contact" maxlength="10"
-                            placeholder="Enter parent's contact number" value="<%= (typeof(user?.parent_contact)!='undefined'?(user?.parent_contact):'') %>" required />
-                    </div>
-                <% } %>
-                <% if (type == "teacher") { %>
-                    <div class="form-group flx">
-                        <label for="emergency_contact">Emergency Contact Number (WhatsApp Preferred)</label>
-                        <input type="tel" class="form-control" id="emergency_contact" maxlength="10" placeholder="Enter alternative contact number" 
-                            value="<%= (typeof(user?.emergency_contact)!='undefined'?(user?.emergency_contact):'') %>" required />
-                    </div>
-                <% } %>
-            </div>
-        </div>
-        <div class="right-component">
-            <div class="small-component">
-                <div class="breaker"><%- type=='student'?'Academic':(type=='teacher'?'Educational':(type=='admin'?'':'Unknown')) %> Details</div>
-                <div class="user-data">
-                    <% if (type == "student") { %>
-                        <div class="form-group flx">
-                            <label for="institutionName">Current Institution (School/College Name)</label>
-                            <input type="text" class="form-control" id="institute" aria-describedby="institutionHelp"
-                                placeholder="Enter the name of your school or college" value="<%= (typeof(user?.institute)!='undefined'?(user?.institute):'') %>" required />
-                        </div>
-                        <div class="form-group flx">
-                            <label for="educationLevel">Education Level</label>
-                            <select class="form-control" id="level" data-value="<%= (typeof(user?.level)!='undefined'?(user?.level):'Other') %>" required>
-                                <option value="Primary School">Primary School</option>
-                                <option value="High School">High School</option>
-                                <option value="Undergraduate">Undergraduate</option>
-                                <option value="Postgraduate">Postgraduate</option>
-                                <option value="Doctorate">Doctorate / PhD</option>
-                                <option value="Diploma">Diploma / Certification</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="currentClass">Current Class</label>
-                            <select class="form-control" id="class" data-value="<%= (typeof(user?.class)!='undefined'?(user?.class):'Other') %>" required>
-                                <option value="6">Class 6</option>
-                                <option value="7">Class 7</option>
-                                <option value="8">Class 8</option>
-                                <option value="9">Class 9</option>
-                                <option value="10">Class 10</option>
-                                <option value="11">Class 11</option>
-                                <option value="12">Class 12</option>
-                                <option value="Bachelor">Bachelor's Degree</option>
-                                <option value="Diploma">Diploma / Certification</option>
-                                <option value="Master">Master's Degree</option>
-                                <option value="PhD">PhD / Doctorate</option>
-                                <option value="Post Doctoral">Postdoctoral Research</option>
-                                <option value="Gap Year">Gap Year</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="academicStream">Academic Stream / Major</label>
-                            <select class="form-control" id="stream" data-value="<%= (typeof(user?.stream)!='undefined'?(user?.stream):'Other') %>" required>
-                                <option value="Not Applicable">Not Applicable</option>
-                                <option value="Science">Science</option>
-                                <option value="Commerce">Commerce</option>
-                                <option value="Arts">Arts / Humanities</option>
-                                <option value="Vocational">Vocational Studies</option>
-                                <option value="Engineering">Engineering (e.g., Mechanical, Electrical, Civil)</option>
-                                <option value="Computer Science">Computer Science / IT</option>
-                                <option value="Business">Business Administration / Management</option>
-                                <option value="Economics">Economics</option>
-                                <option value="Accounting">Accounting / Finance</option>
-                                <option value="Law">Law / Legal Studies</option>
-                                <option value="Medicine">Medicine / MBBS</option>
-                                <option value="Nursing">Nursing / Allied Health</option>
-                                <option value="Pharmacy">Pharmacy</option>
-                                <option value="Architecture">Architecture</option>
-                                <option value="Education">Education / B.Ed</option>
-                                <option value="Psychology">Psychology</option>
-                                <option value="Sociology">Sociology</option>
-                                <option value="Political_science">Political Science</option>
-                                <option value="History">History</option>
-                                <option value="Literature">English / Literature</option>
-                                <option value="Media Communication">Mass Communication / Journalism</option>
-                                <option value="Fine Arts">Fine Arts / Performing Arts</option>
-                                <option value="Agriculture">Agricultural Sciences</option>
-                                <option value="Environmental">Environmental Science</option>
-                                <option value="Statistics">Statistics / Mathematics</option>
-                                <option value="Foreign Languages">Foreign Languages</option>
-                                <option value="Hotel Management">Hotel Management / Hospitality</option>
-                                <option value="Fashion Design">Fashion Design</option>
-                                <option value="Interior Design">Interior Design</option>
-                                <option value="Animation">Animation / Multimedia</option>
-                                <option value="Culinary">Culinary Arts</option>
-                                <option value="Sports Science">Sports Science / Physical Education</option>
-                                <option value="Data Science">Data Science / AI / ML</option>
-                                <option value="Cybersecurity">Cybersecurity</option>
-                                <option value="Not Decided">Undecided / Exploring Options</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="previousResults">Previous Academic Results</label>
-                            <input type="number" class="form-control" id="results"
-                                placeholder="e.g., Class 10: 85%, Class 12: 60%, GPA: 3.7" value="<%= (typeof(user?.result)!='undefined'?(user?.result):'') %>" required />
-                        </div>
-                        <div class="form-group flx">
-                            <label for="mediumInstruction">Preferred Medium of Instruction</label>
-                            <select class="form-control" id="medium" data-value="<%= (typeof(user?.medium)!='undefined'?(user?.medium):'Other') %>" required>
-                                <option value="English">English</option>
-                                <option value="Hindi">Hindi</option>
-                                <option value="Bengali">Bengali</option>
-                                <option value="Urdu">Urdu</option>
-                                <option value="Odia">Odia</option>
-                                <option value="Sanskrit">Sanskrit</option>
-                                <option value="Multilingual">Multilingual / Bilingual</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="favouriteSubjects">Favourite Subjects</label>
-                            <input type="text" class="form-control" id="fav_subject"
-                                placeholder="e.g., Geography, English, Computer Science" value="<%= (typeof(user?.fav_subject)!='undefined'?(user?.fav_subject):'') %>" required />
-                        </div>
-                        <div class="form-group flx">
-                            <label for="difficultSubjects">Difficult Subjects</label>
-                            <input type="text" class="form-control" id="diff_subject"
-                                placeholder="e.g., Mathematics, Chemistry, English" value="<%= (typeof(user?.diff_subject)!='undefined'?(user?.diff_subject):'') %>" required />
-                        </div>
-                    <% } %>
-                    <% if (type == "teacher") { %>
-                        <div class="form-group flx">
-                            <label for="high_degree">Highest Degree Completed</label>
-                            <select class="form-control" id="high_degree" aria-describedby="high_degreeHelp" data-value="<%= (typeof(user?.high_degree)!='undefined'?(user?.high_degree):'Other') %>" required>
-                                <option value="12">Class 12</option>
-                                <option value="BA">Bachelor of Arts (BA)</option>
-                                <option value="BSc">Bachelor of Science (BSc)</option>
-                                <option value="BCom">Bachelor of Commerce (BCom)</option>
-                                <option value="BBA">Bachelor of Business Administration (BBA)</option>
-                                <option value="B.Ed">Bachelor of Education (B.Ed)</option>
-                                <option value="B.Tech">Bachelor of Technology (B.Tech)</option>
-                                <option value="LLB">Bachelor of Laws (LLB)</option>
-                                <option value="MBBS">Bachelor of Medicine, Bachelor of Surgery (MBBS)</option>
-                                <option value="MA">Master of Arts (MA)</option>
-                                <option value="MSc">Master of Science (MSc)</option>
-                                <option value="MCom">Master of Commerce (MCom)</option>
-                                <option value="MBA">Master of Business Administration (MBA)</option>
-                                <option value="M.Ed">Master of Education (M.Ed)</option>
-                                <option value="M.Tech">Master of Technology (M.Tech)</option>
-                                <option value="LLM">Master of Laws (LLM)</option>
-                                <option value="MD">Doctor of Medicine (MD)</option>
-                                <option value="MS">Master of Surgery (MS)</option>
-                                <option value="PhD">Doctor of Philosophy (Ph.D)</option>
-                                <option value="EdD">Doctor of Education (Ed.D)</option>
-                                <option value="D.Sc">Doctor of Science (D.Sc)</option>
-                                <option value="Post Doctoral">Postdoctoral Research</option>
-                                <option value="Diploma">Diploma / Advanced Diploma</option>
-                                <option value="PG Diploma">Postgraduate Diploma</option>
-                                <option value="Professional Certification">Professional Certification (e.g., TEFL, CA, CS, CFA)</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="institutionName">University / College Name</label>
-                            <input type="text" class="form-control" id="institute" min="8" aria-describedby="institutionHelp" placeholder="Enter the name of your University or college" value="<%= (typeof(user?.institute)!='undefined'?(user?.institute):'Other') %>" required />
-                        </div>
-                        <div class="form-group flx">
-                            <label for="relevent_certificate">Other Relevant Certifications</label>
-                                <select class="form-control" id="relevent_certificate" aria-describedby="relevent_certificateHelp" data-value="<%= (typeof(user?.relevent_certificate)!='undefined'?(user?.relevent_certificate):'Other') %>"  multiple required>
-                                    <option value="CTET">CTET (Central Teacher Eligibility Test)</option>
-                                    <option value="TET">State TET (Teacher Eligibility Test)</option>
-                                    <option value="NET">UGC NET (National Eligibility Test)</option>
-                                    <option value="SET">State Eligibility Test (SET)</option>
-                                    <option value="PGT">Post Graduate Teacher (PGT)</option>
-                                    <option value="TGT">Trained Graduate Teacher (TGT)</option>
-                                    <option value="PRT">Primary Teacher (PRT)</option>
-                                    <option value="B.Ed">Bachelor of Education (B.Ed)</option>
-                                    <option value="M.Ed">Master of Education (M.Ed)</option>
-                                    <option value="Diploma in Education">Diploma in Education</option>
-                                    <option value="Montessori Training">Montessori Training</option>
-                                    <option value="Special Education">Special Education Certification</option>
-                                    <option value="TESOL">TESOL / TEFL (English Language Teaching)</option>
-                                    <option value="Computer Certification">Computer Literacy / IT Certification</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                        <div class="form-group flx">
-                            <label for="subject">Specialized Subject</label>
-                            <select class="form-control" id="subject" aria-describedby="subjectHelp" data-value="<%= (typeof(user?.subject)!='undefined'?(user?.subject):'Other') %>" required>
-                                <option value="Mathematics">Mathematics</option>
-                                <option value="Physics">Physics</option>
-                                <option value="Chemistry">Chemistry</option>
-                                <option value="Biology">Biology</option>
-                                <option value="English">English</option>
-                                <option value="History">History</option>
-                                <option value="Geography">Geography</option>
-                                <option value="Political Science">Political Science</option>
-                                <option value="Economics">Economics</option>
-                                <option value="Sociology">Sociology</option>
-                                <option value="Psychology">Psychology</option>
-                                <option value="Hindi">Hindi</option>
-                                <option value="Sanskrit">Sanskrit</option>
-                                <option value="Bengali">Bengali</option>
-                                <option value="Fine Arts">Fine Arts</option>
-                                <option value="Music">Music</option>
-                                <option value="Drama">Drama / Theatre Studies</option>
-                                <option value="Computer Science">Computer Science</option>
-                                <option value="Data Science/AI/ML">Data Science/AI/ML</option>
-                                <option value="Information Technology">Information Technology</option>
-                                <option value="Commerce">Commerce</option>
-                                <option value="Business Studies">Business Studies</option>
-                                <option value="Accountancy">Accountancy</option>
-                                <option value="Physical Education">Physical Education</option>
-                                <option value="Environmental Science">Environmental Science</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="mediumInstruction">Preferred Medium of Instruction</label>
-                            <select class="form-control" id="medium" aria-describedby="mediumHelp" data-value="<%= (typeof(user?.medium)!='undefined'?(user?.medium):'Other') %>" required>
-                                <option value="English">English</option>
-                                <option value="Hindi">Hindi</option>
-                                <option value="Bengali">Bengali</option>
-                                <option value="Urdu">Urdu</option>
-                                <option value="Odia">Odia</option>
-                                <option value="Sanskrit">Sanskrit</option>
-                                <option value="Multilingual">Multilingual / Bilingual</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                    <% } %>
+                <div class="form-group">
+                    <select class="form-control" id="subject" aria-describedby="subjectHelp">
+                        <option value="All" selected>All</option>
+                    </select>
                 </div>
             </div>
-            <div class="small-component">
-                <div class="breaker"><%- type=='student'?'Career':(type=='teacher'?'Experience':(type=='admin'?'':'Unknown')) %>  Details</div>
-                <div class="user-data">
-                    <% if (type == 'student') { %>
-                        <div class="form-group flx">
-                            <label for="preferredClass">Preferred Class/Grade</label>
-                            <select class="form-control" id="pref_class" data-value="<%= (typeof(user?.pref_class)!='undefined'?(user?.pref_class):'Other') %>" required>
-                                <option value="Current Class">Current Class</option>
-                                <option value="Next Class">Next Class / Upcoming Grade</option>
-                                <option value="Grade Improvement">Grade Improvement / Repeat Year</option>
-                                <option value="Competitive Exam">Competitive Exam Preparation (e.g., NEET, JEE, UPSC)
-                                </option>
-                                <option value="Entrance Exam">Entrance Exam Target (e.g., CUET, CAT, GRE)</option>
-                                <option value="Bachelor">Bachelor's Admission Goal</option>
-                                <option value="Master">Master's Admission Goal</option>
-                                <option value="PhD">PhD / Research Goal</option>
-                                <option value="Diploma">Diploma / Certification Program</option>
-                                <option value="Professional Course">Professional Course (e.g., CA, CS, CMA)</option>
-                                <option value="Skill Development">Skill Development / Non-academic Learning</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="higherEdGoal">Intended Higher Education Goal</label>
-                            <select class="form-control" id="goal" data-value="<%= (typeof(user?.goal)!='undefined'?(user?.goal):'Other') %>" required>
-                                <option value="Engineering">Engineering (e.g., B.Tech, BE)</option>
-                                <option value="Medicine">Medicine / Healthcare (e.g., MBBS, BDS, Nursing)</option>
-                                <option value="Management">Management / Business (e.g., BBA, MBA)</option>
-                                <option value="Law">Law / Legal Studies (e.g., LLB, BA-LLB)</option>
-                                <option value="Science">Pure Sciences (e.g., B.Sc, M.Sc)</option>
-                                <option value="Arts">Arts / Humanities (e.g., BA, MA)</option>
-                                <option value="Commerce">Commerce / Finance (e.g., B.Com, M.Com)</option>
-                                <option value="Computer Science">Computer Science / IT</option>
-                                <option value="Design">Design / Architecture (e.g., B.Des, B.Arch)</option>
-                                <option value="Education">Education / Teaching (e.g., B.Ed, M.Ed)</option>
-                                <option value="Data Science">Data Science / AI / Machine Learning</option>
-                                <option value="Media Communication">Mass Communication / Journalism</option>
-                                <option value="Hospitality">Hotel Management / Hospitality</option>
-                                <option value="Fashion">Fashion / Interior Design</option>
-                                <option value="Agriculture">Agriculture / Environmental Studies</option>
-                                <option value="Sports">Sports / Physical Education</option>
-                                <option value="Not Decided">Undecided / Exploring Options</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="examPrep">Competitive Exams Preparing For</label>
-                            <select class="form-control" id="exam_prep" data-value="<%= (typeof(user?.exam_prep)!='undefined'?(user?.exam_prep):'Other') %>" required>
-                                <option value="Board Exam">Board Exams (10th / 12th)</option>
-                                <option value="CUET">CUET (Central University Entrance Test)</option>
-                                <option value="JEE">JEE (Joint Entrance Exam)</option>
-                                <option value="NEET">NEET (Medical Entrance)</option>
-                                <option value="UPSC">UPSC (Civil Services)</option>
-                                <option value="SSC">SSC (Staff Selection Commission)</option>
-                                <option value="Railway">Railway Recruitment Exams</option>
-                                <option value="Banking">Banking Exams (IBPS, SBI PO, etc.)</option>
-                                <option value="State PSC">State PSC Exams</option>
-                                <option value="CAT">CAT (MBA Entrance)</option>
-                                <option value="GATE">GATE</option>
-                                <option value="GMAT">GMAT</option>
-                                <option value="GRE">GRE</option>
-                                <option value="TOEFL">TOEFL / IELTS</option>
-                                <option value="Not Preparing">Not Preparing for Any Exam</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="careerGoal">Career Aspirations</label>
-                            <select class="form-control" id="career" data-value="<%= (typeof(user?.career)!='undefined'?(user?.career):'Other') %>" required>
-                                <option value="Software Engineer">Software Engineer / Developer</option>
-                                <option value="Data Scientist">Data Scientist / AI Specialist</option>
-                                <option value="Civil Engineer">Civil / Mechanical / Electrical Engineer</option>
-                                <option value="Doctor">Doctor / Surgeon</option>
-                                <option value="Nurse">Nurse / Paramedic</option>
-                                <option value="Pharmacist">Pharmacist</option>
-                                <option value="Civil Services">Civil Services (IAS, IPS, IFS)</option>
-                                <option value="Defense">Defense / Armed Forces</option>
-                                <option value="Police">Police / Law Enforcement</option>
-                                <option value="Entrepreneur">Entrepreneur / Startup Founder</option>
-                                <option value="Manager">Corporate Manager / Consultant</option>
-                                <option value="Accountant">Accountant / Financial Analyst</option>
-                                <option value="Researcher">Researcher / Scientist</option>
-                                <option value="Professor">Professor / Academic</option>
-                                <option value="Teacher">School Teacher / Educator</option>
-                                <option value="Designer">Designer / Architect</option>
-                                <option value="Journalist">Journalist / Media Professional</option>
-                                <option value="Artist">Artist / Performer</option>
-                                <option value="Not Decided">Not Decided Yet</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                    <% }else if(type == 'teacher'){ %>
-                        <div class="form-group flx">
-                            <label for="experience">Total Years of Teaching Experience</label>
-                            <input type="number" class="form-control" id="experience" name="experience" min="0" max="40" placeholder="Enter the years of Experience time" aria-describedby="experienceHelp" value="<%= (typeof(user?.experience)!='undefined'?(user?.experience):'Other') %>" required />
-                        </div>
-                        <div class="form-group flx">
-                            <label for="job_status">Current Job Status</label>
-                            <select class="form-control" id="job_status" aria-describedby="job_statusHelp" data-value="<%= (typeof(user?.job_status)!='undefined'?(user?.job_status):'Other') %>" required>
-                                <option value="Full-Time">Working Full-Time</option>
-                                <option value="Part-Time">Working Part-Time</option>
-                                <option value="Contractual">Contractual / Temporary Position</option>
-                                <option value="Freelance">Freelance Tutor / Educator</option>
-                                <option value="Private Coaching">Running Private Coaching / Tuition</option>
-                                <option value="Online Teaching">Online Teaching / EdTech Platform</option>
-                                <option value="School Teacher">School Teacher (Primary / Secondary)</option>
-                                <option value="College Faculty">College / University Faculty</option>
-                                <option value="Researcher">Academic Researcher</option>
-                                <option value="Administrative">Educational Administrator / Coordinator</option>
-                                <option value="Curriculum Developer">Curriculum Developer / Instructional Designer</option>
-                                <option value="Trainer">Corporate Trainer / Skill Development</option>
-                                <option value="Consultant">Education Consultant</option>
-                                <option value="On Sabbatical">On Sabbatical / Career Break</option>
-                                <option value="Retired">Retired</option>
-                                <option value="Seeking Opportunities">Actively Seeking Teaching Opportunities</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="previous_institute">Previous Institution Taught At</label>
-                            <input type="text" class="form-control" id="previous_institute" name="previous_institute" placeholder="Enter recent Institution name or type N/A" minlength="2" maxlength="50" aria-describedby="previous_instituteHelp" value="<%= (typeof(user?.previous_institute)!='undefined'?(user?.previous_institute):'Other') %>" required />
-                        </div>
-                        <div class="form-group flx">
-                            <label for="class_level">Grade/Class Levels Comfortable Teaching/Mentoring</label>
-                            <select class="form-control" id="class_level" aria-describedby="class_levelHelp" data-value="<%= (typeof(user?.class_level)!='undefined'?(user?.class_level):'Other') %>" required>
-                                <option value="6-9">Class 6 to 9 (Middle School)</option>
-                                <option value="8-10">Class 8 to 10 (Upper Middle / Secondary)</option>
-                                <option value="9-12">Class 9 to 12 (Secondary)</option>
-                                <option value="11-12">Class 11 to 12 (Higher Secondary)</option>
-                                <option value="6-12">Class 6 to 12 (School Level)</option>
-                                <option value="Bachelor">Bachelor's Degree Level</option>
-                                <option value="Diploma">Diploma / Certification Level</option>
-                                <option value="Master">Master's Degree Level</option>
-                                <option value="PhD">PhD / Doctorate Level</option>
-                                <option value="Post Doctoral">Postdoctoral Research Level</option>
-                                <option value="Gap Year">Gap Year / Transitional Learners</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="mentorship">Interest in Exam Mentorship</label>
-                            <select class="form-control" id="mentorship" aria-describedby="mentorshipHelp" data-value="<%= (typeof(user?.mentorship)!='undefined'?(user?.mentorship):'Other') %>" required>
-                                <option value="Board Exam">Board Exams (10th / 12th)</option>
-                                <option value="CUET">CUET (Central University Entrance Test)</option>
-                                <option value="JEE">JEE (Joint Entrance Exam)</option>
-                                <option value="NEET">NEET (Medical Entrance)</option>
-                                <option value="UPSC">UPSC (Civil Services)</option>
-                                <option value="SSC">SSC (Staff Selection Commission)</option>
-                                <option value="Railway">Railway Recruitment Exams</option>
-                                <option value="Banking">Banking Exams (IBPS, SBI PO, etc.)</option>
-                                <option value="State PSC">State PSC Exams</option>
-                                <option value="CAT">CAT (MBA Entrance)</option>
-                                <option value="GATE">GATE</option>
-                                <option value="GMAT">GMAT</option>
-                                <option value="GRE">GRE</option>
-                                <option value="TOEFL">TOEFL / IELTS</option>
-                                <option value="Not Interested">Not Interested in Exam Mentorship</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="record_video">Willingness to Record Video Lectures</label>
-                            <select class="form-control" id="record_video" aria-describedby="record_videoHelp" data-value="<%= (typeof(user?.record_video)!='undefined'?(user?.record_video):'Other') %>" required>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                        <div class="form-group flx">
-                            <label for="mode">Preferred Mode of Engagement</label>
-                            <select class="form-control" id="mode" aria-describedby="mode" data-value="<%= (typeof(user?.mode)!='undefined'?(user?.mode):'Other') %>" required>
-                                <option value="Mentorship">Mentorship (guidance and counselling)</option>
-                                <option value="Live Teaching">Live Teaching (Zoom, Google Meet, etc.)</option>
-                                <option value="Recorded Lectures">Recorded Lectures (Pre-recorded video sessions)</option>
-                                <option value="Content Creation">Content Creation (Articles, quizzes, study material, mind maps)</option>
-                                <option value="Doubt Solving">Doubt Solving and Discussion</option>
-                                <option value="Live & Recorded">Live & Recorded Teaching</option>
-                                <option value="Mentor & Teacher">Mentoring with Teaching</option>
-                            </select>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-            <div class="small-component">
-                <div class="breaker">Security Details</div>
-                <div class="security-mark">
-                    <div class="form-group flx">
-                        <input type="password" class="form-control" id="password" placeholder="Enter your current password"
-                            required />
-                        <div class="btn btn-outline-process" onclick="userProfile.unlock();">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4M2.5 7A1.5 1.5 0 0 0 1 8.5v5A1.5 1.5 0 0 0 2.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 9.5 7z"/>
+            <div class="right-component">
+                <nav class="navbar navbar-light ">
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" id="teacher-search" aria-label="Search" onkeyup="system.search('teacher-search','teacher', 'block');" />
+                        <div class="btn btn-outline-process my-2 my-sm-0" onclick="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" hight="16px" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
                             </svg>
-                            Unlock
+                            Get More
                         </div>
-                    </div>
-                    <small class="form-text text-muted">Please verify your current password to access and manage your security details, including viewing or updating your password and other safty credentials.</small>
-                </div>
-                <div class="user-data hidden">
-                    <div class="form-group flx">
-                        <label for="favouriteColor">Favourite color</label>
-                        <input type="color" class="form-control" id="fav_color" value="#0c8ff9"
-                            placeholder="e.g., Blue, Red, #000" required />
-
-                    </div>
-                    <div class="form-group flx">
-                        <label for="favouriteBook">Favourite book</label>
-                        <input type="text" class="form-control" id="fav_book" maxlength="30"
-                            placeholder="e.g., The Alchemist, Harry Potter" required />
-                    </div>
-                    <div class="form-group flx">
-                        <label for="createPassword">Password</label>
-                        <input type="password" class="form-control" id="pass" placeholder="Enter a secure password"
-                            required />
-                    </div>
-                </div>
+                    </form>
+                </nav>
             </div>
         </div>
     </div>
-
+    <div class="body">
+        <div class="teacher">
+            <div class="top flx">
+                <div class="left">
+                    <div class="dp">KM</div>
+                </div>
+                <div class="right">
+                    <div class="title flx">
+                        <span>Krishnend Mitra</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="mid">
+                        <span>Undergraduate</span><br>
+                        <span>Computer, Web design</span>
+                    </div>
+                    <div class="down flx">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-star-half rate" viewBox="0 0 16 16">
+                                <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                            </svg>
+                            4.3
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                            2 years
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            Teacher
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom flx">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Kestopur
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+                    </svg>
+                    Makaut
+                </span>
+            </div>
+        </div>
+        <div class="teacher">
+            <div class="top flx">
+                <div class="left">
+                    <div class="dp">SG</div>
+                </div>
+                <div class="right">
+                    <div class="title flx">
+                        <span>Sunny Ghosh</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="mid">
+                        <span>Undergraduate</span><br>
+                        <span>Physics, Mathematics, Chemistry</span>
+                    </div>
+                    <div class="down flx">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-star-half rate" viewBox="0 0 16 16">
+                                <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                            </svg>
+                            4.4
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                            10 years
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            Teacher/Mentor
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom flx">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Khanna
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+                    </svg>
+                    IIT
+                </span>
+            </div>
+        </div>
+        <div class="teacher">
+            <div class="top flx">
+                <div class="left">
+                    <div class="dp">KM</div>
+                </div>
+                <div class="right">
+                    <div class="title flx">
+                        <span>Kumaresh Manna</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="mid">
+                        <span>Undergraduate</span><br>
+                        <span>Physics, Chemistry</span>
+                    </div>
+                    <div class="down flx">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-star-half rate" viewBox="0 0 16 16">
+                                <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                            </svg>
+                            3.7
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                            8 years
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            Teacher
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom flx">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Mountain
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+                    </svg>
+                    NIT
+                </span>
+            </div>
+        </div>
+        <div class="teacher">
+            <div class="top flx">
+                <div class="left">
+                    <div class="dp">SR</div>
+                </div>
+                <div class="right">
+                    <div class="title flx">
+                        <span>Suman Roy</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="mid">
+                        <span>Postgraduate</span><br>
+                        <span>Computer, Data analysis</span>
+                    </div>
+                    <div class="down flx">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-star-half rate" viewBox="0 0 16 16">
+                                <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                            </svg>
+                            4.7
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                            8 years
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            Teacher/Mentor
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom flx">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Kumartuly
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+                    </svg>
+                    Calcutta
+                </span>
+            </div>
+        </div>
+        <div class="teacher">
+            <div class="top flx">
+                <div class="left">
+                    <div class="dp">AK</div>
+                </div>
+                <div class="right">
+                    <div class="title flx">
+                        <span>Amit Kundu</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="mid">
+                        <span>6,7,8</span><br>
+                        <span>Physics, Mathematics, Chemistry</span>
+                    </div>
+                    <div class="down flx">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-star-half rate" viewBox="0 0 16 16">
+                                <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                            </svg>
+                            4.6
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                            9 years
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            Teacher
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom flx">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Kestopur
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+                    </svg>
+                    Calcutta
+                </span>
+            </div>
+        </div>
+        <div class="teacher">
+            <div class="top flx">
+                <div class="left">
+                    <div class="dp">PA</div>
+                </div>
+                <div class="right">
+                    <div class="title flx">
+                        <span>Priya Agarwal</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="mid">
+                        <span>Undergraduate</span><br>
+                        <span>Biology, Chemistry</span>
+                    </div>
+                    <div class="down flx">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-star-half rate" viewBox="0 0 16 16">
+                                <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                            </svg>
+                            4.4
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                            5 years
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            Teacher/Mentor
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom flx">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Ultadanga
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+                    </svg>
+                    Makaut
+                </span>
+            </div>
+        </div>
+        <div class="teacher">
+            <div class="top flx">
+                <div class="left">
+                    <div class="dp">AV</div>
+                </div>
+                <div class="right">
+                    <div class="title flx">
+                        <span>Anima Varti</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="mid">
+                        <span>Postgraduate</span><br>
+                        <span>Bengali</span>
+                    </div>
+                    <div class="down flx">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-star-half rate" viewBox="0 0 16 16">
+                                <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                            </svg>
+                            3.9
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                            4 years
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            Teacher
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom flx">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Saltlake
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+                    </svg>
+                    Jadavpur
+                </span>
+            </div>
+        </div>
+        <div class="teacher">
+            <div class="top flx">
+                <div class="left">
+                    <div class="dp">AJ</div>
+                </div>
+                <div class="right">
+                    <div class="title flx">
+                        <span>Avishek Jana</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="mid">
+                        <span>10, 12</span><br>
+                        <span>Computer</span>
+                    </div>
+                    <div class="down flx">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-star-half rate" viewBox="0 0 16 16">
+                                <path d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                            </svg>
+                            4.1
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                            4 years
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            Teacher
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom flx">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                    </svg>
+                    Airport
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/>
+                    </svg>
+                    Jadavpur
+                </span>
+            </div>
+        </div>
+    </div>
+    <div id="teacher-searchDOD">
+        <img src="../assets/images/404.svg" alt="SAIT"/>
+    </div>
+    <div id="raw-data"><%- JSON.stringify(teachers) %></div>
 </div>
