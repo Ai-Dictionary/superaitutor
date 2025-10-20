@@ -141,6 +141,17 @@ module.exports = {
             return false;
         }
     },
+    profile_list_setup(list){
+        if(list.length > 0){
+            for(let i=0; i<list.length; i++){
+                list[i] = module.exports.profile_setup(list[i]);
+                list[i].bg = module.exports.generateBGColor(list[i].name, list[i].email);
+            }
+            return list;
+        }else{
+            return false;
+        }
+    },
     unblockTempUser: (varchar, clientIP, res) => {
         if(varchar.tempBlockedIPs.has(clientIP)) {
             varchar.tempBlockedIPs.delete(clientIP);

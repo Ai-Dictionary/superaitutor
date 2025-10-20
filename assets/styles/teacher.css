@@ -48,8 +48,8 @@
             border: 0.5px solid #dbdbf4ad;
             overflow: none;
             padding: 10px 0px;
+            user-select: none;
             .top{
-                /* background: green; */
                 .left{
                     width: 20%;
                     text-align: center;
@@ -130,6 +130,11 @@
                     overflow: hidden;
                 }
             }
+        }
+        .teacher:hover{
+            box-shadow: 0px 0px 4px 1px slateblue;
+            transform: translateY(-10px);
+            cursor: pointer;
         }
     }
     #teacher-searchDOD{

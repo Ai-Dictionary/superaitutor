@@ -491,7 +491,7 @@ app.get('/deshboard', async (req, res) => {
         ejs.renderFile('./views/sideNav.ejs', {type: type}),
         ejs.renderFile('./views/templates/general.ejs', {isHosted, name: user.name, edge_request: varchar.ipHits[clientIP]}),
         ejs.renderFile('./views/templates/myCourse.ejs'),
-        ejs.renderFile('./views/templates/teacher.ejs', {type: type, isHosted, teachers: !isHosted?jsonfile.readFileSync('./assets/db.json'):[]}),
+        ejs.renderFile('./views/templates/teacher.ejs', {type: type, isHosted, teachers: !isHosted?hex.profile_list_setup(jsonfile.readFileSync('./assets/db.json')):[]}),
         ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
         ejs.renderFile('./views/templates/profile.ejs', {
             user: hex.profile_setup(user, 'self'), 

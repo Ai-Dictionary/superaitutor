@@ -31,9 +31,13 @@ class Teacher {
         } else if (selectedValue == 'Mentor only') {
             system.search('teacher-search', 'teacher', 'block', selectedValue.replace(' only', ''));
         } else if (selectedValue == 'High rated') {
-            this.filterByRating('teacher', 'High rate');
+            setTimeout(() => {
+                this.filterByRating('teacher', 'High rate', 'block');
+            }, 100);
         } else if (selectedValue == 'Low rated') {
-            this.filterByRating('teacher', 'Low rate');
+            setTimeout(() => {
+                this.filterByRating('teacher', 'Low rate', 'block');
+            }, 100);
         } else {
             system.search('teacher-search', 'teacher', 'block', selectedValue);
         }
@@ -52,6 +56,7 @@ class Teacher {
     filterByRating(sample_space_class = 'teacher', filter_key = 'High rate', type = 'block') {
         const elements = document.getElementsByClassName(sample_space_class);
         const isHigh = filter_key.toLowerCase().includes('high');
+        let miss=0;
 
         for (let i = 0; i < elements.length; i++) {
             const teacher = elements[i];
@@ -66,7 +71,9 @@ class Teacher {
 
             const show = isHigh ? rating >= 4.0 : rating < 4.0;
             teacher.style.display = show ? type : 'none';
+            miss += show ? 1 : 0;
         }
+        document.getElementById('teacher-searchDOD').style.display = miss!=elements.length?'block':'none';
     }
 
     search_user(sub, index = "rate", con = "low", pin = 159) {
@@ -88,6 +95,7 @@ class Teacher {
             if (this.user.length > 0) {
                 for (let i = 0; i < this.user.length; i++) {
                     let user = this.user[i];
+                    user.dp = (user.name?.split(' ').filter(Boolean)[0]?.[0] || '') + (user.name?.split(' ').filter(Boolean).slice(-1)[0]?.[0] || '0');
                     const card = document.createElement('div');
                     card.className = 'teacher';
                     card.innerHTML = demo.innerHTML;
@@ -109,6 +117,7 @@ class Teacher {
                             node.textContent = updatedText;
                         }
                     }
+
                     card.querySelectorAll("*").forEach(el => {
                         for (let attr of el.getAttributeNames()) {
                             let val = el.getAttribute(attr);
@@ -117,7 +126,13 @@ class Teacher {
                                 matches.forEach(match => {
                                     const key = match.replace(/[{}]/g, '');
                                     if (user.hasOwnProperty(key)) {
-                                        val = val.replace(match, user[key]);
+                                        let replacement = user[key];
+                                        const quoted = `'${match}'`;
+                                        if (val.includes(quoted)) {
+                                            val = val.replace(quoted, replacement);
+                                        } else {
+                                            val = val.replace(match, replacement);
+                                        }
                                     }
                                 });
                                 el.setAttribute(attr, val);
@@ -126,7 +141,7 @@ class Teacher {
                     });
                     document.querySelector('.body').appendChild(card);
                 }
-            }else{
+            } else {
                 document.getElementById('teacher-searchDOD').style.display = 'block';
             }
             demo.remove();
