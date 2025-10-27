@@ -2,12 +2,14 @@ class Teacher {
     constructor() {
         this.user = [];
         this.initListener();
+        Teacher.instance = this;
     }
 
     initListener() {
         const BodyElement = document.getElementById('raw-data');
         const raw_data = BodyElement.innerText;
         this.user = JSON.parse(raw_data);
+        BodyElement.innerText = '';
         this.make_user_list();
 
         const filterElement = document.getElementById('filter');
@@ -99,6 +101,7 @@ class Teacher {
                     const card = document.createElement('div');
                     card.className = 'teacher';
                     card.innerHTML = demo.innerHTML;
+                    card.setAttribute('onclick', `loadCard('${i}')`);
 
                     const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
 
@@ -147,6 +150,75 @@ class Teacher {
             demo.remove();
         }
     }
+
+    static getUserList(){
+        return Teacher.instance?.user || [];
+    }
 }
 
 new Teacher();
+
+
+class UserCard{
+    constructor(){
+        this.id = '';
+    }
+    loadCard(id=this.id){
+        let all_user = document.querySelectorAll('.body .teacher');
+        if(all_user.length >= id){
+            let teacher = Teacher.getUserList()[Number(id)];
+            console.log(teacher.name);
+            const card = document.getElementById('user_card');
+            card.style.display = "block";
+
+            const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
+
+            while (walker.nextNode()) {
+                const node = walker.currentNode;
+                const matches = node.textContent.match(/{(\w+)}/g);
+                if (matches) {
+                    let updatedText = node.textContent;
+                    matches.forEach(match => {
+                        const key = match.replace(/[{}]/g, '');
+                        if (teacher.hasOwnProperty(key)) {
+                            updatedText = updatedText.replace(match, teacher[key]);
+                        }
+                    });
+                    node.textContent = updatedText;
+                }
+            }
+
+            card.querySelectorAll("*").forEach(el => {
+                for (let attr of el.getAttributeNames()) {
+                    let val = el.getAttribute(attr);
+                        const matches = val.match(/{(\w+)}/g);
+                        if (matches) {
+                            matches.forEach(match => {
+                                const key = match.replace(/[{}]/g, '');
+                                if (teacher.hasOwnProperty(key)) {
+                                    let replacement = teacher[key];
+                                    const quoted = `'${match}'`;
+                                    if (val.includes(quoted)) {
+                                        val = val.replace(quoted, replacement);
+                                    } else {
+                                        val = val.replace(match, replacement);
+                                    }
+                                }
+                            });
+                            el.setAttribute(attr, val);
+                        }
+                    }
+                });
+        }else{
+            document.getElementById('teacher-searchDOD').style.display = 'block';
+            document.querySelector('.body').style.display = 'none';
+        }
+    }
+    closeCard(){
+        document.getElementById('user_card').style.display = "none";
+    }
+}
+
+window.loadCard = (id) => new UserCard().loadCard(id);
+window.closeCard = () => new UserCard().closeCard();
+// loadCard(0);

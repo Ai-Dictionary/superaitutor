@@ -39,10 +39,6 @@ main{
 article{
     width: 85%;
     z-index: 1;
-    /* background-color: yellow; */
-}
-body{
-    /* background: green!important; */
 }
 header {
     .navbar {

@@ -96,10 +96,28 @@
     </div>
     <div id="teacher-searchDOD">
         <% if (isHosted) { %>
-            <img src="https://ai-dictionary.github.io/superaitutor/assets/images/404.svg" alt="sait" title="Image"/>
+            <img src="https://ai-dictionary.github.io/superaitutor/assets/images/404.svg" alt="sait" title="not found"/>
         <% } else { %>
-            <image src="../assets/images/404.svg" alt="sait" title="Image"/>
+            <image src="../assets/images/404.svg" alt="sait" title="not found"/>
         <% } %>
     </div>
     <div id="raw-data"><%- JSON.stringify(teachers) %></div>
+    <div id="user_card" class="blbg">
+        <div class="card">
+            <div class="top">
+                <div class="dp" style="background: '{bg}';">{dp}</div>
+            </div>
+            <div class="mid">
+                <div class="title">
+                    <span>{name}</span>
+                </div>
+                {details}
+            </div>
+            <div class="bottom flx">
+                <div class="btn btn-outline-danger" onclick="closeCard();">Close</div>
+                <div class="btn btn-outline-process">Add Teacher</div>
+                <!-- <div class="btn btn-outline-secondary">Report</div> -->
+            </div>
+        </div>
+    </div>
 </div>
