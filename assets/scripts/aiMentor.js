@@ -34,7 +34,7 @@ class Chat {
             if (e.target && e.target.tagName === "LI") {
                 const clickedText = e.target.innerText.trim();
                 this.addChat(clickedText, "user");
-                this.addChat(`I can't understand your inquery using only the <strong>${clickedText}</strong>, which you enterd from the demo options, Please describe more about it, mean actually what you want, then i am give you the perfect answer.<br><br>If you are still confussed then please check out our <a href='/docs'>Docs</a> Page for more information.`,"bot");
+                this.addChat(`I can't understand your inquery using only the <strong>${clickedText}</strong>, which you enterd from the demo options, Please describe more about it, mean actually what you want, then i am give you the perfect answer.<br><br>If you are still confused then please check out our <a href='/docs'>Docs</a> Page for more information.`,"bot");
             }
         });
     }

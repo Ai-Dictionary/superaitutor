@@ -171,22 +171,13 @@ class UserCard{
             const card = document.getElementById('user_card');
             card.style.display = "block";
 
-            const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
-
-            while (walker.nextNode()) {
-                const node = walker.currentNode;
-                const matches = node.textContent.match(/{(\w+)}/g);
-                if (matches) {
-                    let updatedText = node.textContent;
-                    matches.forEach(match => {
-                        const key = match.replace(/[{}]/g, '');
-                        if (teacher.hasOwnProperty(key)) {
-                            updatedText = updatedText.replace(match, teacher[key]);
-                        }
-                    });
-                    node.textContent = updatedText;
+            document.querySelector('#user_card .card .dp').style.background = teacher['bg'];
+            Object.keys(teacher).forEach(key => {
+                const elements = card.getElementsByClassName(key);
+                for (let el of elements) {
+                    el.textContent = teacher[key];
                 }
-            }
+            });
 
             card.querySelectorAll("*").forEach(el => {
                 for (let attr of el.getAttributeNames()) {
@@ -221,4 +212,4 @@ class UserCard{
 
 window.loadCard = (id) => new UserCard().loadCard(id);
 window.closeCard = () => new UserCard().closeCard();
-// loadCard(0);
+loadCard(0);

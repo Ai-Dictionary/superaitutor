@@ -172,8 +172,9 @@
                     width: var(--size);
                     height: var(--size);
                     margin: 20px;
-                    padding-top: 30px;
+                    padding-top: 35px;
                     border-radius: 50%;
+                    border: 0.5px solid #fff;
                     color: #fff;
                     background-color: lightgray;
                     font-weight: 600;
@@ -185,9 +186,32 @@
             .mid{
                 height: 75%;
                 padding-top: 1%;
+                font-family: sans-serif;
                 .title{
-                    padding-left: 20%;
-                    font-size: 22px;
+                    padding-left: 16%;
+                    padding-right: 2%;
+                    font-size: 24px;
+                    font-weight: 600;
+                    font-family: Tahoma, sans-serif;
+                    color: #442c57;
+                    margin-bottom: 40px;
+                    .btn{
+                        padding-top: .27rem!important;
+                        margin-right: 10px;
+                    }
+                }
+                .row{
+                    width: 100%;
+                    margin-left: 0px;
+                    margin-bottom: 8px;
+                    .item{
+                        padding: 0px 15px;
+                    }
+                }
+                .row > .col:first-child, .row > .item:first-child{
+                    width: 30%;
+                    margin-right: 2px;
+                    flex-grow: 0;
                     font-weight: 600;
                 }
             }
@@ -239,6 +263,56 @@
                     }
                     .right{
                         width: 75%;
+                    }
+                }
+            }
+        }
+        #user_card{
+            .card {
+                width: 95%;
+                height: 95%;
+                margin: 2.5% auto;
+                .top{
+                    height: 7%;
+                    .dp{
+                        --size: 80px;
+                        font-size: 26px;
+                        padding-top: 20px;
+                        margin: 10px 20px;
+                    }
+                }
+                .mid{
+                    height: 82%;
+                    .title{
+                        font-size: 16px;
+                        padding-left: 2%;
+                        margin-top: 50px;
+                        margin-bottom: 20px;
+                        .name{
+                            max-width: 60%;
+                            overflow: hidden;
+                        }
+                        .btn {
+                            padding: 2px 8px!important;
+                            svg{
+                                width: 10px;
+                                height: 10px;
+                                margin-top: -5px;
+                            }
+                        }
+                    }
+                    .row{
+                        font-size: 14px;
+                        margin-bottom: 14px;
+                        text-align: justify;
+                    }
+                    .row > .col:first-child, .row > .item:first-child {
+                        width: 50%;
+                    }
+                }
+                .bottom{
+                    .btn{
+                        font-size: 0.9rem;
                     }
                 }
             }
