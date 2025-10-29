@@ -1,16 +1,22 @@
 class Teacher {
     constructor() {
         this.user = [];
+        this.relation = [];
         this.initListener();
         Teacher.instance = this;
     }
 
     initListener() {
-        const BodyElement = document.getElementById('raw-data');
-        const raw_data = BodyElement.innerText;
-        this.user = JSON.parse(raw_data);
-        BodyElement.innerText = '';
-        this.make_user_list();
+        const UserElement = document.getElementById('raw-user');
+        const raw_user = UserElement.innerText;
+        this.user = JSON.parse(raw_user);
+        UserElement.innerText = '';
+        const RelationElement = document.getElementById('raw-relation');
+        const raw_relation = RelationElement.innerText;
+        this.relation = JSON.parse(raw_relation);
+        RelationElement.innerText = '';
+        this.markUserRelations();
+        this.makeUserList();
 
         const filterElement = document.getElementById('filter');
         if (filterElement) {
@@ -20,6 +26,23 @@ class Teacher {
         if (subjectElement) {
             subjectElement.addEventListener('change', this.handleSubject.bind(this));
         }
+    }
+
+    markUserRelations() {
+        if (!Array.isArray(this.relation) || this.relation.length === 0) return;
+
+        this.user.forEach(user => {
+            if (this.relation.some(rel => rel.id.includes(user.id))) {
+                user.relation = true;
+                // user.rating = this.relation.rating;
+            }
+        });
+    }
+
+    static findRelationsUser(id) {
+        let relation_list = this.relation || Teacher.getRelationList();
+        if (!Array.isArray(relation_list) || relation_list.length === 0) return;
+        return relation_list.find(relation => relation.id.includes(id));
     }
 
     handleFilter(event) {
@@ -91,7 +114,7 @@ class Teacher {
         return selected_user;
     }
 
-    make_user_list(iteration = 'first') {
+    makeUserList(iteration = 'first') {
         let demo = document.querySelector('.body .teacher');
         if (demo != null) {
             if (this.user.length > 0) {
@@ -143,6 +166,12 @@ class Teacher {
                         }
                     });
                     document.querySelector('.body').appendChild(card);
+                    if(user?.relation){
+                        const titleElement = document.querySelectorAll('.teacher .top .right .title')[i + 1];
+                        const svgElement = titleElement.querySelector('svg');
+                        svgElement.setAttribute('class', 'bi bi-bookmark-fill');
+                        svgElement.innerHTML = '<path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>';
+                    }
                 }
             } else {
                 document.getElementById('teacher-searchDOD').style.display = 'block';
@@ -151,8 +180,18 @@ class Teacher {
         }
     }
 
+    static connect_user(index=0){
+        if(document.getElementById('add').textContent == "Start Connection"){
+            const data = {"id": "AIDA1302542@709-UID1907238613@2009", "subject": "Mathematics", "rating": 0, "desc": ""}; 
+        }
+    }
+
     static getUserList(){
         return Teacher.instance?.user || [];
+    }
+
+    static getRelationList(){
+        return Teacher.instance?.relation || [];
     }
 }
 
@@ -167,9 +206,21 @@ class UserCard{
         let all_user = document.querySelectorAll('.body .teacher');
         if(all_user.length >= id){
             let teacher = Teacher.getUserList()[Number(id)];
-            console.log(teacher.name);
             const card = document.getElementById('user_card');
             card.style.display = "block";
+
+            let r_user, control = document.getElementById('add');
+
+            if(teacher?.relation){
+                r_user = Teacher.findRelationsUser(teacher.id);
+                control.textContent = "Disconnect";
+                control.setAttribute('class', 'btn btn-outline-danger');
+            }else{
+                control.textContent = "Start Connection";
+                control.setAttribute('class', 'btn btn-outline-process');
+            }
+            teacher.subject_connect = r_user?.subject || 'No Connection';
+            control.onclick = () => connect_user(Number(id));
 
             document.querySelector('#user_card .card .dp').style.background = teacher['bg'];
             Object.keys(teacher).forEach(key => {
@@ -182,24 +233,24 @@ class UserCard{
             card.querySelectorAll("*").forEach(el => {
                 for (let attr of el.getAttributeNames()) {
                     let val = el.getAttribute(attr);
-                        const matches = val.match(/{(\w+)}/g);
-                        if (matches) {
-                            matches.forEach(match => {
-                                const key = match.replace(/[{}]/g, '');
-                                if (teacher.hasOwnProperty(key)) {
-                                    let replacement = teacher[key];
-                                    const quoted = `'${match}'`;
-                                    if (val.includes(quoted)) {
-                                        val = val.replace(quoted, replacement);
-                                    } else {
-                                        val = val.replace(match, replacement);
-                                    }
+                    const matches = val.match(/{(\w+)}/g);
+                    if (matches) {
+                        matches.forEach(match => {
+                            const key = match.replace(/[{}]/g, '');
+                            if (teacher.hasOwnProperty(key)) {
+                                let replacement = teacher[key];
+                                const quoted = `'${match}'`;
+                                if (val.includes(quoted)) {
+                                    val = val.replace(quoted, replacement);
+                                } else {
+                                    val = val.replace(match, replacement);
                                 }
-                            });
-                            el.setAttribute(attr, val);
-                        }
+                            }
+                        });
+                        el.setAttribute(attr, val);
                     }
-                });
+                }
+            });
         }else{
             document.getElementById('teacher-searchDOD').style.display = 'block';
             document.querySelector('.body').style.display = 'none';
@@ -212,4 +263,5 @@ class UserCard{
 
 window.loadCard = (id) => new UserCard().loadCard(id);
 window.closeCard = () => new UserCard().closeCard();
-loadCard(0);
+window.connect_user = (index) => Teacher.connect_user(index);
+loadCard(1);

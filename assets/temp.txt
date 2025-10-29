@@ -1,6 +1,73 @@
-{
-    "id": "UID1113380516@2409",
-    "gender": "Male",
-    "experience": "2",
-    "previous_institute": "Physics wallah",
+here is some demo user data, for teachers: [
+  {
+    id: 'UID1113380516@2409',
+    name: 'Krishnendu Mitra',
+    subject: 'Computer Science',
   },
+  {
+    id: 'UID1907238613@2009',
+    name: 'Sunny Ghosh',
+    subject: 'Mathematics',
+    
+  },
+  {
+    id: 'UID11132@317162009',
+    name: 'Kumaresh Manna',
+    subject: 'Physics',
+  },
+  {
+    id: 'UID191@82376042009',
+    name: 'Suman Roy',
+    subject: 'Computer Science',
+  },
+  {
+    id: 'UID0119@2964022009',
+    name: 'Ananya Sen',
+    subject: 'Biology',
+  },
+  {
+    id: 'UID1@8042534132009',
+    name: 'Ritwik Das',
+    subject: 'Mathematics',
+  },
+  {
+    id: 'UID16133173@022009',
+    name: 'Priya Mukherjee',
+    subject: 'Bengali',
+  },
+  {
+    id: 'UID0111@2255162009',
+    name: 'Amit Kundu',
+    subject: 'English',
+  },
+  ......
+]
+
+for students:
+[
+  {
+    id: 'AIDA1302542@709',
+    name: 'Anisha Mitra',
+  },
+  {
+    id: 'AIDJ238@6552209',
+    name: 'Jyotinmoy Mitra',
+  },
+  {
+    id: 'AIDM2@387551209',
+    name: 'Mangal Walia',
+  },
+  ......
+] 
+here i want some relation ship data from them , the data structure be like: [
+    {
+        "id": "",
+        "subject": "",
+        "rating": "",
+        "desc": ""
+    }, 
+    ....
+] 
+here the id is student - teacher id mean suppose AIDM2@387551209-UID16133173@022009 simply, and the subject is "Mathematics", "Physics", "Biology" according to the teacher subject, and the rating must be 0 to 5 as floating number (star rating) , desc is not need now. so make some relation but if student is read one subject from a teacher then he don't read same subject from another teacher. 
+
+

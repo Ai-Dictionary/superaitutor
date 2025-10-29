@@ -101,7 +101,8 @@
             <image src="../assets/images/404.svg" alt="sait" title="not found"/>
         <% } %>
     </div>
-    <div id="raw-data"><%- JSON.stringify(teachers) %></div>
+    <div class="raw-data" id="raw-user"><%- JSON.stringify(users) %></div>
+    <div class="raw-data" id="raw-relation"><%- JSON.stringify(relation) %></div>
     <div id="user_card" class="blbg">
         <div class="card">
             <div class="top">
@@ -157,10 +158,18 @@
                         <span class="pin">{pin}</span>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="item">
+                        Connect:
+                    </div> 
+                    <div class="item">
+                        <span class="subject_connect">{subject_connect}</span> subject
+                    </div>
+                </div>
             </div>
             <div class="bottom flx">
-                <div class="btn btn-outline-danger" onclick="closeCard();">Close</div>
-                <div class="btn btn-outline-process">Add Teacher</div>
+                <div class="btn btn-outline-secondary" onclick="closeCard();">Close</div>
+                <div class="btn btn-outline-process" id="add">Start Connection</div>
             </div>
         </div>
     </div>

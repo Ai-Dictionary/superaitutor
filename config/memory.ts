@@ -1,4 +1,5 @@
 /** @type {NodeJS.Require} */
+// @ts-nocheck
 var require = require;
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const { JWT } = require("google-auth-library");

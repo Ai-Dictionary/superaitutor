@@ -1,3 +1,4 @@
+// @ts-nocheck
 module.exports = {
     substitutionEncoder: (plain_txt, key) => {
         const vocabulary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";

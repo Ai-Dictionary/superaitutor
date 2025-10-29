@@ -196,6 +196,11 @@ module.exports = {
     user_type: (id) => {
         return id.startsWith('AID')?'student':id.startsWith('UID')?'teacher':id.startsWith('MID')?'admin':null;
     },
+    find_MatchingRecords: (relationList, searchId) => {
+        return relationList.some(item => item.id.includes(searchId))
+        ? relationList.filter(item => item.id.includes(searchId))
+        : null;
+    },
     foo:() => {
         return 0;
     }
