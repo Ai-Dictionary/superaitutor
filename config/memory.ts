@@ -361,13 +361,11 @@ class MEMORY{
             const matches = rows.filter(row => {
                 const rawId = row._rawData[sheet.headerValues.indexOf('id')];
                 if (!rawId) return false;
-                if(id.startsWith('AID')){
-                    return rawId.split("-")[0] === id;
-                }else{
-                    return rawId.split("-")[1] === id;
-                }
+                return id.startsWith('AID') ? rawId.split("-")[0] === id : rawId.split("-")[1] === id;
             });
 
+            // console.log(matches);
+            
             if (matches.length === 0) return { status: 3 };
 
             const results = matches.map(row => {
@@ -421,7 +419,6 @@ class MEMORY{
                     });
                     return hex.profile_setup(obj);
                 });
-                // @ts-ignore
                 if (result.length!=0) results.push(result[0]);
             }
             return results;
@@ -457,6 +454,5 @@ class MEMORY{
     }    
 }
 
-// @ts-ignore
 module.exports = MEMORY;
 

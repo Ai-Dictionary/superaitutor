@@ -207,6 +207,9 @@
                     .item{
                         padding: 0px 15px;
                     }
+                    .item:has(select){
+                        width: 50%;
+                    }
                 }
                 .row > .col:first-child, .row > .item:first-child{
                     width: 30%;

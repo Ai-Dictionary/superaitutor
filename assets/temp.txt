@@ -1,73 +1,60 @@
-here is some demo user data, for teachers: [
-  {
-    id: 'UID1113380516@2409',
-    name: 'Krishnendu Mitra',
-    subject: 'Computer Science',
-  },
-  {
-    id: 'UID1907238613@2009',
-    name: 'Sunny Ghosh',
-    subject: 'Mathematics',
-    
-  },
-  {
-    id: 'UID11132@317162009',
-    name: 'Kumaresh Manna',
-    subject: 'Physics',
-  },
-  {
-    id: 'UID191@82376042009',
-    name: 'Suman Roy',
-    subject: 'Computer Science',
-  },
-  {
-    id: 'UID0119@2964022009',
-    name: 'Ananya Sen',
-    subject: 'Biology',
-  },
-  {
-    id: 'UID1@8042534132009',
-    name: 'Ritwik Das',
-    subject: 'Mathematics',
-  },
-  {
-    id: 'UID16133173@022009',
-    name: 'Priya Mukherjee',
-    subject: 'Bengali',
-  },
-  {
-    id: 'UID0111@2255162009',
-    name: 'Amit Kundu',
-    subject: 'English',
-  },
-  ......
-]
+async find_relation(id, subject = null) {
+  try {
+    const client = new JWT({
+      email: this.email,
+      key: this.secret,
+      scopes: this.scopes,
+    });
 
-for students:
-[
-  {
-    id: 'AIDA1302542@709',
-    name: 'Anisha Mitra',
-  },
-  {
-    id: 'AIDJ238@6552209',
-    name: 'Jyotinmoy Mitra',
-  },
-  {
-    id: 'AIDM2@387551209',
-    name: 'Mangal Walia',
-  },
-  ......
-] 
-here i want some relation ship data from them , the data structure be like: [
-    {
-        "id": "",
-        "subject": "",
-        "rating": "",
-        "desc": ""
-    }, 
-    ....
-] 
-here the id is student - teacher id mean suppose AIDM2@387551209-UID16133173@022009 simply, and the subject is "Mathematics", "Physics", "Biology" according to the teacher subject, and the rating must be 0 to 5 as floating number (star rating) , desc is not need now. so make some relation but if student is read one subject from a teacher then he don't read same subject from another teacher. 
+    const doc = new GoogleSpreadsheet(this.relationship_id, client);
+    await doc.loadInfo();
 
+    const sheet = doc.sheetsByIndex[0];
+    await sheet.loadHeaderRow();
 
+    const rows = await sheet.getRows();
+
+    const idIndex = sheet.headerValues.indexOf('id');
+    const subjectIndex = sheet.headerValues.indexOf('subject');
+
+    if (idIndex === -1 || subjectIndex === -1) {
+      throw new Error("Missing 'id' or 'subject' column in sheet");
+    }
+
+    const match = rows.find(row => {
+      const rawId = row._rawData[idIndex];
+      if (!rawId) return false;
+
+      return id.startsWith('AID')
+        ? rawId.split("-")[0] === id
+        : rawId.split("-")[1] === id;
+    });
+
+    if (!match) return { status: 3 }; // No record found for ID
+
+    const rawSubject = match._rawData[subjectIndex];
+    const subjectList = rawSubject?.split(',').map(s => s.trim().toLowerCase()) || [];
+
+    if (subject) {
+      const normalized = subject.trim().toLowerCase();
+      const alreadyExists = subjectList.includes(normalized);
+
+      const result = {};
+      sheet.headerValues.forEach((key, i) => {
+        result[key] = match._rawData[i];
+      });
+
+      result.subject_status = alreadyExists ? "exists" : "new";
+      return result;
+    } else {
+      const result = {};
+      sheet.headerValues.forEach((key, i) => {
+        result[key] = match._rawData[i];
+      });
+      return result;
+    }
+  } catch (e) {
+    console.error("Error finding relation by ID and subject:", e);
+    return { status: 1 };
+  }
+}

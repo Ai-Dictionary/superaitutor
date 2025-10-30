@@ -453,32 +453,50 @@ app.post('/profile_security_info', async (req, res) => {
     }
 });
 
-app.get('/relation_profile_info', async (req, res) => {
+// app.get('/relation_profile_info', async (req, res) => {
+//     let memory = new Memory();
+//     memory.clusterName = "relationship";
+//     let relation_info = await memory.find_relation(req.body.id);
+//     if(relation_info && relation_info.length!=0 && relation_info?.status==undefined){
+//         let id_pool = [];
+//         for(let i=0; i<relation_info.length; i++){
+//             id_pool.push(relation_info[i].id);
+//         }
+//         if(req.body.id.startsWith('AID')){
+//             memory.clusterName = 'teacher';
+//         }else if(req.body.id.startsWith('UID')){
+//             memory.clusterName = 'student';
+//         }else{
+//             return null;
+//         }
+//         let relative_info = await memory.find_all(id_pool);
+//         if(relative_info && relative_info.length!=0 && relative_info?.status==undefined){
+//             return relative_info;
+//         }else{
+//             return null;
+//         }
+//     }else{
+//         return null;
+//     }
+// });
+
+app.post('/make_relation_between_user', async (req, res) => {
+    const relation = req.body.relation;
     let memory = new Memory();
     memory.clusterName = "relationship";
-    let relation_info = await memory.find_relation(req.body.id);
-    if(relation_info && relation_info.length!=0 && relation_info?.status==undefined){
-        let id_pool = [];
-        for(let i=0; i<relation_info.length; i++){
-            id_pool.push(relation_info[i].id);
-        }
-        if(req.body.id.startsWith('AID')){
-            memory.clusterName = 'teacher';
-        }else if(req.body.id.startsWith('UID')){
-            memory.clusterName = 'student';
+    const relation_info = await memory.find_relation(relation.id.sid+"-"+relation.id.tid, relation.subject);
+    if(relation_info && relation_info.length!=0 && relation_info?.status==3){
+        relation.rating = 0;
+        relation.desc = "";
+        const confirmation = await memory.write(relation);
+        if(confirmation?.id){
+            res.status(200).json({'status': true});
         }else{
-            return null;
-        }
-        let relative_info = await memory.find_all(id_pool);
-        if(relative_info && relative_info.length!=0 && relative_info?.status==undefined){
-            return relative_info;
-        }else{
-            return null;
+            res.status(200).json({'status': confirmation.status, 'message': jsonfile.readFileSync('./config/error_log.json')[confirmation.status].message});
         }
     }else{
-        return null;
+        res.status(200).json({'status': false});
     }
-
 });
 
 app.get('/deshboard', async (req, res) => {

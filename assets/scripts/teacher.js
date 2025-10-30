@@ -182,8 +182,43 @@ class Teacher {
 
     static connect_user(index=0){
         if(document.getElementById('add').textContent == "Start Connection"){
-            const data = {"id": "AIDA1302542@709-UID1907238613@2009", "subject": "Mathematics", "rating": 0, "desc": ""}; 
+            let student_id = Teacher.userId();
+            let teacher_id = Teacher.getUserList()[index].id;
+            new Process().start();
+            setTimeout(() => {
+                const data = {"id": {"sid": student_id, "tid": teacher_id}, "subject": document.getElementById('c-subject').value};
+                fetch('/make_relation_between_user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ relation: data })
+                }).then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok, try to check your wifi router');
+                    return response.json();
+                }).then(data => {
+                    closeCard();
+                    new Process().end();
+                    if(data?.status==true){
+                        new PopUp('success', 5000).create('Successfully your connection is enlisted with ',Teacher.getUserList()[index].name);
+                    }else if(data?.status==false || data?.status==7){
+                        system.alert({"error": 400, "message": `You are already connected with ${Teacher.getUserList()[index].name} in our records. Please review the connection report carefully and avoid sending unnecessary requests. However, if you believe this connection is incorrect, please contact tech support.`});
+                        new PopUp('danger', 5000).create('Failer your connection is not enlisted, Already have connection');
+                    }else{
+                        system.alert({"error": data?.status, "message": data?.message});
+                        new PopUp('danger', 4000).create('Failer your connection is not enlisted, Try again later');
+                    }
+                }).catch(error => {
+                    console.error('Error creating relation:', error);
+                });
+            },1000);
         }
+    }
+
+    static userId(){
+        const span = document.getElementById('profile-template').content.querySelector('.profile-page .head h4 span');
+        const id = (span?.textContent.trim()).split('for ')[1];
+        return id;
     }
 
     static getUserList(){
@@ -202,6 +237,15 @@ class UserCard{
     constructor(){
         this.id = '';
     }
+    subject_list(str_list){
+        let list = str_list.split(',');
+        if(list.length <= 0){
+            return 'No Connection';
+        }else{
+            const options = list.map(subject => `<option value="${subject}">${subject}</option>`).join('');
+            return `<select class="form-control" id="c-subject" aria-describedby="subjectHelp" required>${options}</select>`;
+        }
+    }
     loadCard(id=this.id){
         let all_user = document.querySelectorAll('.body .teacher');
         if(all_user.length >= id){
@@ -219,7 +263,7 @@ class UserCard{
                 control.textContent = "Start Connection";
                 control.setAttribute('class', 'btn btn-outline-process');
             }
-            teacher.subject_connect = r_user?.subject || 'No Connection';
+            document.querySelector('.subject_connect').innerHTML = r_user?.subject || this.subject_list(teacher.subject);
             control.onclick = () => connect_user(Number(id));
 
             document.querySelector('#user_card .card .dp').style.background = teacher['bg'];
@@ -264,4 +308,4 @@ class UserCard{
 window.loadCard = (id) => new UserCard().loadCard(id);
 window.closeCard = () => new UserCard().closeCard();
 window.connect_user = (index) => Teacher.connect_user(index);
-loadCard(1);
+// loadCard(1);
