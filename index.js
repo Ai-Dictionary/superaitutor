@@ -5,6 +5,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const querystring = require('querystring');
 const ejs = require('ejs');
+const handlebars = require('handlebars');
 const jsonfile = require('jsonfile');
 const rateLimit = require('express-rate-limit');
 const { ipKeyGenerator } = require('express-rate-limit');
@@ -36,6 +37,11 @@ const AppName = "superAITutor";
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// app.engine('hbs', exphbs({ extname: '.hbs' }).engine);
+// app.set('view engine', 'hbs');
+// app.set('views', path.join(__dirname, 'views/site'));
+
 
 // app.use('/assets', express.static(path.join(__dirname,'assets'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
 if(hex.isLocalhost(os)){
@@ -376,6 +382,26 @@ app.get('/accountCreated', async (req, res) => {
         header = await ejs.renderFile('./views/header.ejs', {displayMode: 'both'});
     }
     res.status(200).render('accountCreated',{nonce: nonce, header, tutorial, id, email, name, isHosted});
+});
+
+app.get('/docs', async (req, res) => {
+    const nonce = res.locals.nonce;
+    const isHosted = hex.isHosted(req);
+    const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
+        link: 'https://youtube.com/@AiDictionary-e2x',
+    });
+    let header;
+    const token = req.cookies.auth_token;
+    if(token){
+        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+        let [id, expiry] = encripted_info.split("-");
+        if(Date.now() < expiry){
+            header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
+        }
+    }else{
+        header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only signup'});
+    };
+    res.status(200).send(hex.renderHBS(fs, handlebars, 'docs', {nonce: nonce, key: '404', header, tutorial, isHosted}));
 });
 
 app.get('/dashboard', async (req, res) => {

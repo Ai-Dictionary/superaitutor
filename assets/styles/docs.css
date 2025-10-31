@@ -1,0 +1,260 @@
+#docsPage h6 {
+    margin: 50px 20px;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-align: left;
+    color: slategrey;
+    span {
+        font-size: 14px;
+        background: linear-gradient(50deg, #2323ff 30%, #ec2c75 50%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        border: 2px solid #ec2c75;
+        border-radius: 50px;
+        padding: 4px 8px;
+        margin: 2px 8px;
+        cursor: pointer;
+    }
+    span:nth-of-type(2) {
+        background: var(--rblue);
+        color: #fff;
+        border: none;
+        -webkit-text-fill-color: currentColor;
+    }
+}
+ol {
+    width: 70%;
+    list-style: none;
+    margin: 0px;
+    padding: 0%;
+}
+.flx .sidebar {
+    width: 30%;
+    padding: 10px 20px;
+    color: grey;
+    h2 {
+        font-family: 'Roboto';
+        font-size: 28px;
+        color: var(--revers-white);
+        transition: 1s ease-in-out;
+    }
+    ol {
+        width: 100%;
+        li {
+            width: 100%;
+            color: grey;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+    }
+    li:before {
+        content: '◯';
+        margin-right: 5px;
+    }
+}
+
+#docsPage .big-gretter .gretter-code-padd .gretter-code-marg .gretter-code .code-editor:before,
+#docsPage #docsList .drop .code-editor:before,
+#docsPage #docsList .drop .code-editor:before {
+    display: none;
+}
+#docsPage .search-docs-head {
+    width: 95%;
+    margin: 20px auto;
+    margin-top: 50px;
+}
+#docsPage .search-docs-head .navbar .form-inline .input-group .input-group-prepend .input-group-text {
+    background: var(--mit-color);
+    color: var(--revers-white);
+}
+#docsPage .search-not-found {
+    display: none;
+    width: 30%;
+    margin: -20px auto 100px auto;
+}
+#docsPage .search-not-found img {
+    position: relative;
+    width: 100%;
+    transition: 1s ease-in-out;
+}
+#docsPage #docsList .drop {
+    margin: 20px auto;
+    width: 95%;
+    padding: 4px 20px;
+    font-size: 14px;
+    color: grey;
+    text-align: justify;
+}
+#docsPage #docsList .drop h2 {
+    color: var(--revers-white);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: left;
+    font-size: 28px;
+}
+#docsPage #docsList .drop h2 span {
+    font-weight: bold;
+    color: var(--rblue);
+}
+#docsPage #docsList .drop .btn {
+    margin: 0px 10px 20px auto;
+}
+#docsPage #docsList .drop ul {
+    margin: 2px auto 10px auto;
+}
+#docsPage #docsList .drop .code-editor {
+    width: 80%;
+    margin: 0px;
+    max-height: 280px;
+    min-height: auto;
+}
+#docsPage #docsList .drop .code-editor .code-wrapper {
+    height: 280px;
+    max-height: 280px;
+}
+#docsPage #docsList .drop .sample-code {
+    padding: 10px 0px;
+}
+#docsPage #docsList .drop .sample-code .code-option {
+    cursor: pointer;
+}
+.code-option {
+    width: 10%;
+    background: var(--scrollbarBG);
+    color: slategrey;
+    list-style: none;
+    height: 100%;
+    padding: 0px;
+    border-radius: 5px;
+    transition: 1s ease-in-out;
+}
+.code-option li {
+    width: 100%;
+    height: 25%;
+    text-align: center;
+    font-size: 20px;
+    border-bottom: 1px solid slategrey;
+    padding: 20px 0px;
+}
+.code-option li:last-child {
+    border: none;
+}
+#docsPage #docsList .drop .desktop-view {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+#docsPage #docsList .drop .desktop-view iframe {
+    width: 80%;
+    height: 60%;
+    min-height: 300px;
+    margin: 10px 10%;
+    border-radius: 5px;
+    border: 1px solid grey;
+}
+#docsPage #docsList .drop .desktop-view:before {
+    content: '';
+    width: 550px;
+    height: 300px;
+    background: transparent !important;
+    opacity: 0.4;
+    position: absolute;
+    right: 2%;
+    margin-top: 10px;
+}
+#docsPage #docsList .drop .btn {
+    margin-left: 20px;
+}
+.code-box {
+    padding: 4px;
+    font-family: Consolas, 'Courier New', monospace;
+    background: var(--grey-white);
+    border-radius: 5px;
+    margin: 10px 0px;
+    cursor: pointer;
+}
+#docsPage #docsList .drop .flx small {
+    font-size: 14px;
+}
+.mid-diagram {
+    width: 40%;
+    margin: 5px 30%;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
+    #docsPage h6 {
+        font-size: 26px;
+        margin: 50px 10px;
+        span {
+            font-size: 10px;
+        }
+    }
+    #docsPage .search-docs-head {
+        width: 100%;
+        flex-direction: column;
+    }
+    #docsPage .search-not-found {
+        width: 70%;
+    }
+    #docsPage .flx {
+        flex-direction: column;
+        .sidebar,
+        ol {
+            width: 100%;
+        }
+    }
+    #docsPage #docsList .drop .sample-code .code-editor {
+        margin: auto;
+    }
+    #docsPage #docsList .drop .sample-code .code-option {
+        width: 80%;
+        margin: 5px auto 15px;
+    }
+    #docsPage #docsList .drop .sample-code .code-option li {
+        padding: 4px;
+    }
+    .code-option {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 30px;
+    }
+    .code-option li {
+        font-size: 14px;
+        padding: 0px;
+        height: 100%;
+        border-bottom: none;
+        border-right: 1px solid slategrey;
+    }
+    .reverse-column {
+        flex-direction: column-reverse !important;
+    }
+    #docsPage #docsList .drop .btn {
+        margin-left: 40%;
+    }
+    #docsPage .big-gretter .gretter-code-padd .gretter-code-marg .gretter-code,
+    #docsPage #docsList .drop .sample-code {
+        flex-direction: column;
+    }
+    #docsPage .big-gretter .gretter-code-padd .gretter-code-marg .gretter-code .code-editor,
+    #docsPage .search-docs-head .flx,
+    #docsPage #docsList .drop {
+        width: 100%;
+    }
+    .mid-diagram {
+        width: 90%;
+        margin: 5px 5%;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    #docsPage .flx {
+        flex-direction: row;
+    }
+    #docsPage .flx {
+        .sidebar{
+            width: 40%;
+        }
+    }
+}

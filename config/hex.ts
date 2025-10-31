@@ -201,6 +201,12 @@ module.exports = {
         ? relationList.filter(item => item.id.includes(searchId))
         : null;
     },
+    renderHBS: (fs, handlebars, viewName, data = {}) => {
+        const filePath = `views/site/${viewName}.hbs`;
+        const templateSrc = fs.readFileSync(filePath, 'utf8');
+        const template = handlebars.compile(templateSrc);
+        return template(data);
+    },
     foo:() => {
         return 0;
     }

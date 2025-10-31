@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="superaitutor">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" name="og:image">
+    <meta itemprop="image" content="https://superaitutor.vercel.app/public/logo1500.png">
+    <meta property="og:site_name" content="superaitutor">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="superaitutor">
+    <meta content="SuperAITutor is a next-generation educational 
+    platform that reimagines how students, teachers, and parents 
+    engage with learning. Designed to foster meaningful connections 
+    and empower academic growth, it offers a personalized ecosystem 
+    where students can access AI-powered doubt solving, career 
+    guidance, exam preparation, and mentorship in one place." lang="en-us" name="description">
+    <meta content="SuperAITutor, sait, ai tutor, super ai, chatbot teacher, progress track, project, JPEN, Ai Dictionary" lang="en-us" name="keywords">
+    <title version="1.0">SuperAITutor</title>
+    <meta name="author" content="Ai-Dictionary">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <link rel="icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" sizes="192x192">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Feed" href="https://superaitutor.com/feed/">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../static/App.css"/>
+    {{#if isHosted}}
+        <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/docs.css"/>
+    {{else}}
+        <link rel="stylesheet" href="../assets/styles/docs.css"/>
+    {{/if}}
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/assets/css/docs.css"/>
+</head>
+<body>
+    {{{header}}}
+    <main class="workspace">
+        <section id="docsPage">
+            <h6>SuperAITutor Document <span>Version 1.0.0</span><span>Canary</span></h6>
+            <div class="search-docs-head">
+                <nav class="navbar navbar-light">
+                    <form class="form-inline" style="width: 350px;">
+                        <div class="input-group" style="width: 100%;">
+                            <div class="input-group-prepend">
+                                <span class="btn input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input type="search" class="form-control" id="searchData-docs" placeholder="Search Here"
+                                aria-label="Search" aria-describedby="basic-addon"
+                                onkeyup="search_docs('searchData-docs','drop');">
+                        </div>
+                    </form>
+                </nav>
+            </div>
+            <div class="flx">
+                <div class="sidebar">
+                    <h2>Map of Content</h2>
+                    <div id="mapofcontent"></div>
+                </div>
+                <ol class="search-product-data" id="docsList">
+                    <li class="drop">
+                        <h2>Meet <span>SAIT</span>, Your Smart Educational Companion!</h2>
+                        <h5>What is SAIT?</h5>
+                        <p>
+                            SuperAITutor is a next-generation AI-powered platform that transforms how students, teachers, 
+                            and parents engage with learning. In simple words, it creates a personalized academic ecosystem 
+                            where doubts are solved instantly, mentors are discovered intelligently, and progress is tracked 
+                            in real time—all without needing technical expertise.<br>
+                            {{#if isHosted}}
+                                <img class="mid-diagram" src="https://ai-dictionary.github.io/superaitutor/assets/images/s01.jpg" alt="sait" title="Landing page of sait"/>
+                            {{else}}
+                                <img class="mid-diagram" src="assets/images/s01.jpg" alt="sait" title="Landing page of sait"/>
+                            {{/if}}
+                            <br>
+                            Built on the JPEN stack (JSON-Python-Embedded-Node) and powered by the HEX framework, SuperAITutor 
+                            integrates frontend simplicity with backend intelligence. It supports image-based doubt resolution, 
+                            career counselling, exam preparation, and mentorship—all within a unified interface. The platform is 
+                            proudly owned and maintained by <strong>AI Dictionary</strong>, an initiative dedicated to redefining 
+                            digital education through artificial intelligence.
+                        </p>
+                        <h5>Why Do We Need SAIT?</h5>
+                        <p>SAIT is especially valuable for:</p>
+                        <ul class="nostyle">
+                            <li class="tic">Students who need instant academic support without waiting for a teacher.</li>
+                            <li class="tic">Teachers who want to share insights, assignments, and mentorship efficiently.</li>
+                            <li class="tic">Parents who seek real-time updates on student progress and engagement.</li>
+                            <li class="tic">Learners preparing for competitive exams and seeking personalized guidance.</li>
+                        </ul>
+                        <h5>Part of a Bigger Vision</h5>
+                        <p>Although SuperAITutor functions as a standalone platform, it plays a pivotal role in a broader educational 
+                            ecosystem. The overall system follows a multi-step approach:</p>
+                        <ul class="nostyle">
+                            <li class="tic">SuperAITutor receives academic queries from students via text or media.</li>
+                            <li class="tic">AI modules process these inputs to deliver instant solutions, mentorship matches, and 
+                                performance insights.</li>
+                        </ul>
+                        <p>
+                            For example, if a student asks, "What career suits my interests and marks?", SuperAITutor will 
+                            analyze the input and generate personalized guidance. The extended system then connects the 
+                            student with mentors, exam modules, and real-time progress tracking.<br><br>
+                            While SuperAITutor is powerful on its own, it serves as the foundation for future innovations in 
+                            intelligent learning, making education more accessible, personalized, and collaborative.
+                        </p>
+                    </li>
+                    {{!-- <li class="drop">
+                        <h2>Accessing Nanonium: <i class="fa fa-star prp small"></i><br> Your Gateway to <span>AI-Powered</span>
+                            SQL Queries!</h2>
+                        <h5>How to Open Nanonium?</h5>
+                        <p>Nanonium is hosted on Vercel, so it is easily accessible from any device. Just:</p>
+                        <ul class="nostyle">
+                            <li class="toi">Search for "Nanonium Chatbot" on Google, or</li>
+                            <li class="toi">Directly visit: <a href="https://nanonium.vercel.app/">nanonium.vercel.app</a>.</li>
+                        </ul>
+                        <p>This will launch the Nanonium web application, where you can begin creating SQL queries right away.
+                        </p>
+                        <h5>For Developers: Running Nanonium Locally</h5>
+                        <p>If you are a developer who wants to contribute or personalize Nanonium, do the following:</p>
+                        <ul class="nostyle">
+                            <li class="toi">Go to our GitHub repository and join as a collaborator or download project code.</li>
+                            <li class="toi">Unzip the downloaded repository and open a terminal inside the project directory.</li>
+                            <li class="toi">Use the following command to launch Nanonium in a local environment: <span class="text-muted code-box">node index.js</span></li>
+                        </ul>
+                        <p>This will launch the project on localhost:443</p>
+                        <p>Prerequisites for Running Nanonium Locally </p>
+                        <ul class="nostyle">
+                            <li class="toi">Ensure Node.js is installed on your system. If not, download and install it first.</li>
+                            <li class="toi">Install the required basic Node.js packages, such as: <span class="text-muted code-box">npm install express ejs json dotenv</span></li>
+                            <li class="toi">If you require further dependencies, Nanonium will automatically prompt you to install them when you execute <span class="code-box">node index.js</span></li>
+                        </ul>
+                        <p>You're now ready to go and experiment and build upon Nanonium's functionality!</p>
+                    </li> --}}
+                    <li class="drop"></li>
+                </ol>
+            </div>
+            
+            <div class="search-not-found" id="searchData-docsDOD">
+                {{#if isHosted}}
+                    <img class="mid-diagram" src="https://ai-dictionary.github.io/superaitutor/assets/images/404.svg" alt="sait"/>
+                {{else}}
+                    <img class="mid-diagram" src="assets/images/404.svg" alt="sait"/>
+                {{/if}}
+            </div>
+        </section>
+    </main>
+    {{{tutorial}}}
+</body>
+<script src="../static/App.js" nonce="{{nonce}}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{{#if isHosted}}
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/docs.js" nonce="{{nonce}}"></script>
+{{else}}
+    <script src="../assets/scripts/docs.js" nonce="{{nonce}}"></script>
+{{/if}}
+</html>
