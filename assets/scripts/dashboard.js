@@ -6,6 +6,8 @@ class PageRouter {
 
         window.addEventListener('popstate', () => this.handlePopState());
         document.addEventListener('DOMContentLoaded', () => this.init());
+
+        this.pageVisit = this.collectPageIds() || [];
     }
 
     isHosted() {
@@ -16,10 +18,36 @@ class PageRouter {
         return this.isHosted() ? this.hostedPath : this.basePath;
     }
 
+    collectPageIds() {
+        const templates = document.querySelectorAll('template.default-tamplete');
+        const templateData = [];
+
+        templates.forEach(template => {
+            const id = template.id;
+            if (id) {
+            templateData.push({ id: id, visit: 0 });
+            }
+        });
+
+        return templateData;
+    }
+
+    smoothLoad(pageId) {
+        const template = this.pageVisit.find(item => item.id === pageId);
+        if (template && template.visit === 0) {
+            template.visit = 1;
+            const loader = new Loader(true);
+            loader.create();
+            loader.remove(1000);
+        }
+    }
+
     loadPage(pageId) {
         try {
             const template = document.getElementById(`${pageId}-template`);
             if (template) {
+                this.smoothLoad(`${pageId}-template`);
+
                 if(this.currentPage!=undefined){
                     document.getElementById(this.currentPage).innerHTML = document.getElementById('page-content').innerHTML;
                 }
@@ -30,6 +58,7 @@ class PageRouter {
                     this.currentPage = `${pageId}-template`;
                     history.pushState({}, '', `/deshboard?page=${pageId}`);
                 }
+
                 if(pageId=='general'){
                     setTimeout(()=>{
                         general.performanceGraph();

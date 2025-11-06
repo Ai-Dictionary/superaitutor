@@ -226,6 +226,53 @@ header{
         margin: 0px;
     }
 }
+#legalDoc{
+    margin: 5% auto;
+    width: 80%;
+    height: 80vh;
+    height: auto;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--rblue);
+    .container{
+        margin: 0px;
+        width: 100%;
+        max-width: 100%;
+        .component .form-group{
+            max-height: 550px;
+            overflow: auto;
+            text-align: justify;
+        }
+    }
+    #privacyPage .head,#licensePage .head{
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        margin: 0px 0px 15px 0px;
+        padding: 10px 15px;
+        background: var(--rblue);
+        .title{
+            font-weight: bold;
+            font-family: sans-serif;
+            margin: 0px;
+            font-size: 25px;
+            color: #fff;
+        }
+        .flx{
+            width: 5%;
+            color: #fff;
+            .option{
+                cursor: pointer;
+            }
+        }
+    }
+    #privacyPage .mac-head,#licensePage .mac-head{
+        text-align: center;
+        font-size: 32px;
+        font-weight: 600;
+        color: var(--rblue);
+        font-family: sans-serif;
+    }
+}
 /* Mobile view */
 @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
     .alert{
@@ -263,6 +310,14 @@ header{
     .small-tutorial{
         bottom: 4%;
         left: 5%;
+    }
+    #legalDoc{
+        width: 95%;
+        #privacyPage .head,#licensePage .head{
+            .flx{
+                width: 15%;
+            }
+        }
     }
 }
 /* Desktop view */

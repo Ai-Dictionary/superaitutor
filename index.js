@@ -404,6 +404,39 @@ app.get('/docs', async (req, res) => {
     res.status(200).send(hex.renderHBS(fs, handlebars, 'docs', {nonce: nonce, key: '404', header, tutorial, isHosted}));
 });
 
+app.post('/security', async (req, res) => {
+    const view = req.body.view;
+    res.status(200).send(hex.renderHBS(fs, handlebars, 'raw_legal', {
+        id: view==undefined?0:view,
+        AppName: AppName, 
+        update: (new Date().toDateString()).substring(4,8)+(new Date().toDateString()).substring(11,16),
+        contact: jsonfile.readFileSync('./public/manifest.json').contact,
+        developer: jsonfile.readFileSync('./public/manifest.json').developer,
+        view: view==undefined?0:view,
+        license: view==2?fs.readFileSync(path.join(__dirname,'LICENSE')).toString():''
+    }, {compile: false, ejs: ejs}));
+});
+
+app.get('/legal', async (req, res) => {
+    const nonce = res.locals.nonce;
+    const isHosted = hex.isHosted(req);
+    const tutorial = await ejs.renderFile('./views/quickTutorial.ejs', {
+        link: 'https://youtube.com/@AiDictionary-e2x',
+    });
+    let header;
+    const token = req.cookies.auth_token;
+    if(token){
+        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+        let [id, expiry] = encripted_info.split("-");
+        if(Date.now() < expiry){
+            header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
+        }
+    }else{
+        header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only signup'});
+    };
+    res.status(200).send(hex.renderHBS(fs, handlebars, 'legal', {nonce: nonce, key: '404', header, tutorial, isHosted}));
+});
+
 app.get('/dashboard', async (req, res) => {
     try{
         const token = req.cookies.auth_token;

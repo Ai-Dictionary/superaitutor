@@ -201,11 +201,15 @@ module.exports = {
         ? relationList.filter(item => item.id.includes(searchId))
         : null;
     },
-    renderHBS: (fs, handlebars, viewName, data = {}) => {
+    renderHBS: (fs, handlebars, viewName, data = {}, syntax={compile:true, ejs:''}) => {
         const filePath = `views/site/${viewName}.hbs`;
         const templateSrc = fs.readFileSync(filePath, 'utf8');
-        const template = handlebars.compile(templateSrc);
-        return template(data);
+        if(!syntax.compile){
+            return syntax.ejs.render(templateSrc, data);
+        }else{
+            const template = handlebars.compile(templateSrc);
+            return template(data);
+        }
     },
     foo:() => {
         return 0;

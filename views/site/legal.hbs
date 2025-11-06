@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="superaitutor">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" name="og:image">
+    <meta itemprop="image" content="https://superaitutor.vercel.app/public/logo1500.png">
+    <meta property="og:site_name" content="superaitutor">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="superaitutor">
+    <meta content="SuperAITutor is a next-generation educational 
+    platform that reimagines how students, teachers, and parents 
+    engage with learning. Designed to foster meaningful connections 
+    and empower academic growth, it offers a personalized ecosystem 
+    where students can access AI-powered doubt solving, career 
+    guidance, exam preparation, and mentorship in one place." lang="en-us" name="description">
+    <meta content="SuperAITutor, sait, ai tutor, super ai, chatbot teacher, progress track, project, JPEN, Ai Dictionary" lang="en-us" name="keywords">
+    <title version="1.0">SuperAITutor</title>
+    <meta name="author" content="Ai-Dictionary">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <link rel="icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" sizes="192x192">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Feed" href="https://superaitutor.com/feed/">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../static/App.css"/>
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/assets/css/docs.css"/>
+</head>
+<style>
+    main{
+        .container{
+            margin: 0px;
+            width: 100%;
+            max-width: 100%;
+            text-align: justify;
+        }
+        #privacyPage .head,#licensePage .head{
+            margin: 0px 0px 15px 0px;
+            padding: 10px 15px;
+            .title{
+                font-weight: bold;
+                font-family: sans-serif;
+                margin: 0px;
+                font-size: 25px;
+            }
+            .flx{
+                display: none;
+            }
+        }
+        #privacyPage .mac-head,#licensePage .mac-head{
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--rblue);
+            font-family: sans-serif;
+        }
+        .flo{
+            display: none;
+        }
+    }
+</style>
+<body>
+    {{{header}}}
+    <main class="workspace">
+
+    </main>
+    {{{tutorial}}}
+</body>
+<script src="../static/App.js" nonce="{{nonce}}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script nonce="{{nonce}}">
+async function getLegalContent(viewId = 0){
+    try{
+        const response = await fetch('/security', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'text/html'
+            },
+            body: JSON.stringify({ view: viewId })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with status ${response.status}`);
+        }
+
+        const htmlContent = await response.text();
+        document.querySelector('main').innerHTML = htmlContent;
+    }catch(error){
+        console.error('Error fetching legal content:', error);
+        system.alert({'error': 500, 'message': "Failed to load the security content due to some unexpted error. Please try again some time later."})
+    }
+}
+
+(async ()=> {
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewParam = urlParams.get('view')*1 || 0;
+    await getLegalContent(viewParam);
+})();
+</script>
+</html>

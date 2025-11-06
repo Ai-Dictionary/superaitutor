@@ -161,6 +161,49 @@ class System{
             document.getElementById(search_input_id+'DOD').style.display = "none";
         }
     }
+
+    async getLegalContent(viewId = 0){
+        try{
+            const response = await fetch('/security', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'text/html'
+                },
+                body: JSON.stringify({ view: viewId }),
+
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server responded with status ${response.status}`);
+            }
+
+            const htmlContent = await response.text();
+            const blbgDiv = document.createElement('div');
+            blbgDiv.className = 'blbg';
+            const legalSection = document.createElement('section');
+            legalSection.id = 'legalDoc';
+            blbgDiv.appendChild(legalSection);
+            legalSection.innerHTML = htmlContent;
+
+            document.body.appendChild(blbgDiv);
+
+            if(viewId>1){
+                document.querySelector('.license').innerText = document.querySelector('.license').textContent;
+            }
+        }catch(error){
+            console.error('Error fetching legal content:', error);
+            this.alert({'error': 500, 'message': "Failed to load the security content due to some unexpted error. Please try again some time later."})
+        }
+    }
+    closeLegalContent(){
+        const blbgElements = document.querySelectorAll('.blbg');
+        blbgElements.forEach(el => {
+            if (el.querySelector('#legalDoc')) {
+                el.remove();
+            }
+        });
+    }
 }
 
 let loader;
