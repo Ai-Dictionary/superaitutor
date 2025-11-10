@@ -79,55 +79,64 @@ const limiter = rateLimit({
 
 app.use((req, res, next) => {
     res.locals.nonce = crypto.randomBytes(16).toString('base64');
+    res.locals.isAppRequest = (req.headers['x-from-app'] === 'SuperAITutor' || req.query.token == '24fc8akm8o4s');
     next();
 });
 
-app.use(helmet.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-        "default-src": ["'self'"],
-        "script-src": [
-            "'self'",
-            "'unsafe-hashes'",
-            "https://cdnjs.cloudflare.com",
-            "https://vercel.live",
-            "https://vercel.com",
-            "https://ai-dictionary.github.io",
-            "https://code.jquery.com",
-            "https://cdn.jsdelivr.net",
-            (req, res) => `'nonce-${res.locals.nonce}'`
-        ],
-        "script-src-attr": ["'unsafe-inline'"],
-        "style-src": [
-            "'self'",
-            "https://fonts.googleapis.com",
-            "https://maxcdn.bootstrapcdn.com",
-            "https://stackpath.bootstrapcdn.com",
-            "https://ai-dictionary.github.io",
-            "https://getbootstrap.com",
-            "'unsafe-inline'" 
-        ],
-        "font-src": [
-            "'self'",
-            "https://maxcdn.bootstrapcdn.com",
-            "https://stackpath.bootstrapcdn.com",
-            "https://fonts.gstatic.com",
-            "data:"
-        ],
-        "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com", "https://raw.githubusercontent.com"],
-        "connect-src": [
-            "'self'",
-            "https://maxcdn.bootstrapcdn.com",
-            "wss://ws-us3.pusher.com",
-            "https://ws-us3.pusher.com",
-            "https://chsapi.vercel.app",
-        ],
-        frameSrc: [
-            "'self'",
-            "https://vercel.live"
-        ],
-    },
-}));
+app.use((req, res, next) => {
+    const frameSources = ["'self'", "https://vercel.live", "file:", "app:", "blob:"];
+    if (res.locals.isAppRequest) {
+        console.log("Request from APP");
+        frameSources.push("*");
+    }
+    helmet.contentSecurityPolicy({
+        useDefaults: true,
+        directives: {
+            "default-src": ["'self'"],
+            "script-src": [
+                "'self'",
+                "'unsafe-hashes'",
+                "https://cdnjs.cloudflare.com",
+                "https://vercel.live",
+                "https://vercel.com",
+                "https://ai-dictionary.github.io",
+                "https://code.jquery.com",
+                "https://cdn.jsdelivr.net",
+                (req, res) => `'nonce-${res.locals.nonce}'`
+            ],
+            "script-src-attr": ["'unsafe-inline'"],
+            "style-src": [
+                "'self'",
+                "https://fonts.googleapis.com",
+                "https://maxcdn.bootstrapcdn.com",
+                "https://stackpath.bootstrapcdn.com",
+                "https://ai-dictionary.github.io",
+                "https://getbootstrap.com",
+                "'unsafe-inline'" 
+            ],
+            "font-src": [
+                "'self'",
+                "https://maxcdn.bootstrapcdn.com",
+                "https://stackpath.bootstrapcdn.com",
+                "https://fonts.gstatic.com",
+                "data:"
+            ],
+            "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com", "https://raw.githubusercontent.com"],
+            "connect-src": [
+                "'self'",
+                "https://maxcdn.bootstrapcdn.com",
+                "wss://ws-us3.pusher.com",
+                "https://ws-us3.pusher.com",
+                "https://chsapi.vercel.app",
+            ],
+            "frame-ancestors": frameSources
+            // frameSrc: [
+            //     "'self'",
+            //     "https://vercel.live",
+            // ],
+        },
+    })(req, res, next);
+});
 
 app.use([
     xss(),

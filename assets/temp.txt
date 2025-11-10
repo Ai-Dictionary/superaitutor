@@ -1,60 +1,26 @@
-async find_relation(id, subject = null) {
-  try {
-    const client = new JWT({
-      email: this.email,
-      key: this.secret,
-      scopes: this.scopes,
-    });
+const fs = require('fs');
+const https = require('https');
+const http = require('http');
+const { URL } = require('url');
 
-    const doc = new GoogleSpreadsheet(this.relationship_id, client);
-    await doc.loadInfo();
-
-    const sheet = doc.sheetsByIndex[0];
-    await sheet.loadHeaderRow();
-
-    const rows = await sheet.getRows();
-
-    const idIndex = sheet.headerValues.indexOf('id');
-    const subjectIndex = sheet.headerValues.indexOf('subject');
-
-    if (idIndex === -1 || subjectIndex === -1) {
-      throw new Error("Missing 'id' or 'subject' column in sheet");
-    }
-
-    const match = rows.find(row => {
-      const rawId = row._rawData[idIndex];
-      if (!rawId) return false;
-
-      return id.startsWith('AID')
-        ? rawId.split("-")[0] === id
-        : rawId.split("-")[1] === id;
-    });
-
-    if (!match) return { status: 3 }; // No record found for ID
-
-    const rawSubject = match._rawData[subjectIndex];
-    const subjectList = rawSubject?.split(',').map(s => s.trim().toLowerCase()) || [];
-
-    if (subject) {
-      const normalized = subject.trim().toLowerCase();
-      const alreadyExists = subjectList.includes(normalized);
-
-      const result = {};
-      sheet.headerValues.forEach((key, i) => {
-        result[key] = match._rawData[i];
-      });
-
-      result.subject_status = alreadyExists ? "exists" : "new";
-      return result;
-    } else {
-      const result = {};
-      sheet.headerValues.forEach((key, i) => {
-        result[key] = match._rawData[i];
-      });
-      return result;
-    }
-  } catch (e) {
-    console.error("Error finding relation by ID and subject:", e);
-    return { status: 1 };
+async function getTemplateSource(viewName) {
+  if (viewName.startsWith('http')) {
+    // Remote file: fetch via HTTP/HTTPS
+    return await fetchRemoteTemplate(viewName);
+  } else {
+    // Local file: read from disk
+    const filePath = `views/site/${viewName}.hbs`;
+    return fs.readFileSync(filePath, 'utf8');
   }
+}
+
+function fetchRemoteTemplate(url) {
+  return new Promise((resolve, reject) => {
+    const client = url.startsWith('https') ? https : http;
+    client.get(url, res => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve(data));
+    }).on('error', reject);
+  });
 }
