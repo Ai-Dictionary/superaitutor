@@ -342,8 +342,48 @@ class MEMORY{
             return {"status": 1};
         }
     }
-    async find_relation(id){
-        try{
+    // async find_relation(id){
+    //     try{
+    //         const client = new JWT({
+    //             email: this.email,
+    //             key: this.secret,
+    //             scopes: this.scopes,
+    //         });
+
+    //         const doc = new GoogleSpreadsheet(this.relationship_id, client);
+    //         await doc.loadInfo();
+
+    //         const sheet = doc.sheetsByIndex[0];
+    //         await sheet.loadHeaderRow();
+
+    //         const rows = await sheet.getRows();
+
+    //         const matches = rows.filter(row => {
+    //             const rawId = row._rawData[sheet.headerValues.indexOf('id')];
+    //             if (!rawId) return false;
+    //             return id.startsWith('AID') ? rawId.split("-")[0] === id : rawId.split("-")[1] === id;
+    //         });
+
+    //         // console.log(matches);
+            
+    //         if (matches.length === 0) return { status: 3 };
+
+    //         const results = matches.map(row => {
+    //             const obj = {};
+    //             sheet.headerValues.forEach((key, i) => {
+    //                 obj[key] = row._rawData[i];
+    //             });
+    //             return obj;
+    //         });
+
+    //         return results;
+    //     }catch(e){
+    //         console.error("Error to finding specific relation by ID:", e);
+    //         return {"status": 1};
+    //     }
+    // }
+    async find_relation(id, subject='') {
+        try {
             const client = new JWT({
                 email: this.email,
                 key: this.secret,
@@ -358,28 +398,42 @@ class MEMORY{
 
             const rows = await sheet.getRows();
 
-            const matches = rows.filter(row => {
+            const [studentId] = id.split("-");
+
+            const studentMatches = rows.filter(row => {
                 const rawId = row._rawData[sheet.headerValues.indexOf('id')];
-                if (!rawId) return false;
-                return id.startsWith('AID') ? rawId.split("-")[0] === id : rawId.split("-")[1] === id;
+                return rawId && rawId.startsWith(studentId + "-");
             });
 
-            // console.log(matches);
-            
-            if (matches.length === 0) return { status: 3 };
+            const subjectCount = studentMatches.reduce((count, row) => {
+                const subjectField = row._rawData[sheet.headerValues.indexOf('subject')];
+                if (!subjectField) return count;
+                const subjects = subjectField.split(",").map(s => s.trim());
+                return subjects.includes(subject) ? count + 1 : count;
+            }, 0);
 
-            const results = matches.map(row => {
-                const obj = {};
-                sheet.headerValues.forEach((key, i) => {
-                    obj[key] = row._rawData[i];
-                });
-                return obj;
+            if (subjectCount >= 3) {
+                return { status: 11 };
+            }
+
+            const exactMatch = studentMatches.find(row => {
+                const rawId = row._rawData[sheet.headerValues.indexOf('id')];
+                return rawId === id;
             });
 
-            return results;
-        }catch(e){
-            console.error("Error to finding specific relation by ID:", e);
-            return {"status": 1};
+            if (!exactMatch) {
+                return { status: 3 };
+            }
+
+            const result = {};
+            sheet.headerValues.forEach((key, i) => {
+                result[key] = exactMatch._rawData[i];
+            });
+
+            return result;
+        } catch (e) {
+            console.error("Error finding specific relation by ID:", e);
+            return { status: 1 };
         }
     }
     async find_all(id_list){

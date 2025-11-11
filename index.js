@@ -448,6 +448,7 @@ app.get('/legal', async (req, res) => {
 
 app.get('/dashboard', async (req, res) => {
     try{
+        const nonce = res.locals.nonce;
         const token = req.cookies.auth_token;
         if(token){
             const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
@@ -469,13 +470,13 @@ app.get('/dashboard', async (req, res) => {
 
                 res.status(200).send(`<section style="text-align: center; margin: 10% auto; font-family: sans-serif;"><h1>Welcome User (${id}) nice to meet you!</h1><p>Currently we can\'t provide you a web interface, because SAIT is under develoment, hope you understand.</p><pre style="text-align: left;">${JSON.stringify(profile_info, null, 2)}</pre></section>`);
             }else{
-                res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>Session Expired!</h2><p>Please login again, because your Identity card is now expired when check it.<a href="/login">Login</a></p></div>');
+                res.status(419).send(hex.renderHBS(fs, handlebars, 'session_expire', {nonce: nonce})); //Session Expired
             }
         }else{
-            res.status(401).send('<div style="margin: 10% auto; text-align: center; font-family: sans-serif;"><h2>We are not get your Identity Card</h2><p>Please login on SAIT at first then use this feature.<br>But if you are already login and still show this error then please contact us.<br><a href="/login">Login</a></p></div>');
+            res.status(401).send(hex.renderHBS(fs, handlebars, 'unauthorize_entry', {nonce: nonce})); //unauthorize user open
         }
     }catch(e){
-        res.status(400).redirect('/notfound',{error: 500, message: "Unauthorize entry not allow, check the source or report it", statement: e});
+        res.status(400).redirect('/notfound',{error: 500, message: "Some unwanted error occure while setup the dashboard and fetching your information, If you see this error multi-time then please inform us about this faliur, and try some time later..", statement: e});
     }
 });
 
@@ -552,18 +553,47 @@ app.post('/make_relation_between_user', async (req, res) => {
     const relation = req.body.relation;
     let memory = new Memory();
     memory.clusterName = "relationship";
-    const relation_info = await memory.find_relation(relation.id.sid+"-"+relation.id.tid, relation.subject);
-    if(relation_info && relation_info.length!=0 && relation_info?.status==3){
+    // const relation_info = await memory.find_relation(relation.id.sid+"-"+relation.id.tid, relation.subject);
+    // if(relation_info && relation_info.length!=0 && relation_info?.status==3){
+    //     relation.rating = 0;
+    //     relation.desc = "";
+    //     const confirmation = await memory.write(relation);
+    //     if(confirmation?.id){
+    //         res.status(200).json({'status': true});
+    //     }else{
+    //         res.status(200).json({'status': confirmation.status, 'message': jsonfile.readFileSync('./config/error_log.json')[confirmation.status].message});
+    //     }
+    // }else{
+    //     res.status(200).json({'status': false});
+    // }
+
+    const fullId = relation.id.sid + "-" + relation.id.tid;
+    const relation_info = await memory.find_relation(fullId, String(relation?.subject));
+    
+    if(!relation_info || relation_info.status === 3){
         relation.rating = 0;
         relation.desc = "";
         const confirmation = await memory.write(relation);
         if(confirmation?.id){
-            res.status(200).json({'status': true});
+            res.status(200).json({ status: true });
         }else{
-            res.status(200).json({'status': confirmation.status, 'message': jsonfile.readFileSync('./config/error_log.json')[confirmation.status].message});
+            const message = jsonfile.readFileSync('./config/error_log.json')[confirmation.status]?.message || "Unknown error";
+            res.status(200).json({ status: confirmation.status, message });
         }
+    }else if(relation_info.status === 11){
+        const message = jsonfile.readFileSync('./config/error_log.json')[relation_info.status]?.message || "Limit exceeded";
+        res.status(200).json({ status: relation_info.status, message });
     }else{
-        res.status(200).json({'status': false});
+        const existingSubjects = relation_info.subject.split(",").map(s => s.trim());
+
+        if(!existingSubjects.includes(relation.subject)){
+            existingSubjects.push(relation.subject);
+            const updatedSubjects = existingSubjects.join(",");
+            await memory.update({id: fullId, key: 'subject', value: updatedSubjects});
+            res.status(200).json({ status: true });
+        }else{
+            res.status(200).json({ status: false });
+        }
     }
 });
 
@@ -612,7 +642,7 @@ app.all(/.*/, (req, res) => {
 
 // (async ()=>{
 //     let memory = new Memory();
-//     memory.clusterName = 'teacher';
+//     memory.clusterName = 'rate';
 //     console.log(await memory.read());
 //     // let basic_info = await memory.find_all(['AIDA1302542@709', 'AIDA1302542@709']);
 //     // let basic_info = await memory.find_profile('MIDK5@37402209');

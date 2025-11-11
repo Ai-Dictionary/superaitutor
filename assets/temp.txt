@@ -1,26 +1,58 @@
-const fs = require('fs');
-const https = require('https');
-const http = require('http');
-const { URL } = require('url');
-
-async function getTemplateSource(viewName) {
-  if (viewName.startsWith('http')) {
-    // Remote file: fetch via HTTP/HTTPS
-    return await fetchRemoteTemplate(viewName);
-  } else {
-    // Local file: read from disk
-    const filePath = `views/site/${viewName}.hbs`;
-    return fs.readFileSync(filePath, 'utf8');
+[
+  {
+    id: 'AIDA1302542@709-UID1113380516@2409',
+    subject: 'Computer Science',
+    rating: '0',
+    desc: '',
+    signup_date: '30-10-2025',
+    last_update: '30-10-2025'
+  },
+  {
+    id: 'AIDA1302542@709-UID1@8042534132009',
+    subject: 'Mathematics',
+    rating: '0',
+    desc: '',
+    signup_date: '30-10-2025',
+    last_update: '30-10-2025'
+  },
+  {
+    id: 'AIDA1302542@709-UID0111@2155162105',
+    subject: 'Physics',
+    rating: '0',
+    desc: '',
+    signup_date: '30-10-2025',
+    last_update: '30-10-2025'
+  },
+  {
+    id: 'AIDA1302542@709-UID1907238613@2009',
+    subject: 'Mathematics, Physics',
+    rating: '0',
+    desc: undefined,
+    signup_date: undefined,
+    last_update: undefined
+  },
+  {
+    id: 'AIDA1302542@709-UID11132@317162009',
+    subject: 'Physics, Biology',
+    rating: '0',
+    desc: undefined,
+    signup_date: undefined,
+    last_update: undefined
+  },
+  {
+    id: 'AIDJ238@6552209-UID1@8042534132009',
+    subject: 'Computer Science',
+    rating: '0',
+    desc: undefined,
+    signup_date: undefined,
+    last_update: undefined
+  },
+  {
+    id: 'AIDJ238@6552209-UID0119@2964022009',
+    subject: 'Biology, Mathematics',
+    rating: '0',
+    desc: undefined,
+    signup_date: undefined,
+    last_update: undefined
   }
-}
-
-function fetchRemoteTemplate(url) {
-  return new Promise((resolve, reject) => {
-    const client = url.startsWith('https') ? https : http;
-    client.get(url, res => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve(data));
-    }).on('error', reject);
-  });
-}
+]
