@@ -38,11 +38,6 @@ const AppName = "superAITutor";
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// app.engine('hbs', exphbs({ extname: '.hbs' }).engine);
-// app.set('view engine', 'hbs');
-// app.set('views', path.join(__dirname, 'views/site'));
-
-
 // app.use('/assets', express.static(path.join(__dirname,'assets'), hex.isHosted(PORT) ? { maxAge: '30d', lastModified: true, setHeaders: function (res, path) {res.setHeader('Cache-Control', 'public, max-age=2592000, must-revalidate');}} : {}));
 if(hex.isLocalhost(os)){
     app.use('/assets', express.static(path.join(__dirname, 'assets')));
@@ -614,14 +609,15 @@ app.get('/deshboard', async (req, res) => {
             relation: !isHosted?hex.find_MatchingRecords(jsonfile.readFileSync('./assets/relation.json'), user.id):[],
         }),
         ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
+        ejs.renderFile('./views/templates/exam.ejs'),
         ejs.renderFile('./views/templates/profile.ejs', {
             user: hex.profile_setup(user, 'self'), 
             type: type, 
             page: type=='student'?await ejs.renderFile('./views/studentSignUp.ejs'):(type=='teacher'?await ejs.renderFile('./views/teacherSignUp.ejs'):(type=='admin'?await ejs.renderFile('./views/adminSignUp.ejs'):''))
         }),
     ];
-    Promise.all(promises).then(([sideNav, general, myCourse, teacher, aiMentor, profile]) => {
-        res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user.name, user.email)}, sideNav, general, myCourse, teacher, aiMentor, profile});
+    Promise.all(promises).then(([sideNav, general, myCourse, teacher, aiMentor, exam, profile]) => {
+        res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user.name, user.email)}, sideNav, general, myCourse, teacher, aiMentor, exam, profile});
     });
 });
 
