@@ -1,4 +1,8 @@
 class Exam{
+    static id = '';
+    static category = '';
+    static stream = '';
+
     constructor(){
         this.ai_exam_list = [
             {
@@ -58,6 +62,10 @@ class Exam{
     initSetupExam(){
         this.ai_exam_generator();
         this.custom_exam_generator();
+        Exam.id = String(document.querySelector('.exam-page .bottom .flx .left').innerText.split(',')[0]);
+        Exam.category = String(document.querySelector('.exam-page .bottom .flx .left').innerText.split(',')[1]);
+        Exam.stream = String(document.querySelector('.exam-page .bottom .flx .left').innerText.split(',')[2]);
+        document.querySelector('.exam-page .bottom .flx .left').innerText = '';
     }
 
     ai_exam_generator(){
@@ -100,6 +108,40 @@ class Exam{
             new PopUp('danger', 4000).create('Fail to get your Faculty exam list from our server');
         }
     }
+
+    loadExamSetUpWindow(subject, type='Ai'){
+        if(type=='Ai'){
+            document.querySelector('.blbg').style.display = "block";
+            document.querySelector('.blbg .examSetUp .name').textContent = 'Subject: '+subject+' by AI';
+        }else{
+            new PopUp('warning', 4000).create('This type of exam is not listed in SAIT under ExamCall');
+        }
+    }
+
+    closeExamSetUpWindow(){
+        document.querySelector('.blbg').style.display = "none";
+    }
+
+    setMyExam(){
+        try{
+            const subject = document.querySelector('.blbg .examSetUp .name').textContent.split('Subject: ')[1].split(' by ')[0];
+            const type = document.querySelector('.blbg .examSetUp .name').textContent.split('Subject: ')[1].split(' by ')[1];
+            if(type == "AI"){
+                const marks  = Number(document.querySelector('.examSetUp #marks').value);
+                const mode = document.querySelector('.examSetUp #mode').value;
+                let info = Exam.id+'-'+subject+'-'+'Full syllabus'+'-'+type+'-'+mode+'-'+marks+'-'+Exam.category+'-'+Exam.stream;
+                route('/examcall?encode='+(system.encoder(info.replaceAll(' ', '%20'), '1441')));
+            }else if(type == "Faculty"){
+
+            }
+        }catch(e){
+            console.log(e);
+            new PopUp('warning', 5000).create('Exam setup is not possible due to unwanted customization!');
+        }
+    }
 }
 
 new Exam().initSetupExam();
+window.loadExamSetUpWindow = (subject, type) => new Exam().loadExamSetUpWindow(subject, type);
+window.setMyExam = () => new Exam().setMyExam();
+window.closeExamSetUpWindow = () => new Exam().closeExamSetUpWindow();

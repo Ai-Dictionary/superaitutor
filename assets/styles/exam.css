@@ -21,6 +21,7 @@
         .navbar{
             margin: 5px 0px 20px 0px;
             padding-right: 0px;
+            padding-left: 0px;
         }
     }
     .top, .bottom{
@@ -79,6 +80,51 @@
             }
         }
     }
+    .blbg:has(.examSetUp){
+        background: #0000009e;
+        display: none;
+    }
+    .examSetUp{
+        width: 70%;
+        margin: 10% auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 4px 2px grey;
+        overflow: hidden;
+        .head.flx{
+            width: 100%;
+            height: 40px;
+            background: var(--rblue);
+            padding: 0px 8px;
+            padding-top: 5px;
+            font-size: 20px;
+            font-weight: 600;
+            font-family: monospace;
+            color: #fff;
+            span{
+                font-size: 20px;
+            }
+        }
+        .name, .row{
+            padding: 5px 10px;
+            margin: 0px;
+        }
+        .name{
+            font-size: 18px;
+            font-weight: 600;
+            font-family: sans-serif;
+            color: #1b1b35;
+            margin-bottom: 10px;
+            margin-top: 8px;
+        }
+        .flx{
+            padding-bottom: 20px;
+            padding-right: 10px;
+        }
+        small{
+            text-align: justify;
+        }
+    }
 }
 
 /* Mobile view */
@@ -96,10 +142,16 @@
                 }
             }
             #custom_exam{
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(1, 1fr);
                 .exam-box .dp img{
                     left: 30%;
                 }
+            }
+        }
+        .bottom{
+            .navbar input{
+                width: 60%;
+                margin-right: 8px;
             }
         }
     }
@@ -109,7 +161,7 @@
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .exam-page{
         .top, .bottom{
-            .body{
+            .body, #custom_exam{
                 grid-template-columns: repeat(3, 1fr);
                 .exam-box{
                     .dp{
@@ -119,7 +171,6 @@
                     }
                 }
             }
-            
         }
     }
 }
@@ -127,12 +178,13 @@
 /* Tab view */
 @media only screen and (min-width: 481px) and (max-width: 767px) {
     .exam-page{
-        #custom_exam{
-            grid-template-columns: repeat(2, 1fr);
-            .exam-box .dp img{
-                left: 30%;
+        .top, .bottom{
+            #custom_exam{
+                grid-template-columns: repeat(2, 1fr);
+                .exam-box .dp img{
+                    left: 30%;
+                }
             }
         }
-        
     }
 }

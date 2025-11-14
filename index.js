@@ -517,50 +517,10 @@ app.post('/profile_security_info', async (req, res) => {
     }
 });
 
-// app.get('/relation_profile_info', async (req, res) => {
-//     let memory = new Memory();
-//     memory.clusterName = "relationship";
-//     let relation_info = await memory.find_relation(req.body.id);
-//     if(relation_info && relation_info.length!=0 && relation_info?.status==undefined){
-//         let id_pool = [];
-//         for(let i=0; i<relation_info.length; i++){
-//             id_pool.push(relation_info[i].id);
-//         }
-//         if(req.body.id.startsWith('AID')){
-//             memory.clusterName = 'teacher';
-//         }else if(req.body.id.startsWith('UID')){
-//             memory.clusterName = 'student';
-//         }else{
-//             return null;
-//         }
-//         let relative_info = await memory.find_all(id_pool);
-//         if(relative_info && relative_info.length!=0 && relative_info?.status==undefined){
-//             return relative_info;
-//         }else{
-//             return null;
-//         }
-//     }else{
-//         return null;
-//     }
-// });
-
 app.post('/make_relation_between_user', async (req, res) => {
     const relation = req.body.relation;
     let memory = new Memory();
     memory.clusterName = "relationship";
-    // const relation_info = await memory.find_relation(relation.id.sid+"-"+relation.id.tid, relation.subject);
-    // if(relation_info && relation_info.length!=0 && relation_info?.status==3){
-    //     relation.rating = 0;
-    //     relation.desc = "";
-    //     const confirmation = await memory.write(relation);
-    //     if(confirmation?.id){
-    //         res.status(200).json({'status': true});
-    //     }else{
-    //         res.status(200).json({'status': confirmation.status, 'message': jsonfile.readFileSync('./config/error_log.json')[confirmation.status].message});
-    //     }
-    // }else{
-    //     res.status(200).json({'status': false});
-    // }
 
     const fullId = relation.id.sid + "-" + relation.id.tid;
     const relation_info = await memory.find_relation(fullId, String(relation?.subject));
@@ -609,7 +569,7 @@ app.get('/deshboard', async (req, res) => {
             relation: !isHosted?hex.find_MatchingRecords(jsonfile.readFileSync('./assets/relation.json'), user.id):[],
         }),
         ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
-        ejs.renderFile('./views/templates/exam.ejs'),
+        ejs.renderFile('./views/templates/exam.ejs', {isHosted, id: user.id, Category: user.class, stream: user.stream}),
         ejs.renderFile('./views/templates/profile.ejs', {
             user: hex.profile_setup(user, 'self'), 
             type: type, 
@@ -619,6 +579,12 @@ app.get('/deshboard', async (req, res) => {
     Promise.all(promises).then(([sideNav, general, myCourse, teacher, aiMentor, exam, profile]) => {
         res.status(200).render('dashboard', {nonce: nonce, isHosted, user: {name: user.name, bg: hex.generateBGColor(user.name, user.email)}, sideNav, general, myCourse, teacher, aiMentor, exam, profile});
     });
+});
+
+app.get('/examcall', (req, res) => {
+    const queryKey = Object.keys(req.query)[0];
+    console.log('Extracted key:', queryKey);
+    res.status(200).send('<h1>Exam call</h1>');
 });
 
 app.get('/medikit', (req, res)=>{
