@@ -116,7 +116,7 @@ app.use((req, res, next) => {
                 "https://fonts.gstatic.com",
                 "data:"
             ],
-            "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com", "https://raw.githubusercontent.com"],
+            "img-src": ["'self'", "data:", "https://avatars.githubusercontent.com", "https://ai-dictionary.github.io", "https://vercel.com", "https://raw.githubusercontent.com", "https://kidkrishkode.github.io"],
             "connect-src": [
                 "'self'",
                 "https://maxcdn.bootstrapcdn.com",
@@ -582,9 +582,25 @@ app.get('/deshboard', async (req, res) => {
 });
 
 app.get('/examcall', (req, res) => {
+    const nonce = res.locals.nonce;
+    const isHosted = hex.isHosted(req);
     const queryKey = Object.keys(req.query)[0];
-    console.log('Extracted key:', queryKey);
-    res.status(200).send('<h1>Exam call</h1>');
+    if(queryKey == undefined){
+        return res.status(404).render('notfound',{error: 400, message: "Missing or invalid exam token. Please use the official exam link provided by SAIT to proceed"});
+    }
+    let paper = { 
+        id: queryKey.split("-")[0],
+        name: queryKey.split("-")[1],
+        topic: queryKey.split("-")[2],
+        time: "00:30:50",
+        fullmarks: queryKey.split("-")[5],
+        question: jsonfile.readFileSync('./assets/json/geography.json')
+    }
+    res.status(200).send(hex.renderHBS(fs, handlebars, 'exam', {
+        isHosted, 
+        nonce,
+        paper: JSON.stringify(paper)
+    }, {compile: false, ejs: ejs}));
 });
 
 app.get('/medikit', (req, res)=>{

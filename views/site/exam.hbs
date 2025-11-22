@@ -1,0 +1,128 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="superaitutor">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" name="og:image">
+    <meta itemprop="image" content="https://superaitutor.vercel.app/public/logo1500.png">
+    <meta property="og:site_name" content="superaitutor">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="superaitutor">
+    <meta name="theme-color" content="#ffffff"/>
+    <meta name="description" content="Welcome to Exam Call, a open source and free Exam conduct system provided by kidKrishkode for public use, Our exam system is completely free and designed to be accessible to everyone, with no need for any monetary transactions.">
+    <meta name="author" contant="Krishnendu Mitra"/>
+    <meta name="keywords" content="kidKrishkode, Exam Call, exam call, github, exam, krishnendu mitra, call of exam, free, open source, exam pannel, ECS" lang="en-us"/>
+    <meta name="og:image" property="og:image" content="https://kidkrishkode.github.io/ExamCall.github.io/fav-icon/logo-m-o-c.png" href="https://kidkrishkode.github.io/ExamCall.github.io/fav-icon/logo-m-o-c.png"/>
+    <title version="1.0">ExamCall.SAIT</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="icon" href="https://kidkrishkode.github.io/ExamCall.github.io/fav-icon/logo-m-o-c.png"/>
+    <% if (isHosted) { %>
+        <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/examCall.css"/>
+    <% } else { %>
+        <link rel="stylesheet" href="../assets/styles/examCall.css"/>
+    <% } %>
+</head>
+<style id="jsStyle"></style>
+<body id="root" onload="user();">
+    <div class="raw_info" style="display: none;"><%= paper %></div>
+    <section id="mainPage">
+        <div class="component" id="navBar">
+            <header>
+                <nav class="navbar navbar-dark bg-dark">
+                    <a class="navbar-brand">
+                       <img src="https://kidkrishkode.github.io/ExamCall.github.io/fav-icon/logo-m-o-c.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+                       {paper.name}
+                    </a>
+                    <button class="navbar-toggler btn btn-secondary" id="timer">
+                        Time Left: 00:00:00
+                    </button>
+                    <button class="btn btn-secondary">Cancel Exam</button>
+                </nav>
+            </header>
+        </div>
+        <div class="component flx" id="field">
+            <div class="left-component">
+                <div class="long-section">
+                    Sections |
+                    <span id="category-list">
+                        loading..
+                    </span>
+                </div>
+                <div class="question-header">
+                    <div class="qh-component">Question <span id="qno">{question.no}</span>:</div>
+                    <div class="qh-component flx">
+                        <div class="btn">Full Marks: {question.fullmarks}</div>
+                        <div class="btn">Time: <span id="tmk">{question.time}</span></div>
+                        <div class="btn">Marks: <span class="col-grn" id="positive-marks" title="Positive Marks of this Question">{question.marks.positive}</span>, <span class="col-red" id="negative-marks" title="Negative Marks of this Question">{question.marks.negative}</span></div>
+                        <div class="btn text-muted"><i class="fa fa-bug"></i> Report Issue</div>
+                        <div class="btn btn-primary" id="finish"><i class="fa fa-save"></i> Save & Finish</div>
+                    </div>
+                </div>
+                <div class="question-area">
+                    <div class="question">
+                        loading..
+                    </div>
+                    <div class="options">
+                        loading..
+                    </div>
+                </div>
+                <div class="flo">
+                    <button class="btn" id="btn-prev" title="Go to Previous Question"><i class="fa fa-arrow-left"></i> Previous</button>
+                    <button class="btn" id="btn-next" title="Go to Next Question">Next <i class="fa fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="right-component">
+                <div class="user-identiy-box">
+                    <div class="user-dp"></div>
+                    <div class="user-name">{student.name}</div>
+                    <div class="visiting-box">
+                        <div class="flx">
+                            <div class="visit bg-green"></div>
+                            <span>Attempted</span>
+                        </div>
+                        <div class="flx">
+                            <div class="visit bg-red"></div>
+                            <span>Not Answered</span>
+                        </div>
+                        <div class="flx">
+                            <div class="visit bg-white"></div>
+                            <span>Not Visited</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="side-section">
+                    <b>Section: </b><span id="side-cateno">{category.no}</span>
+                </div>
+                <div class="question-list"></div>
+                <div class="instruction-footer">
+                    <div class="btn btn-secondary">Instructions</div>
+                </div>
+            </div>
+            <div class="sidenav-toggler" onclick="toggleSidenav();">
+                <i class="fa fa-arrow-right"></i>
+            </div>
+        </div>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="fa fa-warning"></i><strong> {student.name},</strong><span id="alert-message">You should change window {termintate.time} time, please stop move otherwise your exam should cancel.</span>
+            <button type="button" class="close"  aria-label="Close" onclick="ExamInterface.closeAlert();">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </section>
+</body>
+<% if (isHosted) { %>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/examCall.js" nonce="<%= nonce %>"></script>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/examCall.min.js" nonce="<%= nonce %>"></script>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/geography.min.js" nonce="<%= nonce %>"></script>
+<% } else { %>
+    <script src="../assets/scripts/examCall.js" nonce="<%= nonce %>"></script>
+    <script src="../assets/scripts/examCall.min.js" nonce="<%= nonce %>"></script>
+    <script src="../assets/scripts/geography.min.js" nonce="<%= nonce %>"></script>
+<% } %>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
