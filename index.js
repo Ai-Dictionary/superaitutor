@@ -593,8 +593,9 @@ app.get('/examcall', (req, res) => {
         name: queryKey.split("-")[1],
         topic: queryKey.split("-")[2],
         time: "00:30:50",
-        fullmarks: queryKey.split("-")[5],
-        question: jsonfile.readFileSync('./assets/json/geography.json')
+        fullmarks: 70, //queryKey.split("-")[5],
+        question: jsonfile.readFileSync('./assets/json/geography.json'),
+        section: jsonfile.readFileSync('./assets/json/geography.json').section
     }
     res.status(200).send(hex.renderHBS(fs, handlebars, 'exam', {
         isHosted, 

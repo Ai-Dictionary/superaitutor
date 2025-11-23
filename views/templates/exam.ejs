@@ -89,46 +89,48 @@
                 <span onclick="closeExamSetUpWindow();">&times;</span>
             </div>
             <div class="name">{subject}</div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="marks">Marks</label>
-                        <select class="form-control" id="marks" aria-describedby="marksHelp" required>
-                            <option value="20">20</option>
-                            <option value="25" selected>25</option>
-                            <option value="50">50</option>
-                            <option value="75">75</option>
-                            <option value="100">100</option>
-                        </select>
-                        <small id="marksHelp" class="form-text text-muted">Choose your preferred marks carefully, as this determines the scope and depth of your exam. 
-                            Higher marks may lead to more comprehensive questions, while lower marks can focus on core concepts or quick assessments</small>
+            <span class="body">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="marks">Marks</label>
+                            <select class="form-control" id="marks" aria-describedby="marksHelp" required>
+                                <option value="20">20</option>
+                                <option value="25" selected>25</option>
+                                <option value="50">50</option>
+                                <option value="75">75</option>
+                                <option value="100">100</option>
+                            </select>
+                            <small id="marksHelp" class="form-text text-muted">Choose your preferred marks carefully, as this determines the scope and depth of your exam. 
+                                Higher marks may lead to more comprehensive questions, while lower marks can focus on core concepts or quick assessments</small>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="mode">Mode</label>
+                            <select class="form-control" id="mode" aria-describedby="modeHelp" required>
+                                <option value="Easy">Easy</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="Hard">Hard</option>
+                                <option value="Incense">Incense</option>
+                            </select>
+                            <small id="modeHelp" class="form-text text-muted">Select the exam mode that best suits your testing needs—whether it's practice, timed, or formal. 
+                                Your chosen mode will shape the exam experience, so ensure it aligns with your goals and expectations.</small>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="mode">Mode</label>
-                        <select class="form-control" id="mode" aria-describedby="modeHelp" required>
-                            <option value="Easy">Easy</option>
-                            <option value="Medium" selected>Medium</option>
-                            <option value="Hard">Hard</option>
-                            <option value="Incense">Incense</option>
-                        </select>
-                        <small id="modeHelp" class="form-text text-muted">Select the exam mode that best suits your testing needs—whether it's practice, timed, or formal. 
-                            Your chosen mode will shape the exam experience, so ensure it aligns with your goals and expectations.</small>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked disabled>
+                            <small class="form-text text-muted" for="defaultCheck2">
+                                <strong>I hereby agree to all terms and conditions</strong> of ExamCall and SAIT. I affirm that I will not engage in any form of malpractice, cheating, or misuse of 
+                                exam content, including selling or distributing it for unlawful purposes. I commit to completing this exam with honesty and integrity, as a responsible and sincere student.
+                            </small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked disabled>
-                        <small class="form-text text-muted" for="defaultCheck2">
-                            <strong>I hereby agree to all terms and conditions</strong> of ExamCall and SAIT. I affirm that I will not engage in any form of malpractice, cheating, or misuse of 
-                            exam content, including selling or distributing it for unlawful purposes. I commit to completing this exam with honesty and integrity, as a responsible and sincere student.
-                        </small>
-                    </div>
-                </div>
-            </div>
+            </span>
             <hr>
             <div class="flx">
                 <div class=""></div>

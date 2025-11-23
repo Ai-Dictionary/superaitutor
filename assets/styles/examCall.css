@@ -181,9 +181,10 @@ body{
     height: 400px;
     max-height: 400px;
     padding: 10px auto;
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-evenly; */
+    display: flow-root;
     overflow: auto;
 }
 .component .right-component .question-list .question-item{

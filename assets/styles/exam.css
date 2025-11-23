@@ -154,6 +154,15 @@
                 margin-right: 8px;
             }
         }
+        .examSetUp{
+            width: 95%;
+            margin: 5% auto;
+            .body{
+                display: block;
+                height: 65vh;
+                overflow: auto;
+            }
+        }
     }
 }
 
