@@ -1,4 +1,3 @@
-let exam; //sen
 let interVal = 0;
 let temp;
 
@@ -38,10 +37,10 @@ class Exam {
     }
     guess(id) {
         let answer = document.getElementById("option" + id).value;
-        if (this.shared.solveList.length > 0 && exam.questions.length > 0) {
+        if (this.shared.solveList.length > 0 && this.questions.length > 0) {
             this.shared.solveList[this.shared.currentQuestionNumber - 1][2] = answer;
         } else {
-            for (let i = 0; i < exam.questions.length; i++) {
+            for (let i = 0; i < this.questions.length; i++) {
                 this.shared.solveList[i] = [i + 1, null, null];
             }
             this.guess(id);
@@ -65,6 +64,7 @@ class Exam {
         this.questionTimerStart(number);
         this.questionList();
         this.answerListner();
+        ExamInterface.closeAlert();
     }
     printOptionSheet(choices, number) {
         this.temp = '';
@@ -184,7 +184,7 @@ class Exam {
             setTimeout(() => {
                 if (time < 1) {
                     clearInterval(interVal);
-                    showAlert("Times up for this Question");
+                    showAlert("Times up for this Question, Go to rest one");
                 }
             }, (time * 1000));
         } else {
@@ -197,6 +197,7 @@ class ExamEngine {
     constructor(currentPaper, currentCategory, root) {
         this.root = root;
         this.modequestion = 0;
+        this.exam;
         this.shared = {
             currentQuestionNumber: 1,
             solveList: [],
@@ -225,27 +226,30 @@ class ExamEngine {
         this.questions3 = this.shared.currentPaper.question.set3;
         this.root.innerHTML = this.root.innerHTML.replaceAll("{paper.name}", this.shared.currentPaper.name);
         this.root.innerHTML = this.root.innerHTML.replaceAll("{question.fullmarks}", this.shared.currentPaper.fullmarks);
-        this.root.innerHTML = this.root.innerHTML.replaceAll("{student.name}", this.shared.currentPaper.id);
+        this.root.innerHTML = this.root.innerHTML.replaceAll("{student.name}", this.shared.currentPaper.init.id);
+        document.querySelector('.user-dp').textContent = this.shared.currentPaper.init.name;
+        document.querySelector('.user-dp').style.background = this.shared.currentPaper.init.bg;
         this.randomPaperChoose();
     }
     populate(number) {
-        exam.getNewQuestion(number - 1);
+        this.exam.getNewQuestion(number - 1);
     }
     randomPaperChoose() {
         let k = Math.floor((Math.random() * (4 - (1)) + (1)));
         if (k == 1) {
-            exam = new Exam(this.questions3, this.questionList.bind(this), this.shared);
+            this.exam = new Exam(this.questions3, this.questionList.bind(this), this.shared);
             this.modequestion = 1;
         } else if (k == 2) {
-            exam = new Exam(this.questions3, this.questionList.bind(this), this.shared);
+            this.exam = new Exam(this.questions3, this.questionList.bind(this), this.shared);
             this.modequestion = 2;
         } else {
-            exam = new Exam(this.questions3, this.questionList.bind(this), this.shared);
+            this.exam = new Exam(this.questions3, this.questionList.bind(this), this.shared);
             this.modequestion = 3;
         }
-        for (let i = 0; i < exam.questions.length; i++) {
+        for (let i = 0; i < this.exam.questions.length; i++) {
             this.shared.solveList[i] = [i + 1, null, null]; //index, Q, A, time
         }
+        this.exam.examTimerStart();
     }
     reorderSection() {
         if (this.shared.currentPaper.section[0][0] != 0) {
@@ -256,20 +260,20 @@ class ExamEngine {
                     this.shared.currentPaper.section[i + 1] = temp;
                 }
             }
-            if (this.shared.currentPaper.section[this.shared.currentPaper.section.length - 1][0] < exam.questions.length) {
+            if (this.shared.currentPaper.section[this.shared.currentPaper.section.length - 1][0] < this.exam.questions.length) {
                 this.shared.currentPaper.section.length += 1;
                 let prevBoundary = this.shared.currentPaper.section[this.shared.currentPaper.section.length - 2][0];
-                let remainQ = exam.questions.length - prevBoundary;
-                let remainTime = exam.examTimeRemainInSecond(exam.examTimeRange()) - exam.exameTimeOccupied(true);
-                let remainMarks = exam.examMarksRemain();
+                let remainQ = this.exam.questions.length - prevBoundary;
+                let remainTime = this.exam.examTimeRemainInSecond(this.exam.examTimeRange()) - this.exam.exameTimeOccupied(true);
+                let remainMarks = this.exam.examMarksRemain();
                 let perQTime = remainQ > 0 ? Math.floor(remainTime / remainQ) : 0;
                 let perQMarks = remainQ > 0 ? Math.max(0, Number.isInteger(remainMarks/remainQ) ? remainMarks/remainQ : +(remainMarks/remainQ).toFixed(2)) : 0;
                 this.shared.currentPaper.section[this.shared.currentPaper.section.length - 1] = [prevBoundary + remainQ, perQTime, perQMarks, 0];
             }
         } else {
-            this.shared.currentPaper.section[0][0] = exam.questions.length;
+            this.shared.currentPaper.section[0][0] = this.exam.questions.length;
         }
-        if (exam.examMarksRemain() < 0 || (this.shared.currentPaper.section[0][2] > this.shared.currentPaper.fullmarks)) {
+        if (this.exam.examMarksRemain() < 0 || (this.shared.currentPaper.section[0][2] > this.shared.currentPaper.fullmarks)) {
             showAlert("Check the marks distribution, it should be over marks given..");
         }
         this.displayCategores();
@@ -277,9 +281,9 @@ class ExamEngine {
     questionList() {
         this.temp = '';
         let start, end;
-        if (this.shared.currentPaper.section[0][0] === exam.questions.length - 1) {
+        if (this.shared.currentPaper.section[0][0] === this.exam.questions.length - 1) {
             start = 0;
-            end = exam.questions.length;
+            end = this.exam.questions.length;
         } else {
             start = this.shared.currentCategory === 1 ? 0 : this.shared.currentPaper.section[this.shared.currentCategory - 2][0];
             end = this.shared.currentPaper.section[this.shared.currentCategory - 1][0];
@@ -326,7 +330,7 @@ class ExamEngine {
         document.getElementById('category' + id).classList.add("active");
         this.shared.currentCategory = id;
         let priviusLisit = (this.shared.currentCategory <= 1 ? 0 : this.shared.currentPaper.section[this.shared.currentCategory - 2][0]);
-        document.getElementById('side-cateno').textContent = `Category ${id}, (${this.shared.currentPaper.section[this.shared.currentCategory - 1][0] - priviusLisit}/${exam.questions.length})`;
+        document.getElementById('side-cateno').textContent = `Category ${id}, (${this.shared.currentPaper.section[this.shared.currentCategory - 1][0] - priviusLisit}/${this.exam.questions.length})`;
         document.getElementById('positive-marks').textContent = this.shared.currentPaper.section[this.shared.currentCategory - 1][2];
         document.getElementById('negative-marks').textContent = this.shared.currentPaper.section[this.shared.currentCategory - 1][3] > 0 ? '-' + this.shared.currentPaper.section[this.shared.currentCategory - 1][3] : this.shared.currentPaper.section[this.shared.currentCategory - 1][3];
         this.questionList();
@@ -343,8 +347,8 @@ class ExamEngine {
         }
     }
     nextQuestion() {
-        if (this.shared.currentQuestionNumber >= exam.questions.length) {
-            this.populate(exam.questions.length);
+        if (this.shared.currentQuestionNumber >= this.exam.questions.length) {
+            this.populate(this.exam.questions.length);
             showAlert("You are stand in the last question of this paper!");
         } else {
             this.populate(this.shared.currentQuestionNumber + 1);

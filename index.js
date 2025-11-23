@@ -589,7 +589,7 @@ app.get('/examcall', (req, res) => {
         return res.status(404).render('notfound',{error: 400, message: "Missing or invalid exam token. Please use the official exam link provided by SAIT to proceed"});
     }
     let paper = { 
-        id: queryKey.split("-")[0],
+        init: hex.get_UserInitials(queryKey.split("-")[0]),
         name: queryKey.split("-")[1],
         topic: queryKey.split("-")[2],
         time: "00:30:50",

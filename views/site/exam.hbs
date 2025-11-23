@@ -101,7 +101,7 @@
                     <div class="btn btn-secondary">Instructions</div>
                 </div>
             </div>
-            <div class="sidenav-toggler" onclick="toggleSidenav();">
+            <div class="sidenav-toggler" title="Toggle Side Nav">
                 <i class="fa fa-arrow-right"></i>
             </div>
         </div>
@@ -112,15 +112,18 @@
             </button>
         </div>
     </section>
+    <section id="loader">
+        <div class="logo">
+            <img src="https://kidkrishkode.github.io/ExamCall.github.io/fav-icon/logo-m-o-c.png" alt="ExamCall.SAIT"/>
+        </div>
+    </section>
 </body>
 <% if (isHosted) { %>
     <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/examCall.js" nonce="<%= nonce %>"></script>
     <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/examCall.min.js" nonce="<%= nonce %>"></script>
-    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/geography.min.js" nonce="<%= nonce %>"></script>
 <% } else { %>
     <script src="../assets/scripts/examCall.js" nonce="<%= nonce %>"></script>
     <script src="../assets/scripts/examCall.min.js" nonce="<%= nonce %>"></script>
-    <script src="../assets/scripts/geography.min.js" nonce="<%= nonce %>"></script>
 <% } %>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

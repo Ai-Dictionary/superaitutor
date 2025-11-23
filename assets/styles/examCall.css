@@ -39,237 +39,259 @@ body{
     flex-direction: row;
     justify-content: space-between;
 }
-.navbar-dark .navbar-brand{
-    font-size: 1rem;
-}
-.component .left-component{
-    width: 80%;
-    transition: 1s ease-in-out;
-}
-.component .left-component .long-section{
-    background: var(--section-color);
-    padding: 6px 4px;
-    font-size: 14px;
-    font-family: sans-serif;
-    border-top: 1px solid purple;
-    border-bottom: 1px solid purple;
-    display: flex;
-    flex-direction: row;
-}
-.component .left-component .long-section #category-list{
-    padding-left: 20px;
-    max-width: 90%;
-    max-height: 25px;
-    overflow: hidden;
-}
-.component .left-component .long-section #category-list .btn{
-    color: #000;
-    width: 75px;
-    font-size: 12px;
-    padding: .175rem .35rem;
-    margin-right: 10px;
-    text-transform: capitalize;
-    transition: 1s ease-in-out;
-}
-.component .left-component .long-section #category-list .btn.active{
-    background: var(--main1-color);
-    color: #fff;
-}
-.left-component .question-header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 4px;
-    border-bottom: 1px solid purple;
-}
-.left-component .question-header .qh-component .btn,.left-component .flo .btn{
-    font-size: 12px;
-    padding: .175rem .35rem;
-    background: var(--section-color);
-    color: var(--main1-color);
-    font-weight: 600;
-    margin: 0px 2px;
-}
-.left-component .question-header .qh-component .btn-primary{
-    background: #0c8ff9;
-    color: #fff;
-    display: none;
-}
-.left-component .question-area{
-    width: 100%;
-    height: 550px;
-    max-height: 550px;
-    padding: 4px 10px;
-    overflow: auto;
-}
-.left-component .question-area .question{
-    font-family: sans-serif;
-    font-size: 15px;
-    color: var(--main1-color);
-    margin-top: 10px;
-}
-.left-component .question-area .options{
-    margin: 40px 0px 4px 0px;
-    padding: 2px 5px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-.left-component .question-area .options .option{
-    width: 50%;
-}
-.left-component .flo{
-    width: 100%;
-    padding: 10px 20px;
-}
-.component .right-component{
-    width: 20%;
-    height: 100vh;
-    background: #b3aae33f;
-    transition: 1s ease-in-out;
-}
-.component .right-component .user-identiy-box{
-    background: var(--main1-color);
-    padding: 20px 0px;
-    overflow: hidden;
-}
-.component .right-component .user-identiy-box .user-dp{
-    background-image: url('../img/avater-7.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    margin: 0px auto;
-}
-.component .right-component .user-identiy-box .user-name{
-    text-align: center;
-    font-size: 14px;
-    color: #fff;
-    font-family: sans-serif;
-}
-.component .right-component .user-identiy-box .visiting-box{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    margin-top: 10px;
-    padding: 0px 4px;
-}
-.component .right-component .user-identiy-box .visiting-box .visit{
-    width: 20px;
-    height: 20px;
-    margin: auto 4px;
-}
-.component .right-component .user-identiy-box .visiting-box .flx{
-    font-size: 14px;
-    color: #fff;
-    width: 140px;
-    margin-bottom: 8px;
-}
-.component .right-component .user-identiy-box .visiting-box .flx span{
-    width: calc(140px - 24px);
-}
-.component .right-component .side-section{
-    background: var(--section-color);
-    padding: 8px 4px;
-    overflow: hidden;
-}
-.component .right-component .question-list{
-    width: 100%;
-    height: 400px;
-    max-height: 400px;
-    padding: 10px auto;
-    /* display: flex;
+#mainPage{
+    display: block;
+    .navbar-dark .navbar-brand{
+        font-size: 1rem;
+    }
+    .component .left-component{
+        width: 80%;
+        transition: 1s ease-in-out;
+    }
+    .component .left-component .long-section{
+        background: var(--section-color);
+        padding: 6px 4px;
+        font-size: 14px;
+        font-family: sans-serif;
+        border-top: 1px solid purple;
+        border-bottom: 1px solid purple;
+        display: flex;
+        flex-direction: row;
+    }
+    .component .left-component .long-section #category-list{
+        padding-left: 20px;
+        max-width: 90%;
+        max-height: 25px;
+        overflow: hidden;
+    }
+    .component .left-component .long-section #category-list .btn{
+        color: #000;
+        width: 75px;
+        font-size: 12px;
+        padding: .175rem .35rem;
+        margin-right: 10px;
+        text-transform: capitalize;
+        transition: 1s ease-in-out;
+    }
+    .component .left-component .long-section #category-list .btn.active{
+        background: var(--main1-color);
+        color: #fff;
+    }
+    .left-component .question-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 4px;
+        border-bottom: 1px solid purple;
+    }
+    .left-component .question-header .qh-component .btn,
+    .left-component .flo .btn{
+        font-size: 12px;
+        padding: .175rem .35rem;
+        background: var(--section-color);
+        color: var(--main1-color);
+        font-weight: 600;
+        margin: 0px 2px;
+    }
+    .left-component .question-header .qh-component .btn-primary{
+        background: #0c8ff9;
+        color: #fff;
+        display: none;
+    }
+    .left-component .question-area{
+        width: 100%;
+        height: 550px;
+        max-height: 550px;
+        padding: 4px 10px;
+        overflow: auto;
+    }
+    .left-component .question-area .question{
+        font-family: sans-serif;
+        font-size: 15px;
+        color: var(--main1-color);
+        margin-top: 10px;
+    }
+    .left-component .question-area .options{
+        margin: 40px 0px 4px 0px;
+        padding: 2px 5px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .left-component .question-area .options .option{
+        width: 50%;
+    }
+    .left-component .flo{
+        width: 100%;
+        padding: 10px 20px;
+    }
+    .component .right-component{
+        width: 20%;
+        height: 100vh;
+        background: #b3aae33f;
+        transition: 1s ease-in-out;
+    }
+    .component .right-component .user-identiy-box{
+        background: var(--main1-color);
+        padding: 20px 0px;
+        overflow: hidden;
+    }
+    .component .right-component .user-identiy-box .user-dp{
+        background: slategray;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        margin: 0px auto 8px auto;
+        text-align: center;
+        font-family: sans-serif;
+        font-size: 30px;
+        color: #fff;
+    }
+    .component .right-component .user-identiy-box .user-name{
+        text-align: center;
+        font-size: 14px;
+        color: #fff;
+        font-family: sans-serif;
+    }
+    .component .right-component .user-identiy-box .visiting-box{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: left;
+        margin-top: 10px;
+        padding: 0px 4px;
+    }
+    .component .right-component .user-identiy-box .visiting-box .visit{
+        width: 20px;
+        height: 20px;
+        margin: auto 4px;
+    }
+    .component .right-component .user-identiy-box .visiting-box .flx{
+        font-size: 14px;
+        color: #fff;
+        width: 140px;
+        margin-bottom: 8px;
+    }
+    .component .right-component .user-identiy-box .visiting-box .flx span{
+        width: calc(140px - 24px);
+    }
+    .component .right-component .side-section{
+        background: var(--section-color);
+        padding: 8px 4px;
+        overflow: hidden;
+    }
+    .component .right-component .question-list{
+        width: 100%;
+        height: 400px;
+        max-height: 400px;
+        padding: 10px auto;
+        /* display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly; */
-    display: flow-root;
-    overflow: auto;
-}
-.component .right-component .question-list .question-item{
-    width: 30px;
-    height: 26px;
-    text-align: center;
-    border: 1px solid var(--main1-color);
-    margin: 10px;
-    padding: 0px;
-    cursor: pointer;
-    transition: 1s ease-in-out;
-}
-.component .right-component .question-list .question-item:hover{
-    border-radius: 10px;
-}
-.component .right-component .instruction-footer{
-    text-align: center;
-    padding-top: 20px;
-    overflow: hidden;
-}
-.component .sidenav-toggler{
-    position: absolute;
-    top: 58%;
-    left: 78%;
-    font-size: 20px;
-    background: blueviolet;
-    width: min-content;
-    padding: 4px 8px;
-    border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
-    color: #fff;
-    cursor: pointer;
-    transition: 1s ease-in-out;
-    z-index: 99;
-}
-.alert{
-    position: absolute;
-    top: -8%;
-    left: 20%;
-    width: 60%;
-    display: none;
-    transition: 1s ease-in-out;
-}
-.alert .close{
-    outline: none;
-}
-@media only screen and (max-width: 900px), only screen and (max-width: 1028px){
-    .component .right-component{
-        width: 70%;
-        position: absolute;
-        top: 0%;
-        right: 0px;
-        z-index: 99;
-        backdrop-filter: blur(4px);
+        display: flow-root;
+        overflow: auto;
+    }
+    .component .right-component .question-list .question-item{
+        width: 30px;
+        height: 26px;
+        text-align: center;
+        border: 1px solid var(--main1-color);
+        margin: 10px;
+        padding: 0px;
+        cursor: pointer;
+        transition: 1s ease-in-out;
+    }
+    .component .right-component .question-list .question-item:hover{
+        border-radius: 10px;
+    }
+    .component .right-component .instruction-footer{
+        text-align: center;
+        padding-top: 20px;
+        overflow: hidden;
     }
     .component .sidenav-toggler{
         position: absolute;
         top: 58%;
-        left: 22%;
+        left: 78%;
+        font-size: 20px;
+        background: blueviolet;
+        width: min-content;
+        padding: 4px 8px;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+        color: #fff;
+        cursor: pointer;
+        transition: 1s ease-in-out;
         z-index: 99;
     }
-    .component .right-component .question-list{
-        height: 320px;
-    }
-    .component .right-component .sidenav-toggler{
-        position: absolute;
-        top: 58%;
-        left: -10%;
-    }
-    .component .left-component{
-        width: 100%;
-    }
-    .left-component .question-header{
-        display: flex;
-        flex-direction: column;
-    }
-    .left-component .question-header .qh-component .btn{
-        font-size: 10px;
-    }
-    .left-component .question-area{
-        height: 400px;
-        max-height: 400px;
-    }
     .alert{
-        left: 5%;
-        width: 90%;
+        position: absolute;
+        top: -8%;
+        left: 20%;
+        width: 60%;
+        display: none;
+        transition: 1s ease-in-out;
+    }
+    .alert .close{
+        outline: none;
+    }
+}
+#loader{
+    display: none;
+    background: #f5f9e682;
+    width: 100%;
+    height: 100%;
+    .logo{
+        width: 200px;
+        height: 200px;
+        img{
+            position: relative;
+            width: 100%;
+        }
+    }
+}
+@media only screen and (max-width: 900px), only screen and (max-width: 1028px) {
+    #mainPage{
+        .component .right-component{
+            width: 70%;
+            position: absolute;
+            top: 0%;
+            right: 0px;
+            z-index: 99;
+            backdrop-filter: blur(4px);
+        }
+        .component .sidenav-toggler{
+            position: absolute;
+            top: 58%;
+            left: 22%;
+            z-index: 99;
+        }
+        .component .right-component .question-list{
+            height: 320px;
+        }
+        .component .right-component .sidenav-toggler{
+            position: absolute;
+            top: 58%;
+            left: -10%;
+        }
+        .component .left-component{
+            width: 100%;
+        }
+        .left-component .question-header{
+            display: flex;
+            flex-direction: column;
+        }
+        .left-component .question-header .qh-component .btn{
+            font-size: 10px;
+        }
+        .left-component .question-area{
+            height: 400px;
+            max-height: 400px;
+        }
+        .alert{
+            left: 5%;
+            width: 90%;
+        }
     }
 }
