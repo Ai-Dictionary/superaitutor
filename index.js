@@ -581,6 +581,16 @@ app.get('/deshboard', async (req, res) => {
     });
 });
 
+app.post('/api/mindvault', (req, res) => {
+    let decoded_query = security.substitutionDecoder(req.body.queryKey, process.env.Access_Token || '1441').replaceAll('%20', ' ');
+    console.log(decoded_query);
+    let paper = {
+        question: jsonfile.readFileSync('./assets/json/geography.json'),
+        section: jsonfile.readFileSync('./assets/json/geography.json').section
+    }
+    res.status(200).json({paper: paper});
+});
+
 app.get('/examcall', (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
@@ -588,19 +598,32 @@ app.get('/examcall', (req, res) => {
     if(queryKey == undefined){
         return res.status(404).render('notfound',{error: 400, message: "Missing or invalid exam token. Please use the official exam link provided by SAIT to proceed"});
     }
+    let question, section, fullmarks, time;
+    if(queryKey.split("-")[3] == 'AI'){
+        question = {};
+        section = {};
+        fullmarks = 70;
+        time = "00:30:50";
+    }else{
+        question = jsonfile.readFileSync('./assets/json/geography.json');
+        section = question.section; 
+        fullmarks = 70;
+        time = "00:30:50";
+    }
     let paper = { 
         init: hex.get_UserInitials(queryKey.split("-")[0]),
         name: queryKey.split("-")[1],
         topic: queryKey.split("-")[2],
-        time: "00:30:50",
-        fullmarks: 70, //queryKey.split("-")[5],
-        question: jsonfile.readFileSync('./assets/json/geography.json'),
-        section: jsonfile.readFileSync('./assets/json/geography.json').section
+        time,
+        fullmarks,
+        question,
+        section
     }
     res.status(200).send(hex.renderHBS(fs, handlebars, 'exam', {
         isHosted, 
         nonce,
-        paper: JSON.stringify(paper)
+        paper: JSON.stringify(paper),
+        key: process.env.Access_Token || '1441'
     }, {compile: false, ejs: ejs}));
 });
 

@@ -113,11 +113,37 @@
         </div>
     </section>
     <section id="loader">
-        <div class="logo">
-            <img src="https://kidkrishkode.github.io/ExamCall.github.io/fav-icon/logo-m-o-c.png" alt="ExamCall.SAIT"/>
+        <div class="dp">
+	        <img src="https://kidkrishkode.github.io/ExamCall.github.io/fav-icon/logo-m-o-c.png" alt="ExamCall.SAIT"/>
+            <img src="../public/favicon.ico" class="small-icon" alt="SAIT"/>
+	        <h2>ExamCall.SAIT</h2>
+	    </div>
+	    <div class="c_task_holder">
+	        <div class="process"><i class="fa fa-circle-o-notch"></i></div>
+	        <div class="c_task">Scanning device os version</div>
+	    </div>
+        <div class="h_task_holder">
+            <div class="h_task flx">
+                <div class="mark">a</div>
+                <div class="body">Here is some text content 1.</div>
+                <div class="info">a</div>
+            </div>
+            <div class="h_task flx">
+                <div class="mark">b</div>
+                <div class="body">Here is some text content 2.</div>
+                <div class="info">b</div>
+            </div>
+            <div class="h_task flx">
+                <div class="mark">c</div>
+                <div class="body">Here is some text content 3.</div>
+                <div class="info">c</div>
+            </div>
         </div>
     </section>
 </body>
+<script nonce="<%= nonce %>">
+    window.key = "<%= key %>";
+</script>
 <% if (isHosted) { %>
     <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/examCall.js" nonce="<%= nonce %>"></script>
     <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/examCall.min.js" nonce="<%= nonce %>"></script>
