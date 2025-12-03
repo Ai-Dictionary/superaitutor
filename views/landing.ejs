@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="superaitutor">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/logo1500.png" name="og:image">
+    <meta itemprop="image" content="https://superaitutor.vercel.app/public/logo1500.png">
+    <meta property="og:site_name" content="superaitutor">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/logo1500.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="superaitutor">
+    <meta name="description" content="SuperAITutor is an AI-powered education platform offering doubt solving, live classes, exam prep, career guidance, and progress tracking for students, teachers, and parents.">
+    <meta content="SuperAITutor, sait, ai tutor, super ai, chatbot teacher, progress track, project, JPEN, Ai Dictionary" lang="en-us" name="keywords">
+    <title version="1.0">SuperAITutor</title>
+    <meta name="author" content="Ai-Dictionary">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <link rel="icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" sizes="192x192">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Feed" href="https://superaitutor.com/feed/">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../static/App.css"/>
+    <% if (isHosted) { %>
+        <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/landing.css"/>
+    <% } else { %>
+        <link rel="stylesheet" href="../assets/styles/landing.css"/>
+    <% } %>
+</head>
+<body>
+    <%- header %>
+    <main class="workspace">
+        <section class="subpage gradient_page flx">
+            <div class="left-component">
+                <!-- <h2>SuperAITutor <br>is a next-gen<br>educational platform</h2> -->
+                <h2>The Next-gen &#x1F680;<br> AI solution for<br> learners</h2>
+                <p>SAIT reimagines how students, teachers, and parents engage with learning. It offers a personalized ecosystem where students can access AI-powered doubt solving, career guidance, exam preparation, and mentorship—all in one place.</p>
+                <div class="btn-holder">
+                    <div class="btn btn-primary">
+                        Let's Play
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                            <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                        </svg>
+                    </div>
+                    <div class="btn btn-outline-primary">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightbulb" viewBox="0 0 16 16">
+                            <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="right-component">
+                <img src="#" alt="sait"/>
+            </div>
+        </section>
+        <section class="subpage">Page 2</section>
+        <section class="subpage">Page 3</section>
+        <section class="subpage">Page 4</section>
+    </main>
+</body>
+<script src="../static/App.js" nonce="<%= nonce %>"></script>
+<script type="application/ld+json" nonce="<%= nonce %>">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "SuperAITutor",
+  "url": "https://superaitutor.com",
+  "logo": "https://superaitutor.vercel.app/public/logo1500.png",
+  "description": "AI-powered education platform offering doubt solving, exam prep, and mentorship."
+}
+</script>
+</html>

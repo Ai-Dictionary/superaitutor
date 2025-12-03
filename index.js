@@ -262,13 +262,38 @@ app.post('/auth', async (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
+// app.get('/', (req, res) => {
+//     const nonce = res.locals.nonce;
+//     fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
+//         if (err) return res.status(200).send('Error to loading the page, contain non-auth scripting!');
+//         const modifiedHtml = html.replaceAll('<script>', `<script nonce="${nonce}">`);
+//         res.status(200).send(modifiedHtml);
+//     });
+// });
+
+app.get('/', async (req, res) => {
     const nonce = res.locals.nonce;
-    fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
-        if (err) return res.status(200).send('Error to loading the page, contain non-auth scripting!');
-        const modifiedHtml = html.replaceAll('<script>', `<script nonce="${nonce}">`);
-        res.status(200).send(modifiedHtml);
-    });
+    const isHosted = hex.isHosted(req);
+    if(isHosted){
+        fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
+            if (err) return res.status(200).send('Error to loading the page, contain non-auth scripting!');
+            const modifiedHtml = html.replaceAll('<script>', `<script nonce="${nonce}">`);
+            res.status(200).send(modifiedHtml);
+        });
+    }else{
+        let header;
+        const token = req.cookies.auth_token;
+        if(token){
+            const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+            let [id, expiry] = encripted_info.split("-");
+            if(Date.now() < expiry){
+                header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
+            }
+        }else{
+            header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only signup'});
+        }
+        res.status(200).render('landing',{nonce: nonce, header, isHosted});
+    }
 });
 
 app.get('/varchar', (req, res) => {
@@ -583,7 +608,7 @@ app.get('/deshboard', async (req, res) => {
 
 app.post('/api/mindvault', (req, res) => {
     let decoded_query = security.substitutionDecoder(req.body.queryKey, process.env.Access_Token || '1441').replaceAll('%20', ' ');
-    console.log(decoded_query);
+    // console.log(decoded_query);
     let paper = {
         question: jsonfile.readFileSync('./assets/json/geography.json'),
         section: jsonfile.readFileSync('./assets/json/geography.json').section

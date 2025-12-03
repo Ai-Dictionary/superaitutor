@@ -300,13 +300,36 @@ body{
         }
     }
     .h_task_holder{
-        width: 70%;
+        width: 60%;
         margin: 20px auto;
         .h_task{
             display: none;
-            margin: 8px 0px;
+            width: 100%;
+            margin: 20px 0px;
             color: grey;
             font-family: sans-serif;
+            text-transform: capitalize;
+            .mark{
+                border-radius: 50%;
+                padding: .3em;
+                color: #fff;
+                width: 25px;
+                height: 25px;
+                text-align: center;
+            }
+            .mark:has(.fa-check){
+                background: #28a745;
+            }
+            .mark:has(.fa-times){
+                background: #dc3545;
+            }
+            .body{
+                width: 90%;
+            }
+            .info svg{
+                margin-top: 4px;
+                cursor: pointer;
+            }
         }
     }
 }
