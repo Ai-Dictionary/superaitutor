@@ -590,8 +590,8 @@ app.get('/deshboard', async (req, res) => {
         ejs.renderFile('./views/templates/teacher.ejs', {
             type: type, 
             isHosted, 
-            users: !isHosted?hex.profile_list_setup(jsonfile.readFileSync('./assets/db.json')):[],
-            relation: !isHosted?hex.find_MatchingRecords(jsonfile.readFileSync('./assets/relation.json'), user.id):[],
+            users: !isHosted?hex.profile_list_setup(jsonfile.readFileSync('./assets/json/db.json')):[],
+            relation: !isHosted?hex.find_MatchingRecords(jsonfile.readFileSync('./assets/json/relation.json'), user.id):[],
         }),
         ejs.renderFile('./views/templates/aiMentor.ejs', {name: user.name}),
         ejs.renderFile('./views/templates/exam.ejs', {isHosted, id: user.id, Category: user.class, stream: user.stream}),

@@ -1,0 +1,46 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const floaters = document.querySelectorAll(".small_floater");
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    floaters.forEach(floater => observer.observe(floater));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const el = document.getElementById("typing");
+    const words = ["learners", "mentors", "opportunities", "recruiters", "creators"];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingSpeed = 120;
+    const pauseTime = 4000;
+
+    function type() {
+        const currentWord = words[wordIndex];
+        if (!isDeleting) {
+            el.textContent = currentWord.substring(0, charIndex + 1);
+            charIndex++;
+            if (charIndex === currentWord.length) {
+                isDeleting = true;
+                setTimeout(type, pauseTime);
+                return;
+            }
+        } else {
+            el.textContent = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+            if (charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+            }
+        }
+        setTimeout(type, typingSpeed);
+    }
+    type();
+});

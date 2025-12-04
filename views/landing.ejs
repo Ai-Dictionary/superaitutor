@@ -33,8 +33,7 @@
     <main class="workspace">
         <section class="subpage gradient_page flx">
             <div class="left-component">
-                <!-- <h2>SuperAITutor <br>is a next-gen<br>educational platform</h2> -->
-                <h2>The Next-gen &#x1F680;<br> AI solution for<br> learners</h2>
+                <h2>The Next-gen &#x1F680;<br> AI solution for<br> #<span id="typing">learners</span></h2>
                 <p>SAIT reimagines how students, teachers, and parents engage with learning. It offers a personalized ecosystem where students can access AI-powered doubt solving, career guidance, exam preparation, and mentorship—all in one place.</p>
                 <div class="btn-holder">
                     <div class="btn btn-primary">
@@ -52,7 +51,26 @@
                 </div>
             </div>
             <div class="right-component">
-                <img src="#" alt="sait"/>
+                <% if (isHosted) { %>
+                    <img class="side-img" src="https://ai-dictionary.github.io/superaitutor/assets/images/landing_i1.png" alt="sait"/>
+                <% } else { %>
+                    <img class="side-img" src="../assets/images/landing_i1.png" alt="sait"/>
+                <% } %>
+                <div class="small_floater left">
+                    <strong>7 + hrs</strong>
+                    <p>per week saved by teachers using <br>SAIT</p>
+                </div>
+                <div class="small_floater right">
+                    <strong>88%</strong>
+                    <p>of educators using <br>SAIT say it is helps <br>them reach every learner</p>
+                </div>
+                <div class="mid_floater bottom">
+                    <% if (isHosted) { %>
+                        <img src="https://ai-dictionary.github.io/superaitutor/assets/images/landing_i2.png" alt="sait"/>
+                    <% } else { %>
+                        <img src="../assets/images/landing_i2.png" alt="sait"/>
+                    <% } %>
+                </div>
             </div>
         </section>
         <section class="subpage">Page 2</section>
@@ -63,12 +81,17 @@
 <script src="../static/App.js" nonce="<%= nonce %>"></script>
 <script type="application/ld+json" nonce="<%= nonce %>">
 {
-  "@context": "https://schema.org",
-  "@type": "EducationalOrganization",
-  "name": "SuperAITutor",
-  "url": "https://superaitutor.com",
-  "logo": "https://superaitutor.vercel.app/public/logo1500.png",
-  "description": "AI-powered education platform offering doubt solving, exam prep, and mentorship."
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "SuperAITutor",
+    "url": "https://superaitutor.com",
+    "logo": "https://superaitutor.vercel.app/public/logo1500.png",
+    "description": "AI-powered education platform offering doubt solving, exam prep, and mentorship."
 }
 </script>
+<% if (isHosted) { %>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/landing.js" nonce="<%= nonce %>"></script>
+<% } else { %>
+    <script src="../assets/scripts/landing.js" nonce="<%= nonce %>"></script>
+<% } %>
 </html>
