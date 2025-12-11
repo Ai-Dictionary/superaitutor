@@ -44,3 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     type();
 });
+
+window.onload = function() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    document.querySelector('.workspace').scrollTop = 0;
+};
