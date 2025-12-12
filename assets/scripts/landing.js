@@ -14,6 +14,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll(".downToUp");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    elements.forEach(el => observer.observe(el));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
     const el = document.getElementById("typing");
     const words = ["learners", "mentors", "opportunities", "recruiters", "creators"];
     let wordIndex = 0;
@@ -45,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     type();
 });
 
-window.onload = function() {
+window.onload = function () {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     document.querySelector('.workspace').scrollTop = 0;

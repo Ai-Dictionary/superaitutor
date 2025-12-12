@@ -211,11 +211,6 @@
         width: 55%;
         height: 100%;
         margin-top: 3%;
-        img{
-            position: relative;
-            width: 100%;
-            display: none;
-        }
         .side-img{
             width: 100%;
             height: 60%;
@@ -259,6 +254,16 @@
 }
 #typing {
     animation: blink 0.8s infinite;
+}
+.downToUp {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 1.5s ease-out;
+}
+
+.downToUp.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Mobile view */
@@ -369,11 +374,18 @@
             }
         }
         .compo .right-component{
-            img{
-            }
+            width: 100%;
+            height: 250px;
+            margin: 40px 0px 5px 0px;
             .side-img{
+                height: 80%;
+                margin-left: 5%;
             }
             .side-mob{
+                width: 150px;
+                margin-top: -90px;
+                margin-left: 30px;
+                height: 55%;
             }
         }
     }
@@ -388,6 +400,13 @@
         text-align: left;
         padding: 24px;
         height: fit-content;
+        background-repeat: no-repeat;
+        background-size: auto;
+        .left-component{
+            .btn-holder{
+                margin-bottom: 40px;
+            }
+        }
         .right-component{
             .side-img{
                 --size: 300px;
@@ -406,6 +425,32 @@
                 top: 64%;
                 left: 56%;
                 width: 150px;
+            }
+        }
+    }
+    .subpage:nth-child(2){
+        .compo{
+            flex-direction: row;
+        }
+        .compo .left-component{
+            font-size: 12px;
+            ul {
+                font-size: 12px;
+                li {
+                    margin-bottom: 15px;
+                }
+            }
+            p {
+                font-size: 14px;
+                margin-top: 20px;
+            }
+        }
+        .compo .right-component{
+            margin-top: 16%;
+            height: 300px;
+            .side-mob {
+                width: 180px;
+                margin-top: -100px;
             }
         }
     }
@@ -432,6 +477,15 @@
                 top: 82%;
                 left: 24%;
                 width: 150px;
+            }
+        }
+    }
+    .subpage:nth-child(2){
+        .compo .right-component{
+            height: 350px;
+            .side-mob{
+                width: 200px;
+                margin-top: -120px;
             }
         }
     }
