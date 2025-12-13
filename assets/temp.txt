@@ -1,54 +1,18 @@
-i am know that chatgpt 4o mini charge 0.03 rupee per query as per offical website. mean i use this for my website where it is education website used to sove student doubts, research, quizes, mind map, course guid, etc.. here i am think i get a tune model mean use chat gpt 40 mini to tune with my data like pdfs, images, text files where my own data is present for students class content and my company data. so can you search on internet and openai website to give me the price to train and get this tuned model for use. and what is the cost to host this tuned model and how i connect with my backend. consider i have 50 pdfs and 100 images and 50 text files as input data so consider approx 240 million tokens it is and what is the my total cost. please compare with normal chatgpt 4o mini api and this chatgpt 4o mini tuned. becase normal one not need any self hosting just api calling but this one reuire, so what is the cost for both. consider i have make 50 query each day.
-
-
-
-**Quick Summary:**  
-Fine‑tuning **GPT‑4o mini** costs **$0.003 per 1K tokens for training** and **$0.0003 per 1K tokens for inference**. With your dataset (~240M tokens), training would cost about **$720 (~₹60,000)**. Hosting is included in OpenAI’s API—you don’t pay extra for servers. Using the normal GPT‑4o mini API (without fine‑tuning) is cheaper upfront, since you only pay per query (~₹0.03 each), but fine‑tuning gives you a custom model aligned with your educational content.  
-
----
-
-## 🔑 Fine‑Tuning GPT‑4o Mini (from OpenAI pricing)
-- **Training cost:** $0.003 per 1K tokens  
-- **Inference cost (queries):** $0.0003 per 1K tokens  
-- **Hosting:** As per your hoster, (Hostinger ~₹7,000 per month)  
-
----
-
-## 📊 Your Dataset (Approx. 240M tokens)
-- **Training cost:**  
-  240M ÷ 1,000 × $0.003 = **$720 (~₹60,000)**.  
-  If you train for multiple epochs (say 3), cost ≈ **$2,160 (~₹1.8 lakh)**.  
-
-- **Inference cost per query:**  
-  Suppose each query uses ~1,000 tokens (input + output).  
-  Cost = $0.0003 ≈ **₹0.025 per query**.  
-  For 50 queries/day → 50 × ₹0.025 = **₹1.25/day (~₹37/month)**.  
-
----
-
-## 📊 Normal GPT‑4o Mini API (no fine‑tuning)
-- **Cost per query:** ~₹0.03 (as you noted).  
-- **50 queries/day:** 50 × ₹0.03 = **₹1.5/day (~₹45/month)**.  
-- **No training cost upfront.**  
-
----
-
-## ⚖️ Comparison Table
-
-| Model Type | Training Cost | Query Cost | Monthly (50 queries/day) | Hosting |
-|------------|---------------|------------|--------------------------|---------|
-| **Normal GPT‑4o mini** | None | ₹0.03/query | ~₹45 | API only |
-| **Fine‑tuned GPT‑4o mini** | ~₹60,000 (1 epoch) | ₹0.025/query | ~₹37 | Self Hosted |
-
----
-
-## ✅ Recommendation for You
-- If your **budget is tight**, stick with **normal GPT‑4o mini API** (₹45/month for 50 queries).  
-- If you want **custom responses aligned with your PDFs, images, and text files**, fine‑tuning is powerful but requires a **large upfront cost (~₹60,000–₹1.8 lakh depending on epochs)**.  
-- Since your use case is **education (student doubts, quizzes, guides)**, you might start with **normal GPT‑4o mini + embeddings/RAG (retrieval‑augmented generation)**, which is cheaper than full fine‑tuning and still lets you use your PDFs and text data.  
-
----
-
-Would you like me to **compare fine‑tuning vs. RAG (retrieval‑augmented generation)** for your education website? That way you can see if you can avoid the ₹60,000 upfront training cost.  
-
-Sources: 
+<div class="btn-holder downToUp">
+  <div class="btn btn-process">Learners</div>
+  <div class="btn btn-outline-process">Mentors</div>
+  <div class="btn btn-outline-process">Opportunities</div>
+  <div class="btn btn-outline-process">Recruters</div>
+</div>
+<div class="body">
+.....
+</div>
+<div class="body">
+.....
+</div>
+<div class="body">
+.....
+</div>
+<div class="body">
+.....
+</div>

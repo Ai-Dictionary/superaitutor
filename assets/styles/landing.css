@@ -215,8 +215,7 @@
             width: 100%;
             height: 60%;
             margin-left: 8%;
-            /* background-image: url('https://ai-dictionary.github.io/superaitutor/assets/images/landing_i3.png'); */
-            background-image: url('../images/landing_i3.png');
+            background-image: url('https://ai-dictionary.github.io/superaitutor/assets/images/landing_i3.png');
             background-repeat: no-repeat;
             background-size: cover;
             border-radius: 5px;
@@ -229,14 +228,81 @@
             margin-left: 80px;
             height: 45%;
             width: 400px;
-            background-image: url('../images/landing_i4.png');
+            background-image: url('https://ai-dictionary.github.io/superaitutor/assets/images/landing_i4.png');
             background-size: cover;
             background-repeat: no-repeat;
         }
     }
 }
 .subpage:nth-child(3) {
-    background: lightgreen;
+    display: block;
+    background: linear-gradient(60deg, #E9EBFC, #EAEAFB, #B4E4FD);
+    align-items: start;
+    padding-top: 40px;
+    .head{
+        width: 80%;
+        margin: 5px auto;
+        text-align: center;
+        padding: 2px 10%;
+        color: #072848;
+        h4{
+
+            font-size: 28px;
+            font-family: sans-serif;
+            font-weight: 700;
+        }
+        p{
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+    }
+    .btn-holder{
+        width: 100%;
+        padding: 4px 6%;
+        .btn{
+            border-radius: 50px;
+            transition: all 1s ease-in-out;
+        }
+    }
+    .body{
+        display: grid;
+        display: none;
+        grid-template-columns: repeat(5, 1fr);
+        padding: 20px 5%;
+        .feature{
+            background: #fff;
+            margin: 10px 20px;
+            padding: 8px;
+            border-radius: 5px;
+            .image{
+                width: 100%;
+                height: 120px;
+                background: var(--dark);
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                svg{
+                    --size: 30px;
+                    width: var(--size);
+                    height: var(--size);
+                }
+            }
+            .content{
+                font-size: 16px;
+                padding: 4px 0px;
+                color: #072848;
+                font-family: 'Poppins', sans-serif;
+                text-transform: capitalize;
+            }
+        }
+    }
+    p{
+        font-size: 16px;
+        padding: 1% 10% 0px 10%;
+        text-align: center;
+    }
 }
 .subpage:nth-child(4) {
     background: lightgoldenrodyellow;
@@ -387,6 +453,45 @@
                 margin-left: 30px;
                 height: 55%;
             }
+        }
+    }
+    .subpage:nth-child(3) {
+        padding-top: 20px;
+        .head{
+            width: 95%;
+            padding: 2px 2%;
+            h4{
+                font-size: 20px;
+            }
+            p{
+                font-size: 12px;
+                padding: 0px;
+            }
+        }
+        .btn-holder{
+            padding: 4px 5%;
+            .btn{
+                font-size: 0.7rem;
+            }
+        }
+        .body{
+            grid-template-columns: repeat(2, 1fr);
+            padding: 20px 10px;
+            max-height: 240px;
+            overflow: auto;
+            .feature{
+                margin: 10px 4px;
+                .image{
+                    height: 100px;
+                }
+                .content{
+                    font-size: 14px;
+                }
+            }
+        }
+        p{
+            padding: 20px 5%;
+            font-size: 14px;
         }
     }
 }

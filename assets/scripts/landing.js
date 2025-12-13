@@ -65,3 +65,46 @@ window.onload = function () {
     document.documentElement.scrollTop = 0;
     document.querySelector('.workspace').scrollTop = 0;
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".offer-holder .btn");
+    const bodies = document.querySelectorAll(".offer .body");
+
+    function showBody(index) {
+        bodies.forEach((body, i) => {
+            body.style.display = i === index ? "grid" : "none";
+        });
+    }
+
+    function updateButtonStyles(activeIndex) {
+        buttons.forEach((btn, i) => {
+            if (i === activeIndex) {
+                btn.className = "btn btn-process";
+            } else {
+                btn.className = "btn btn-outline-process";
+            }
+        });
+    }
+
+    showBody(0);
+    updateButtonStyles(0);
+
+    buttons.forEach((btn, index) => {
+        btn.addEventListener("click", () => {
+            showBody(index);
+            updateButtonStyles(index);
+        });
+    });
+});
+
+function offercolor_assigner(){
+    let colorbin = ['greenyellow', 'orange', 'greenyellow', 'cornflowerblue', 'blueviolet', 'yellow', 'darkorange', 'orange'];
+    let j=0;
+    for(let i=0; i<document.querySelectorAll('.offer .image svg').length; i++){
+        document.querySelectorAll('.offer .image svg')[i].style.color = colorbin[j]; 
+        j++;
+        if(j==8){
+            j=0;
+        }
+    }
+}
