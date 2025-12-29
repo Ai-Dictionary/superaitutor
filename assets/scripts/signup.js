@@ -62,7 +62,7 @@ async function accountType(value){
         script.id = 'dynamic-script';
         script.type = 'text/javascript';
         script.src = `${window.isHosted=='true'?'https://ai-dictionary.github.io/superaitutor':'..'}/assets/scripts/${value}SignUp.js`;
-        script.onload = () => console.log('Script loaded:', script.src);
+        // script.onload = () => console.log('Script loaded:', script.src);
         script.onerror = () => console.error('Failed to load script:', script.src);
         document.body.appendChild(script);
 
@@ -71,7 +71,7 @@ async function accountType(value){
         link.rel = 'stylesheet';
         link.type = 'text/css';
         link.href = `${window.isHosted == 'true' ? 'https://ai-dictionary.github.io/superaitutor' : '..'}/assets/styles/${value}SignUp.css`;
-        link.onload = () => console.log('Stylesheet loaded:', link.href);
+        // link.onload = () => console.log('Stylesheet loaded:', link.href);
         link.onerror = () => console.error('Failed to load stylesheet:', link.href);
 
         document.head.appendChild(link);

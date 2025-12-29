@@ -262,15 +262,6 @@ app.post('/auth', async (req, res) => {
     }
 });
 
-// app.get('/', (req, res) => {
-//     const nonce = res.locals.nonce;
-//     fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
-//         if (err) return res.status(200).send('Error to loading the page, contain non-auth scripting!');
-//         const modifiedHtml = html.replaceAll('<script>', `<script nonce="${nonce}">`);
-//         res.status(200).send(modifiedHtml);
-//     });
-// });
-
 app.get('/', async (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
@@ -292,7 +283,7 @@ app.get('/', async (req, res) => {
         }else{
             header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only signup'});
         }
-        res.status(200).render('landing',{nonce: nonce, header, isHosted});
+        res.status(200).render('landing',{nonce: nonce, header, isHosted, AiName: jsonfile.readFileSync('./public/manifest.json').ai_name}); 
     }
 });
 
