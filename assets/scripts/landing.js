@@ -167,34 +167,63 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const columns = document.querySelectorAll(".column");
+    if(window.isHosted == "true"){
+        const columns = document.querySelectorAll(".column");
 
-    columns.forEach(col => {
-        const scroller = document.createElement("div");
-        scroller.className = "scroller";
+        columns.forEach(col => {
+            const scroller = document.createElement("div");
+            scroller.className = "scroller";
 
-        const posts = Array.from(col.children);
-        posts.forEach(p => scroller.appendChild(p));
+            const posts = Array.from(col.children);
+            posts.forEach(p => scroller.appendChild(p));
 
-        posts.forEach(p => scroller.appendChild(p.cloneNode(true)));
+            posts.forEach(p => scroller.appendChild(p.cloneNode(true)));
 
-        col.appendChild(scroller);
+            col.appendChild(scroller);
 
-        const direction = col.classList.contains("middle") ? 1 : -1;
+            const direction = col.classList.contains("middle") ? 1 : -1;
 
-        let pos = 0;
-        const speed = 0.5;
+            let pos = 0;
+            const speed = 0.5;
+
+            function animate() {
+                pos += direction * speed;
+                scroller.style.transform = `translateY(${pos}px)`;
+
+                const resetPoint = scroller.scrollHeight / 2;
+                if (direction === -1 && pos <= -resetPoint) pos = 0;
+                if (direction === 1 && pos >= resetPoint) pos = 0;
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if(window.isHosted == "true"){
+        const track = document.getElementById('logoTrack');
+        let speed = 1;
+        let position = 0;
+        let paused = false;
+
+        track.innerHTML += track.innerHTML;
 
         function animate() {
-            pos += direction * speed;
-            scroller.style.transform = `translateY(${pos}px)`;
-
-            const resetPoint = scroller.scrollHeight / 2;
-            if (direction === -1 && pos <= -resetPoint) pos = 0;
-            if (direction === 1 && pos >= resetPoint) pos = 0;
-
+            if (!paused) {
+                position -= speed;
+                if (Math.abs(position) >= track.scrollWidth / 2) {
+                    position = 0;
+                }
+                track.style.transform = `translateX(${position}px)`;
+            }
             requestAnimationFrame(animate);
         }
+
+        track.addEventListener('mouseenter', () => paused = true);
+        track.addEventListener('mouseleave', () => paused = false);
+
         animate();
-    });
+    }
 });

@@ -1,18 +1,34 @@
-<div class="btn-holder downToUp">
-  <div class="btn btn-process">Learners</div>
-  <div class="btn btn-outline-process">Mentors</div>
-  <div class="btn btn-outline-process">Opportunities</div>
-  <div class="btn btn-outline-process">Recruters</div>
-</div>
-<div class="body">
-.....
-</div>
-<div class="body">
-.....
-</div>
-<div class="body">
-.....
-</div>
-<div class="body">
-.....
-</div>
+Perfect — let’s adapt your competitor’s “difference” section so it speaks to **all your audiences (students, teachers, employees, recruiters)** while keeping the same punchy, side‑by‑side style. Here’s a professional rewrite:
+
+---
+
+## Your Platform  
+**VS**  
+Other Generic Apps  
+
+**Get Answers Instantly Anytime, Anywhere**  
+> Delayed Responses or No Real Support  
+
+**Role‑Specific Content Designed for Students, Teachers, Employees, and Recruiters**  
+> Generic Material That Fits Only a Few Users  
+
+**Smart Insights for Learners, Educators, and Employers to Track Progress**  
+>> No Access for Teachers, Managers, or Recruiters to Monitor Growth  
+
+**Personalised Paths Tailored to Each User’s Goals**  
+>> One‑Size‑Fits‑All Approach With No Customisation  
+
+**Interactive Explanations With Visuals, Examples, and Practical Scenarios**  
+> Only Scores or Static Notes Without Real Understanding  
+
+**All‑in‑One Affordable Platform for Learning, Teaching, and Hiring**  
+>> Multiple Costly Subscriptions Needed Across Different Tools  
+
+---
+
+✨ This version:  
+- Keeps the **same rhythm and structure** as your competitor’s.  
+- Expands scope to **students, teachers, employees, recruiters**.  
+- Highlights **progress tracking, personalization, affordability, and interactivity** for all user types.  
+
+Would you like me to also design this as a **visual comparison table** (two columns: *Your Platform* vs *Other Apps*) so it looks sharper on your website?
