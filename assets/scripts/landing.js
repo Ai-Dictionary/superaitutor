@@ -29,6 +29,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll(".leftToRight, .rightToLeft");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    elements.forEach(el => observer.observe(el));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
     const el = document.getElementById("typing");
     const words = ["learners", "mentors", "opportunities", "recruiters", "creators"];
     let wordIndex = 0;
@@ -167,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    if(window.isHosted == "true"){
+    if (window.isHosted == "true") {
         const columns = document.querySelectorAll(".column");
 
         columns.forEach(col => {
@@ -202,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    if(window.isHosted == "true"){
+    if (window.isHosted == "true") {
         const track = document.getElementById('logoTrack');
         let speed = 1;
         let position = 0;
