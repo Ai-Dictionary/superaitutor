@@ -874,12 +874,17 @@
                     </div>
                 </div>
                 <div class="right-component leftToRight">
-                    <img src="../assets/images/post_office.png" alt="sait"/>
+                    <% if (isHosted) { %>
+                        <img src="https://ai-dictionary.github.io/superaitutor/assets/images/post_office.png" alt="sait"/>
+                    <% } else { %>
+                        <img src="../assets/images/post_office.png" alt="SAIT"/>
+                    <% } %>
                 </div>
             </div>
         </section>
         <section class="subpage">Page 8</section>
     </main>
+    <%- footer %>
 </body>
 <script src="../static/App.js" nonce="<%= nonce %>"></script>
 <script type="application/ld+json" nonce="<%= nonce %>">

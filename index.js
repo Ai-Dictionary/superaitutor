@@ -265,31 +265,29 @@ app.post('/auth', async (req, res) => {
 app.get('/', async (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
-    // if(isHosted){
-    //     fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
-    //         if (err) return res.status(200).send('Error to loading the page, contain non-auth scripting!');
-    //         const modifiedHtml = html.replaceAll('<script>', `<script nonce="${nonce}">`);
-    //         res.status(200).send(modifiedHtml);
-    //     });
-    // }else{
-        let header;
-        const token = req.cookies.auth_token;
-        if(token){
-            const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
-            let [id, expiry] = encripted_info.split("-");
-            if(Date.now() < expiry){
-                header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
-            }
-        }else{
-            header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only signup'});
+    let header;
+    const token = req.cookies.auth_token;
+    if(token){
+        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+        let [id, expiry] = encripted_info.split("-");
+        if(Date.now() < expiry){
+            header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
         }
-        res.status(200).render('landing',{nonce: nonce, header, isHosted, AiName: jsonfile.readFileSync('./public/manifest.json').ai_name}); 
-    // }
+    }else{
+        header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only signup'});
+    }
+    let footer = await ejs.renderFile('./views/footer.ejs', {size: 'big'});
+    res.status(200).render('landing',{nonce: nonce, header, footer, isHosted, AiName: jsonfile.readFileSync('./public/manifest.json').ai_name}); 
+});
+
+app.get('/about', async (req, res) => {
+    let footer = await ejs.renderFile('./views/footer.ejs', {size: 'big'});
+    res.status(200).render('about',{footer, nonce: res.locals.nonce}); 
 });
 
 app.get('/varchar', (req, res) => {
     res.status(200).json(varchar);
-})
+});
 
 app.get('/login', async (req, res) => {
     const nonce = res.locals.nonce;
