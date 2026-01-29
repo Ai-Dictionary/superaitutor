@@ -281,8 +281,21 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/about', async (req, res) => {
+    const nonce = res.locals.nonce;
+    const isHosted = hex.isHosted(req);
+    let header;
+    const token = req.cookies.auth_token;
+    if(token){
+        const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
+        let [id, expiry] = encripted_info.split("-");
+        if(Date.now() < expiry){
+            header = await ejs.renderFile('./views/header.ejs', {displayMode: hex.get_UserInitials(id)});
+        }
+    }else{
+        header = await ejs.renderFile('./views/header.ejs', {displayMode: 'only signup'});
+    }
     let footer = await ejs.renderFile('./views/footer.ejs', {size: 'big'});
-    res.status(200).render('about',{footer, nonce: res.locals.nonce}); 
+    res.status(200).render('about',{nonce: nonce, header, footer, isHosted}); 
 });
 
 app.get('/varchar', (req, res) => {

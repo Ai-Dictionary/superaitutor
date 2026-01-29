@@ -1,17 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAIT</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="superaitutor">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/logo1500.png" name="og:image">
+    <meta itemprop="image" content="https://superaitutor.vercel.app/public/logo1500.png">
+    <meta property="og:site_name" content="superaitutor">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/logo1500.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="superaitutor">
+    <meta name="description" content="SuperAITutor is an AI-powered education platform offering doubt solving, live classes, exam prep, career guidance, and progress tracking for students, teachers, and parents.">
+    <meta content="SuperAITutor, sait, ai tutor, super ai, chatbot teacher, progress track, project, JPEN, Ai Dictionary" lang="en-us" name="keywords">
+    <title version="1.0">About - SuperAITutor</title>
+    <meta name="author" content="Ai-Dictionary">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico">
+    <link rel="icon" href="https://raw.githubusercontent.com/Ai-Dictionary/superaitutor/main/public/favicon.ico" sizes="192x192">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Feed" href="https://superaitutor.com/feed/">
+    <link rel="alternate" type="application/rss+xml" title="SuperAITutor » Comments Feed" href="https://superaitutor.com/comments/feed/">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../static/App.css"/>
+    <% if (isHosted) { %>
+        <link rel="stylesheet" href="https://ai-dictionary.github.io/superaitutor/assets/styles/about.css"/>
+    <% } else { %>
+        <link rel="stylesheet" href="../assets/styles/about.css"/>
+    <% } %>
 </head>
 <body>
+    <%- header %>
+    <main class="workspace">
+        <section class="subpage flx">
+            <div class="left-component downToUp">
+                <h2>Best Learning &#x1F3C6;<br> <span class="dblue">Education Platform</span><br>&#x2728;<span class="rblue">in INDIA</span></h2>
+                <p>SAIT reimagines how students, teachers, and parents engage with learning. It offers a personalized ecosystem where students can access AI-powered doubt solving, career guidance, exam preparation, and mentorship—all in one place.</p>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
+                                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <input type="email" class="form-control" placeholder="What is your Email id" aria-label="User's email">
+                    <div class="input-group-append">
+                        <div class="btn btn-process" onclick="route('/signup');">
+                            Sigun Up
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-component flx">
+                <div class="img left-img rightToLeft">
+                    <!-- <img src="../assets/images/about_i1.avif" alt="SAIT"/> -->
+                </div>
+                <div class="img right-img leftToRight">
+                    <!-- <img src="../assets/images/about_i2.png" alt="SAIT"/> -->
+                </div>
+                <div class="small-flowter">
+                    <ul>
+                        <li>Get Smart AI assistant with Exam system</li>
+                        <li>Expert Teachers</li>
+                        <li>Progress Status</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="subpage">
+            <div class="flx">
+                <div class="left">
+                    <h2>About Us<span class="rblue">.</span></h2>
+                    <p class="downToUp">We are an Intelligent edu-technology solutions company. Our mission is to simplify education and make learning smarter for students, teachers, and parents.</p>
+                    <p class="downToUp">We are a Team of Innovators - we collaborate, support, and drive our vision forward. Our strength lies in combining advanced AI technology with human mentorship to create extraordinary outcomes. We believe education is not just about covering a syllabus, but about empowering learners to think critically, solve problems, and prepare for the future. Every feature we build—whether it is AI doubt solving, mentor discovery, exam readiness, or live progress tracking—is designed to add real value to the academic journey.</p>
+                    <p class="downToUp">Together, we channel our passion and energy into results that uplift learners, educators, and society at large. We aim to bridge gaps between students, teachers, and parents, fostering a unified ecosystem where learning is transparent, personalized, and engaging. By delivering clarity to students, tools to teachers, and insights to parents, we ensure that every stakeholder benefits from our platform. And, as a business, we expect to derive growth and sustainability from these endeavors, while staying true to our vision of accessible, intelligent education for all.</p>
+                </div>
+                <div class="right">
+                    <% if (isHosted) { %>
+                        <img src="https://ai-dictionary.github.io/superaitutor/assets/images/about_i3.png" class="rightToLeft" alt="SAIT"/>
+                    <% } else { %>
+                        <img src="../assets/images/about_i3.png" class="rightToLeft" alt="SAIT"/>
+                    <% } %>
+                </div>
+            </div>  
+            <p class="downToUp outp">Our emblem signifies intelligence, we are always advancing with AI. But we wish to stay grounded always to our core values, ethics, and to our roots. We are <strong>SuperAITutor</strong> - Super Artificial Intelligent Tutor!!</p>  
+        </section>
+        <section class="subpage">
+            <div class="about-box flx"></div>
+            <div class="about-box flx"></div>
+            <div class="about-box flx"></div>
+            <div class="about-box flx"></div>
+        </section>
+    </main>
     <%- footer %>
 </body>
 <script src="../static/App.js" nonce="<%= nonce %>"></script>
+<script type="application/ld+json" nonce="<%= nonce %>">
+{
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "SuperAITutor",
+    "url": "https://superaitutor.com",
+    "logo": "https://superaitutor.vercel.app/public/logo1500.png",
+    "description": "AI-powered education platform offering doubt solving, exam prep, and mentorship."
+}
+</script>
+<% if (isHosted) { %>
+    <script src="https://ai-dictionary.github.io/superaitutor/assets/scripts/about.js" nonce="<%= nonce %>"></script>
+<% } else { %>
+    <script src="../assets/scripts/about.js" nonce="<%= nonce %>"></script>
+<% } %>
+<script nonce="<%= nonce %>">
+    window.isHosted = "<%= isHosted %>";
+</script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
