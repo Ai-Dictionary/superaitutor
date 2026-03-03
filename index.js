@@ -640,7 +640,7 @@ app.post('/api/mindvault', (req, res) => {
 app.post('/api/db', async (req, res) => {
     if(req.body.id=="@IEM01"){
         let memory = new Memory();
-        memory.clusterName = "iem";
+        memory.clusterName = "iem1";
         if(req.body.task=="read"){
             const data = await memory.read();
             if(!(data?.status)){
@@ -662,6 +662,8 @@ app.post('/api/db', async (req, res) => {
                 res.status(200).json({'message': 'New record is not create due to some error, please try again later'});
             }
         }
+    }else{
+        req.status(400).json({"status": 401, "message": "Unauthorize entries not allow, please use token key"});
     }
 });
 

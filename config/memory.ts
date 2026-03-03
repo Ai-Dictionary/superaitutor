@@ -74,7 +74,7 @@ class MEMORY{
         }else if(this.clusterName=='relationship' || this.clusterName=='rate'){
             this.isUpdatable = true;
             return this.relationship_id;
-        }else if(this.clusterName=='iem'){
+        }else if(this.clusterName=='iem1'){
             return this.iem_id;
         }else{
             return '';
