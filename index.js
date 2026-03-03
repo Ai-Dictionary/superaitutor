@@ -79,6 +79,24 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+    const allowedOrigins = [
+        "http://127.0.0.1:5000",
+        "https://iem2026.vercel.app"
+    ];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+        res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+    }
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+    }
+    next();
+});
+
+app.use((req, res, next) => {
     const frameSources = ["'self'", "https://vercel.live", "file:", "app:", "blob:"];
     if (res.locals.isAppRequest) {
         console.log("Request from APP");
@@ -123,6 +141,7 @@ app.use((req, res, next) => {
                 "wss://ws-us3.pusher.com",
                 "https://ws-us3.pusher.com",
                 "https://chsapi.vercel.app",
+                "http://127.0.0.1:6100",
             ],
             "frame-ancestors": frameSources
             // frameSrc: [
@@ -619,21 +638,21 @@ app.post('/api/mindvault', (req, res) => {
 });
 
 app.post('/api/db', async (req, res) => {
-    console.log("falge 1");
     if(req.body.id=="@IEM01"){
         let memory = new Memory();
         memory.clusterName = "iem";
         if(req.body.task=="read"){
-            console.log("flage 2");
             const data = await memory.read();
             if(!(data?.status)){
-                return data;
+                res.status(200).json(data);
             }else{
-                return data.status;
+                res.status(200).json({"status": data.status});
             }
         }else if(req.body.task=="write"){
-            console.log("flage 3");
-            const entries = req.body.entries || {};
+            let entries = req.body.entries || {};
+            if(typeof(entries) === "string"){
+                entries = JSON.parse(entries);
+            }
             let work = await memory.writetrun(entries);
             if(work?.status==200){
                 res.status(200).json({'status': work.status});
