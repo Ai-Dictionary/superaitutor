@@ -25,6 +25,7 @@ class MEMORY{
     master_id;
     feedback_id;
     relationship_id;
+    iem_id;
     public_key;
     clusterName;
     /**
@@ -49,6 +50,7 @@ class MEMORY{
         this.master_id = process.env.MASTER_ID || '';
         this.feedback_id = process.env.FEEDBACK_ID || '';
         this.relationship_id = process.env.RELATIONSHIP_ID || '';
+        this.iem_id = "1cskn1rWinX0-X9s50d9Qs_TEfQgtbUPzfqxm_9ZyITM";
         this.public_key = String(process.env.PUBLIC_KEY) || '';
         this.secret = security.substitutionDecoder(process.env.private_key, this.public_key).replace(/\\n/g, "\n") || '';
         this.email = security.substitutionDecoder(process.env.client_email, this.public_key) || '';
@@ -72,6 +74,8 @@ class MEMORY{
         }else if(this.clusterName=='relationship' || this.clusterName=='rate'){
             this.isUpdatable = true;
             return this.relationship_id;
+        }else if(this.clusterName=='iem'){
+            return this.iem_id;
         }else{
             return '';
         }
@@ -505,7 +509,35 @@ class MEMORY{
             console.error("Error occure when try to truncating the memory:", e);
             return {"status": 4};
         }
-    }    
+    } 
+    async writetrun(newData){
+        try{
+            const client = new JWT({
+                email: this.email,
+                key: this.secret,
+                scopes: this.scopes,
+            });
+            const doc = new GoogleSpreadsheet(this.currentMemory(), client);
+            await doc.loadInfo();
+
+            const sheet = doc.sheetsByIndex[0];
+            await sheet.loadHeaderRow();
+
+            const rows = await sheet.getRows();
+            
+            for(const row of rows){
+                await row.delete();
+            }
+            
+            for(const data of newData){
+                await sheet.addRow(data);
+            }
+            return {"status": 200};
+        }catch(e){
+            console.error("Error occure when try to writting on sheet:", e);
+            return {"status": 2};
+        }
+    }
 }
 
 module.exports = MEMORY;

@@ -618,6 +618,34 @@ app.post('/api/mindvault', (req, res) => {
     res.status(200).json({paper: paper});
 });
 
+app.post('/api/db', async (req, res) => {
+    console.log("falge 1");
+    if(req.body.id=="@IEM01"){
+        let memory = new Memory();
+        memory.clusterName = "iem";
+        if(req.body.task=="read"){
+            console.log("flage 2");
+            const data = await memory.read();
+            if(!(data?.status)){
+                return data;
+            }else{
+                return data.status;
+            }
+        }else if(req.body.task=="write"){
+            console.log("flage 3");
+            const entries = req.body.entries || {};
+            let work = await memory.writetrun(entries);
+            if(work?.status==200){
+                res.status(200).json({'status': work.status});
+            }else if(work?.status){
+                res.status(200).json({'message': jsonfile.readFileSync('./config/error_log.json')[work.status]});
+            }else{
+                res.status(200).json({'message': 'New record is not create due to some error, please try again later'});
+            }
+        }
+    }
+});
+
 app.get('/examcall', (req, res) => {
     const nonce = res.locals.nonce;
     const isHosted = hex.isHosted(req);
