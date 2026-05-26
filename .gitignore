@@ -157,7 +157,26 @@ app/.kotlin/
 # Metro
 app/.metro-health-check*
 
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+app/.env
+
+# ide code setup folders
+app/.vscode/
+
+# typescript
+*.tsbuildinfo
+
+app-example
+
+
 # generated native folders
 /ios
 /android
 
+# custome files
+app/idea.md

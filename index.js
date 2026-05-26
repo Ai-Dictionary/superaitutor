@@ -74,14 +74,16 @@ const limiter = rateLimit({
 
 app.use((req, res, next) => {
     res.locals.nonce = crypto.randomBytes(16).toString('base64');
-    res.locals.isAppRequest = (req.headers['x-from-app'] === 'SuperAITutor' || req.query.token == '24fc8akm8o4s');
+    res.locals.isAppRequest = (req.headers['x-from-app'] === 'SuperAITutor' || req.query.token == '24fc8akm8o4s' || req?.headers['authorization']?.split(' ')[1] == "24fc8akm8o4s");
     next();
 });
 
 app.use((req, res, next) => {
     const allowedOrigins = [
         "http://127.0.0.1:5000",
-        "https://iem2026.vercel.app"
+        "https://iem2026.vercel.app",
+        "http://127.0.0.1:8081",
+        "http://localhost:8081",
     ];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
@@ -97,10 +99,13 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-    const frameSources = ["'self'", "https://vercel.live", "file:", "app:", "blob:"];
+    const baseFrameSources = ["'self'", "https://vercel.live", "file:", "app:", "blob:", "superaitutor:"];
+    let frameSources = [...baseFrameSources];
     if (res.locals.isAppRequest) {
         console.log("Request from APP");
-        frameSources.push("*");
+        frameSources = ["'self'", "file:", "app:", "blob:"];
+        frameSources.push("http://127.0.0.1:8081");
+        frameSources.push("http://localhost:8081");
     }
     helmet.contentSecurityPolicy({
         useDefaults: true,
@@ -142,6 +147,7 @@ app.use((req, res, next) => {
                 "https://ws-us3.pusher.com",
                 "https://chsapi.vercel.app",
                 "http://127.0.0.1:6100",
+                "http://127.0.0.1:8081",
             ],
             "frame-ancestors": frameSources
             // frameSrc: [
@@ -319,6 +325,11 @@ app.get('/about', async (req, res) => {
 
 app.get('/varchar', (req, res) => {
     res.status(200).json(varchar);
+});
+
+app.get('/ping', (req, res) => {
+    console.log('Ping route called at', new Date().toISOString(),'by', req.headers.origin);
+    res.status(200).send('OK');
 });
 
 app.get('/login', async (req, res) => {
