@@ -226,9 +226,36 @@ document.addEventListener("DOMContentLoaded",() => {
     });
 });
 
-function route(link){
+// function route(link){
+//     window.location.href = link;
+// }
+
+function route(link) {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const fromApp = params.get('fromApp');
+
+    if (token) {
+        try {
+            const urlObj = new URL(link, window.location.origin);
+            
+            urlObj.searchParams.set('token', token);
+            if (fromApp) {
+                urlObj.searchParams.set('fromApp', fromApp);
+            }
+            
+            link = urlObj.pathname + urlObj.search + urlObj.hash;
+        } catch (e) {
+            const separator = link.includes('?') ? '&' : '?';
+            link = link + separator + "token=" + encodeURIComponent(token);
+            if (fromApp) link = link + "&fromApp=" + encodeURIComponent(fromApp);
+        }
+    }
+    
     window.location.href = link;
 }
+
+
 
 function invalid(){
     alert("This feature is not present on this version or you are not permitted to access this resource from this site, Please wait until the new version release or contact us for permission");

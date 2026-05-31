@@ -3,7 +3,10 @@
     "name": "SuperAiTutor",
     "slug": "superaitutor",
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"],
+    "entryPoint": "./app/index.js",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "app",
@@ -20,14 +23,18 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.superaitutor.app"
     },
     "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "output": "spa",
+      "favicon": "./assets/images/favicon.png",
+      "splash": {
+        "backgroundColor": "#ffffff",
+        "resizeMode": "contain"
+      }
     },
     "plugins": [
-      "expo-router",
       [
         "expo-splash-screen",
         {
@@ -39,11 +46,20 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font",
+      "expo-router",
+      "expo-web-browser"
     ],
     "experiments": {
-      "typedRoutes": true,
+      "typedRoutes": false,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "798dd79b-f79e-4b1b-8e1a-5c0bdbb58950"
+      }
     }
   }
 }
