@@ -44,7 +44,8 @@ function login(){
             }).then(response => response.json()).then(data => {
                 if(data?.success){
                     passwordField.value = "";
-                    window.location.href = '/dashboard';
+                    // window.location.href = '/dashboard';
+                    route('/dashboard');
                 }else{
                     system.alert(data);
                     // window.location.href = '/login';

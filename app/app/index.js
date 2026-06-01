@@ -2,12 +2,11 @@ import NetInfo from '@react-native-community/netinfo';
 import { useEffect, useState } from 'react';
 import { ImageBackground, Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-import '../utils/metro-canparse-polyfill';
 import system from '../utils/setup-system';
 
 
 const App = () => {
-    const token = system.access_token;
+    const token = system.encrypt(system.access_token);
     const serverLink = system.server_link();
 
     const [isConnected, setIsConnected] = useState(Platform.OS === 'web' ? false : null);
@@ -50,45 +49,45 @@ const App = () => {
 
     useEffect(() => {
         if (Platform.OS !== 'web') return;
-            const iframe = document.querySelector('iframe');
-            if (!iframe) return;
+        const iframe = document.querySelector('iframe');
+        if (!iframe) return;
 
-            const injectCSS = () => {
-                try {
-                    const doc = iframe.contentDocument || iframe.contentWindow.document;
-                    if (!doc || !doc.head) return;
+        const injectCSS = () => {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                if (!doc || !doc.head) return;
 
-                    const oldStyle = doc.getElementById('custom-style');
-                    if (oldStyle) oldStyle.remove();
+                const oldStyle = doc.getElementById('custom-style');
+                if (oldStyle) oldStyle.remove();
 
-                    const style = doc.createElement('style');
-                    style.id = 'custom-style';
-                    style.textContent = `
-                        iframe{
-                            body { width:100%; overflow: hidden; }
-                            .page { scrollbar-color: transparent transparent; }
-                        }
-                    `;
-                    doc.head.appendChild(style);
-                    console.log("CSS injected into iframe");
-                } catch (err) {
-                    console.error("Failed to inject CSS:", err);
-                }
-            };
-
-            iframe.addEventListener('load', injectCSS);
-            if (iframe.contentDocument?.readyState === 'complete') {
-                injectCSS();
+                const style = doc.createElement('style');
+                style.id = 'custom-style';
+                style.textContent = `
+                    iframe{
+                        body { width:100%; overflow: hidden; }
+                        .page { scrollbar-color: transparent transparent; }
+                    }
+                `;
+                doc.head.appendChild(style);
+                console.log("CSS injected into iframe");
+            } catch (err) {
+                console.error("Failed to inject CSS:", err);
             }
-            const observer = new MutationObserver(() => injectCSS());
-            observer.observe(iframe, { attributes: true, childList: true, subtree: true });
-            return () => {
-                iframe.removeEventListener('load', injectCSS);
-                observer.disconnect();
-            };
+        };
+
+        iframe.addEventListener('load', injectCSS);
+        if (iframe.contentDocument?.readyState === 'complete') {
+            injectCSS();
+        }
+        const observer = new MutationObserver(() => injectCSS());
+        observer.observe(iframe, { attributes: true, childList: true, subtree: true });
+        return () => {
+            iframe.removeEventListener('load', injectCSS);
+            // observer.disconnect();
+        };
     }, []);
 
-    const url = `${serverLink}/dashboard?token=${encodeURIComponent(token)}&fromApp=SuperAITutor`;
+    const url = `${serverLink}/dashboard?token=${encodeURIComponent(token)}&fromApp=superAITutor`;
 
     return (
         <View style={styles.container}>
@@ -113,6 +112,7 @@ const App = () => {
                         originWhitelist={['*']} 
                         mixedContentMode="always"
                         setSupportMultipleWindows={false} 
+                        sharedCookiesEnabled={true} 
                     />
                 )
             ) : (
@@ -125,7 +125,7 @@ const App = () => {
                         <View style={{width: '100%', height: '100%'}} />
                     </ImageBackground>
 
-                    <Text style={styles.message}>Please turn on the internet to use this app</Text>
+                    <Text style={styles.message}>Please turn on the connection to use this app</Text>
                 </View>
             )}
         </View>
@@ -139,8 +139,9 @@ const styles = StyleSheet.create({
     },
     errorWrapper: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#f6f6f6',
     },
     image: {
         width: 150,
@@ -156,11 +157,11 @@ const styles = StyleSheet.create({
         backgroundPosition: 'center',
     },
     message: {
-        flex: 1,
+        // flex: 1,
         textAlign: 'center',
-        textAlignVertical: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
+        // textAlignVertical: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
         padding: 20,
         marginTop: 10,
         fontSize: 20,

@@ -74,7 +74,8 @@ const limiter = rateLimit({
 
 app.use((req, res, next) => {
     res.locals.nonce = crypto.randomBytes(16).toString('base64');
-    res.locals.isAppRequest = (req.headers['x-from-app'] === 'SuperAITutor' || req.query.token == '24fc8akm8o4s' || req?.headers['authorization']?.split(' ')[1] == "24fc8akm8o4s");
+    const token = (req.query?.token && req.query?.fromApp == AppName) ? security.light_rsa_decrypt(req.query.token, process.env.APP_KEY, varchar.public_key):'undefined';
+    res.locals.isAppRequest = (req.headers['x-from-app'] === 'SuperAITutor' || token == process.env.APP_TOKEN || req?.headers['authorization']?.split(' ')[1] == process.env.APP_TOKEN);
     next();
 });
 
@@ -502,6 +503,7 @@ app.get('/dashboard', async (req, res) => {
     try{
         const nonce = res.locals.nonce;
         const token = req.cookies.auth_token;
+        console.log("token: "+token+", Token: "+req.query.token+", isAPP: "+res.locals.isAppRequest);
         if(token){
             const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
             let [id, expiry] = encripted_info.split("-");

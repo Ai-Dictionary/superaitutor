@@ -144,6 +144,9 @@ app/.expo/
 app/dist/
 app/web-build/
 app/expo-env.d.ts
+app/.git
+app/.git/
+app/.env
 
 # Native
 app/.kotlin/

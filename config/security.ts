@@ -49,6 +49,23 @@ module.exports = {
         }
         return decrypted;
     },
+    light_rsa_decrypt: (cipher, PRIVATE_KEY, key) => {
+        const VOCAB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
+        const VOCAB_SIZE = VOCAB.length;
+        let plain = "";
+        let decoded = module.exports.substitutionDecoder(cipher, String(key));
+        const cipherText = decoded.split('.')[0].slice(1,);
+        for (let ch of cipherText) {
+            const idx = VOCAB.indexOf(ch);
+            if (idx !== -1) {
+                const decIdx = (idx * PRIVATE_KEY) % VOCAB_SIZE;
+                plain += VOCAB[decIdx];
+            } else {
+                plain += ch;
+            }
+        }
+        return plain;
+    },
     browser: (navigator) => { 
         var browserAgent = navigator['user-agent']; 
         var browserName, browserVersion, browserMajorVersion; 
