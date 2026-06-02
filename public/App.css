@@ -28,6 +28,11 @@ html{
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
+    scrollbar-width: none; /* disables scrollbar rendering */
+    -ms-overflow-style: none; /* disables scrollbar rendering */
+}
+html::-webkit-scrollbar {
+    display: none;
 }
 .flo{
     display: flex;
@@ -161,7 +166,7 @@ header{
             }
         }
         .btn{
-            padding: .58rem .4rem;
+            padding: .58rem .7rem;
             border-radius: 50px;
             font-size: 12px;
             white-space: nowrap;
@@ -176,6 +181,9 @@ header{
             .bd-search::after{
                 content: "Ctrl + K";
             }
+        }
+        .nav-link{
+            cursor: pointer;
         }
         .collapse{
             width: fit-content;

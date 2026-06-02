@@ -8,6 +8,15 @@ header{
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
 }
+/* Hide scrollbar for Chrome, Safari, and Edge */
+main::-webkit-scrollbar {
+    display: none;
+}
+/* Hide scrollbar for Firefox, IE/Edge Legacy */
+main {
+    scrollbar-width: none; /* disables scrollbar rendering */
+    -ms-overflow-style: none; /* disables scrollbar rendering */
+}
 .subpage {
     height: 100vh;
     width: 100%;

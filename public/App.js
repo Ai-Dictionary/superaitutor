@@ -224,11 +224,13 @@ document.addEventListener("DOMContentLoaded",() => {
             }
         }
     });
+    const urlParams = new URLSearchParams(window.location.search);
     if (window.self !== window.top || urlParams.get('fromApp') === 'superAITutor') {
         const style = document.createElement('style');
         style.textContent = `
         body { width: 100%; overflow: hidden !important; }
         .page { scrollbar-color: transparent transparent !important; }
+        .small-tutorial { bottom: 8%; }
         `;
         document.head.appendChild(style);
         console.log("App container layout styles applied natively by the server.");

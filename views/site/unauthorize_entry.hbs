@@ -54,10 +54,45 @@
             margin: 0px auto;
         }
     }
+    .emergancy{
+        display: none;
+    }
     @media only screen and (max-width: 900px), only screen and (min-width: 900px) and (max-width: 1200px) {
         .content{
             .flx{
                 width: 90%;
+            }
+        }
+        .emergancy{
+            display: block;
+            position: absolute;
+            bottom: 10%;
+            left: 0px;
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            margin: 0px 5%;
+            padding: 0px;
+            border: 0.5px solid #627586;
+            border-radius: 5px;
+            overflow: hidden;
+            .head{
+                font-size: 14px;
+                font-family: sans-serif;
+                font-weight: 600;
+                color: var(--rblue);
+                background: #edece8;
+                border-right: 0.5px solid #627586;
+                padding: 4px 8px;
+                cursor: pointer;
+            }
+            .body{
+                font-size: 12px;
+                font-family: consolas;
+                padding: 4px 8px;
+                a{
+                    color: #627586!important;
+                }
             }
         }
     }
@@ -65,7 +100,11 @@
 <body>
     <main class="workspace">
         <div class="image">
-            <img src="../assets/images/id_card.png" alt="sait"/>
+            {{#if isHosted}}
+                <img src="https://ai-dictionary.github.io/superaitutor/assets/images/id_card.png" alt="sait"/>
+            {{else}}
+                <img src="../assets/images/id_card.png" alt="sait"/>
+            {{/if}}
         </div>
         <div class="content">
             <h2>We are not get your Identity Card</h2>
@@ -85,6 +124,10 @@
             </div>
         </div>
     </main>
+    <div class="emergancy">
+        <div class="head">$contact&gt; </div>
+        <div class="body"><a href="mailto:info.aidictionary24x7@gmail.com">info.aidictionary24x7@gmail.com</a></div>
+    </div>
 </body>
 <script src="../static/App.js" nonce="{{nonce}}"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

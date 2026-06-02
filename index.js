@@ -503,6 +503,7 @@ app.get('/dashboard', async (req, res) => {
     try{
         const nonce = res.locals.nonce;
         const token = req.cookies.auth_token;
+        const isHosted = hex.isHosted(req);
         console.log("token: "+token+", Token: "+req.query.token+", isAPP: "+res.locals.isAppRequest);
         if(token){
             const encripted_info = security.substitutionDecoder(String((JSON.parse(token))?.token), 'security');
@@ -527,7 +528,7 @@ app.get('/dashboard', async (req, res) => {
                 res.status(419).send(hex.renderHBS(fs, handlebars, 'session_expire', {nonce: nonce})); //Session Expired
             }
         }else{
-            res.status(401).send(hex.renderHBS(fs, handlebars, 'unauthorize_entry', {nonce: nonce})); //unauthorize user open
+            res.status(401).send(hex.renderHBS(fs, handlebars, 'unauthorize_entry', {nonce: nonce, isHosted: isHosted})); //unauthorize user open
         }
     }catch(e){
         res.status(400).redirect('/notfound',{error: 500, message: "Some unwanted error occure while setup the dashboard and fetching your information, If you see this error multi-time then please inform us about this faliur, and try some time later..", statement: e});

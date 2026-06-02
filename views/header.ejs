@@ -40,10 +40,10 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/about">Stories</a>
+                    <a class="nav-link" onclick="route('/about');">Stories</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/priceList">Pricing</a>
+                    <a class="nav-link" onclick="route('/priceList');">Pricing</a>
                 </li>
                 <% if (displayMode == 'both') { %>
                     <li class="nav-item btn-group">
@@ -59,9 +59,13 @@
                         <div title="View Profile, <%= displayMode.id %>"><%= displayMode.name %></div>
                     </li>
                 <% } else { %>
-                    <li class="nav-item">
+                    <li class="nav-item btn-group">
+                        <div class="btn btn-dark" onclick="route('/login');">Login</div>
                         <div class="btn btn-outline-dark" onclick="route('/signup');">Create your account</div>
                     </li>
+                    <!-- <li class="nav-item">
+                        <div class="btn btn-outline-dark" onclick="route('/signup');">Create your account</div>
+                    </li> -->
                 <% } %>
             </ul>
         </div>
