@@ -92,7 +92,9 @@ const App = () => {
     return (
         <View style={styles.container}>
             {isConnected === null ? (
-                <Text style={styles.message}>Checking network permissions...</Text>
+                <View style={styles.errorWrapper}>
+                    <Text style={styles.message}>Checking network permissions...</Text>
+                </View>
             ) : isConnected ? (
                 Platform.OS === 'web' ? (
                     <div style={{ width: '100vw', height: '100vh', border: 'none' }}>
