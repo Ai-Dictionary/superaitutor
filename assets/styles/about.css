@@ -138,14 +138,35 @@
 .subpage:nth-child(3) {
     padding: 8px 10%;
     display: block;
-    .about-box{
-        width: 100%;
-        height: 150px;
-        margin: 2px 0px 20px 0px;
-        background: #fff;
-        border-radius: 10px;
-        border: 0.5px solid slategrey;
-        overflow: hidden;
+    .about-box-holder{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 10%;
+        .about-box{
+            width: 100%;
+            height: 150px;
+            margin: 2px 0px 20px 0px;
+            background: #fff;
+            border-radius: 10px;
+            border: 0.5px solid papayawhip;
+            overflow: hidden;
+            .left-component{
+                width: 30%;
+                display: flex;
+                align-items: center;
+                img{
+                    display: block;
+                    position: relative;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            .right-component{
+                width: 70%;
+                padding: 10px 20px;
+            }
+        }
     }
 }
 

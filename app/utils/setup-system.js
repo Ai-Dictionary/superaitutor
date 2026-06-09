@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN, API_URL, LOCAL_API_URL, PUBLIC_KEY } from '@env';
+import { ACCESS_TOKEN, API_URL, LOCAL_API_URL, PUBLIC_KEY, VERSION } from '@env';
 import { Platform, } from 'react-native';
 
 class System{
@@ -6,16 +6,18 @@ class System{
         this.access_token = ACCESS_TOKEN;
         this.VOCAB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
         this.VOCAB_SIZE = this.VOCAB.length;
+        this.version = VERSION || '0.0.1';
     }
     server_link(mode='None'){
         if(Platform.OS != 'web' || mode != 'None'){
-            return API_URL;
+            return API_URL || "https://superaitutor.vercel.app";
         }else{
             return LOCAL_API_URL;
         }
     }
     substitutionEncoder(plain_txt, key='1441'){
-        const vocabulary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@!*+#%$&^,|?/";
+        if (!plain_txt) return "";
+        const vocabulary = this.VOCAB;
         let cipher = "";
         key = key.repeat(Math.ceil(plain_txt.length / key.length));
 
@@ -39,8 +41,8 @@ class System{
     }
     encrypt(plainText) {
         let cipher = "";
-        plainText = String(Math.floor(Math.random()*9))+plainText+"."+(new Date().toISOString());
-        for (let ch of plainText) {
+        const formattedText = String(Math.floor(Math.random()*9))+plainText+"."+(new Date().toISOString());
+        for (let ch of formattedText) {
             const idx = this.VOCAB.indexOf(ch);
             if (idx !== -1) {
                 const encIdx = (idx * PUBLIC_KEY) % this.VOCAB_SIZE;

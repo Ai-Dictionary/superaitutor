@@ -1,0 +1,207 @@
+import NetInfo from '@react-native-community/netinfo';
+import { useEffect, useRef, useState } from 'react';
+import { BackHandler, ImageBackground, Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { WebView } from 'react-native-webview';
+import system from '../utils/setup-system';
+
+
+const App = () => {
+    const token = system.encrypt(system.access_token);
+    const serverLink = system.server_link();
+
+    const [isConnected, setIsConnected] = useState(Platform.OS === 'web' ? false : null);
+    
+    const webViewRef = useRef(null);
+    const [historyStack, setHistoryStack] = useState([]);
+    const currentUrlRef = useRef('');
+
+    useEffect(() => {
+        if (Platform.OS === 'web') {
+            setIsConnected(navigator.onLine);
+            
+            const checkOnline = async () => {
+                try {
+                    const response = await fetch(`${system.server_link()}/ping`, { method: 'GET', headers: {'Authorization': `Bearer ${system.access_token}`} });
+                    console.log('fetch is called from app:\n\n'+response);
+                    setIsConnected(true);
+                } catch(err) {
+                    console.log("Web connectivity error:", err);
+                    setIsConnected(isConnected ? true : false); 
+                }
+            };
+            checkOnline();
+
+            const updateOnlineStatus = () => checkOnline();
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            return () => {
+                window.removeEventListener('online', updateOnlineStatus);
+                window.removeEventListener('offline', updateOnlineStatus);
+            };
+        } else {
+            const unsubscribe = NetInfo.addEventListener(state => {
+                console.log("Mobile connectivity check:", state);
+                if (state.isConnected === null) {
+                    setIsConnected(null);
+                } else {
+                    setIsConnected(!!(state.isConnected && state.isInternetReachable !== false));
+                }
+            });
+            return () => unsubscribe();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (Platform.OS === 'web') return;
+
+        const handleBackPress = () => {
+            if (webViewRef.current && historyStack.length > 1) {
+                const updatedStack = [...historyStack];
+                updatedStack.pop();
+                const previousUrl = updatedStack.pop(); //updatedStack[updatedStack.length - 1];
+                
+                setHistoryStack(updatedStack);
+                
+                const injectScript = `
+                    (function() {
+                        try {
+                            if (typeof window.route === 'function') {
+                                window.route("${previousUrl}");
+                            } else {
+                                window.location.href = "${previousUrl}";
+                            }
+                        } catch (e) {
+                            window.location.href = "${previousUrl}";
+                        }
+                    })();
+                `;
+        
+                webViewRef.current.injectJavaScript(injectScript);
+                return true; 
+            }
+            return false; 
+        };
+
+        BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+        return () => BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+    }, [historyStack]);
+
+    const handleNavigationStateChange = (navState) => {
+        const detectedUrl = navState.url;
+        
+        if (!detectedUrl || detectedUrl === 'about:blank') return;
+
+        if (detectedUrl !== currentUrlRef.current) {
+            currentUrlRef.current = detectedUrl;
+            
+            setHistoryStack((prevStack) => {
+                if (prevStack[prevStack.length - 1] === detectedUrl) {
+                    return prevStack;
+                }
+                return [...prevStack, detectedUrl];
+            });
+        }
+    };
+
+    const url = `${serverLink}/dashboard?token=${encodeURIComponent(token)}&fromApp=superAITutor`;
+
+    return (
+        <View style={styles.container}>
+            <StatusBar  
+                barStyle="default"
+                backgroundColor="transparent"
+                translucent={true}
+            />
+            {isConnected === null ? (
+                <View style={styles.errorWrapper}>
+                    <Text style={styles.message}>Checking network permissions...</Text>
+                </View>
+            ) : isConnected ? (
+                Platform.OS === 'web' ? (
+                    <div style={{ width: '100vw', height: '100vh', border: 'none' }}>
+                        <iframe
+                            src={url}
+                            style={{ width: '100%', height: '100%', border: 'none' }}
+                            title="SuperAITutor"
+                        />
+                    </div>
+                ) : (
+                    <WebView 
+                        ref={webViewRef}
+                        source={{ uri: url }} 
+                        style={{ flex: 1 }} 
+                        javaScriptEnabled={true}
+                        domStorageEnabled={true}
+                        originWhitelist={['*']} 
+                        mixedContentMode="always"
+                        setSupportMultipleWindows={false} 
+                        sharedCookiesEnabled={true} 
+                        databaseEnabled={true}
+                        onNavigationStateChange={handleNavigationStateChange}
+                    />
+                )
+            ) : (
+                <View style={styles.errorWrapper}>
+                    <ImageBackground
+                        source={require('../assets/images/wifi.png')}
+                        resizeMode="contain"
+                        style={styles.image}
+                    >
+                        <View style={{width: '100%', height: '100%'}} />
+                    </ImageBackground>
+
+                    <Text style={styles.message}>Please turn on the connection to use this app</Text>
+                    
+                    <Text style={styles.versionText}>v {system.version}</Text>
+                </View>
+            )}
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        backgroundColor: 'transparent',
+    },
+    errorWrapper: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: '#f6f6f6',
+    },
+    image: {
+        width: 150,
+        height: 150,
+        marginTop: 150,
+        marginBottom: 10,
+        alignSelf: 'center',
+        zIndex: 10,
+    },
+    imageStyle: {
+        backgroundImage: Platform.OS === 'web' ?"url('/wifi.png')":'',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
+    message: {
+        textAlign: 'center',
+        padding: 20,
+        marginTop: 10,
+        fontSize: 20,
+        fontWeight: '500',
+        fontFamily: Platform.OS === 'web' ? 'sans-serif' : undefined,
+        textTransform: 'uppercase',
+        color: '#746e6e',
+    },
+    versionText: {
+        position: 'absolute',
+        bottom: '10%',
+        fontSize: 16,
+        fontWeight: '600',
+        fontFamily: Platform.OS === 'android' ? 'monospace' : 'Courier',
+        color: '#a9a9a9',  
+    },
+});
+
+export default App;
+
