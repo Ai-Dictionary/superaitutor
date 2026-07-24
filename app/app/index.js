@@ -1,5 +1,5 @@
 import NetInfo from '@react-native-community/netinfo';
-import { Component, useEffect, useRef, useState } from 'react';
+import { Component, useEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, ImageBackground, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import system from '../utils/setup-system';
@@ -81,8 +81,13 @@ const AppMain = () => {
     const [isConnected, setIsConnected] = useState(Platform.OS === 'web' ? false : null);
 
     const webViewRef = useRef(null);
-    const [historyStack, setHistoryStack] = useState([]);
+    // const [historyStack, setHistoryStack] = useState([]);
+    const historyStackRef = useRef([]);
     const currentUrlRef = useRef('');
+    
+    // change
+    const initialUrl = `${serverLink}/dashboard?token=${encodeURIComponent(token)}&fromApp=superAITutor`;
+    const webViewSource = useMemo(() => ({ uri: initialUrl }), [serverLink, token]);
 
     useEffect(() => {
         if (Platform.OS === 'web') {
@@ -124,17 +129,20 @@ const AppMain = () => {
 
         const handleBackPress = () => {
             try {
-                if ((webViewRef.current && typeof webViewRef.current.injectJavaScript === 'function') && (Array.isArray(historyStack) && historyStack.length > 1)) {
-                    const updatedStack = [...historyStack];
+                // if ((webViewRef.current && typeof webViewRef.current.injectJavaScript === 'function') && (Array.isArray(historyStack) && historyStack.length > 1)) {
+                const stack = historyStackRef.current;
+                if (webViewRef.current && Array.isArray(stack) && stack.length > 1) {
+                    stack.pop();
+                    // const updatedStack = [...historyStack];
 
-                    updatedStack.pop();
-                    // const previousUrl = updatedStack.pop();
+                    // updatedStack.pop();
 
-                    const previousUrl = updatedStack[updatedStack.length - 1];
+                    // const previousUrl = updatedStack[updatedStack.length - 1];
+                    const previousUrl = stack[stack.length - 1];
 
                     if (!previousUrl) return false; 
 
-                    setHistoryStack(updatedStack);
+                    // setHistoryStack(updatedStack);
 
                     const injectScript = `
                         (function() {
@@ -148,6 +156,7 @@ const AppMain = () => {
                                 window.location.href = "${previousUrl}";
                             }
                         })();
+                        true;
                     `;
 
                     if (webViewRef.current && typeof webViewRef.current.injectJavaScript === 'function') {
@@ -163,7 +172,8 @@ const AppMain = () => {
 
         const subscription = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
         return () => subscription.remove();
-    }, [historyStack]);
+    // }, [historyStack]);
+    }, []);
 
     const handleNavigationStateChange = (navState) => {
         try {
@@ -173,20 +183,24 @@ const AppMain = () => {
             if (detectedUrl !== currentUrlRef.current) {
                 currentUrlRef.current = detectedUrl;
 
-                setHistoryStack((prevStack) => {
-                    const cleanStack = Array.isArray(prevStack) ? prevStack : [];
-                    if (cleanStack[cleanStack.length - 1] === detectedUrl) {
-                        return cleanStack;
-                    }
-                    return [...cleanStack, detectedUrl];
-                });
+                // setHistoryStack((prevStack) => {
+                //     const cleanStack = Array.isArray(prevStack) ? prevStack : [];
+                //     if (cleanStack[cleanStack.length - 1] === detectedUrl) {
+                //         return cleanStack;
+                //     }
+                //     return [...cleanStack, detectedUrl];
+                // });
+                const stack = historyStackRef.current;
+                if (stack[stack.length - 1] !== detectedUrl) {
+                    stack.push(detectedUrl);
+                }
             }
         } catch (e) {
             console.error("Navigation state change tracker failure:", e);
         }
     };
 
-    const url = `${serverLink}/dashboard?token=${encodeURIComponent(token)}&fromApp=superAITutor`;
+    // const url = `${serverLink}/dashboard?token=${encodeURIComponent(token)}&fromApp=superAITutor`;
 
     return (
         <View style={styles.container}>
@@ -203,7 +217,7 @@ const AppMain = () => {
                 Platform.OS === 'web' ? (
                     <div style={{ width: '100vw', height: '100vh', border: 'none' }}>
                         <iframe
-                            src={url}
+                            src={initialUrl}
                             style={{ width: '100%', height: '100%', border: 'none' }}
                             title="SuperAITutor"
                         />
@@ -211,10 +225,11 @@ const AppMain = () => {
                 ) : (
                     <WebView
                         ref={webViewRef}
-                        source={{ uri: url }}
+                        source={webViewSource}
                         style={{ flex: 1 }}
                         javaScriptEnabled={true}
                         domStorageEnabled={true}
+                        thirdPartyCookiesEnabled={true}
                         originWhitelist={['*']}
                         mixedContentMode="always"
                         setSupportMultipleWindows={false}
